@@ -1,18 +1,20 @@
 {
-    "name": "yiisoft/_____",
+    "name": "yiisoft/yii-swagger",
     "type": "library",
-    "description": "_____",
+    "description": "Open Api Swagger 3 for Yii Framework",
     "keywords": [
-        "_____"
+        "yii",
+        "swagger",
+        "api"
     ],
     "homepage": "https://www.yiiframework.com/",
     "license": "BSD-3-Clause",
     "support": {
-        "issues": "https://github.com/yiisoft/_____/issues?state=open",
+        "issues": "https://github.com/yiisoft/yii-swagger/issues?state=open",
         "forum": "https://www.yiiframework.com/forum/",
         "wiki": "https://www.yiiframework.com/wiki/",
         "irc": "irc://irc.freenode.net/yii",
-        "source": "https://github.com/yiisoft/_____"
+        "source": "https://github.com/yiisoft/yii-swagger"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -26,12 +28,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Yiisoft\\_____\\": "src"
+            "Yiisoft\\Swagger\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Yiisoft\\_____\\Tests\\": "tests"
+            "Yiisoft\\Swagger\\Tests\\": "tests"
         }
     },
     "extra": {
