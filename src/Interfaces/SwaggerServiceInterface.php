@@ -20,4 +20,6 @@ interface SwaggerServiceInterface
 
     public function withDebug(): SwaggerServiceInterface;
 
+    public function isDebug(): bool;
+
 }

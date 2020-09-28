@@ -22,12 +22,15 @@
         "php": "^7.4|^8.0",
         "psr/simple-cache": "~1.0.0",
         "swagger-api/swagger-ui": "^3.34",
+        "yiisoft/aliases": "^1.0",
         "zircote/swagger-php": "^3.1"
     },
     "require-dev": {
         "infection/infection": "^0.16.3",
         "phpunit/phpunit": "^9.3",
-        "vimeo/psalm": "^3.15"
+        "vimeo/psalm": "^3.15",
+        "yiisoft/cache": "^3.0@dev",
+        "yiisoft/di": "^3.0@dev"
     },
     "autoload": {
         "psr-4": {

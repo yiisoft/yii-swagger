@@ -6,8 +6,8 @@ namespace Yiisoft\Swagger\Service;
 
 use OpenApi\Annotations\OpenApi;
 use Psr\Container\ContainerInterface;
+use Psr\SimpleCache\CacheInterface;
 use Yiisoft\Aliases\Aliases;
-use Yiisoft\Cache\CacheInterface;
 use Yiisoft\Swagger\Interfaces\SwaggerServiceInterface;
 
 final class SwaggerService implements SwaggerServiceInterface
@@ -17,18 +17,15 @@ final class SwaggerService implements SwaggerServiceInterface
     private CacheInterface $cache;
 
     private $isDebug = false;
-    private string $viewPath = '@root/vendor/yiisoft/yii-swagger/views';
+    private string $viewPath;
     private string $viewName = 'swagger-ui';
 
     public function __construct(ContainerInterface $container)
     {
         $this->aliases = $container->get(Aliases::class);
         $this->cache = $container->get(CacheInterface::class);
-    }
 
-    private function getCacheKey(array $directories): string
-    {
-        return \md5(\var_export([self::class, $directories], true));
+        $this->viewPath = dirname(__DIR__, 2) . '/views';
     }
 
     public function getViewPath(): string
@@ -74,10 +71,20 @@ final class SwaggerService implements SwaggerServiceInterface
         return $openApi;
     }
 
+    private function getCacheKey(array $directories): string
+    {
+        return \md5(\var_export([self::class, $directories], true));
+    }
+
     public function withDebug(): SwaggerServiceInterface
     {
         $new = clone $this;
         $new->isDebug = true;
         return $new;
+    }
+
+    public function isDebug(): bool
+    {
+        return $this->isDebug;
     }
 }
