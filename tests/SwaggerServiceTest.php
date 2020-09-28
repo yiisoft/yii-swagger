@@ -16,6 +16,22 @@ use Yiisoft\Swagger\Service\SwaggerService;
 
 final class SwaggerServiceTest extends TestCase
 {
+    public function createContainer(): ContainerInterface
+    {
+        $definitions = [
+            Aliases::class => new Aliases(),
+            CacheInterface::class => new ArrayCache()
+        ];
+
+        return new Container($definitions);
+    }
+
+    private function createService(): SwaggerServiceInterface
+    {
+        $container = $this->createContainer();
+        return new SwaggerService($container);
+    }
+
     public function testCreateService(): void
     {
         $service = $this->createService();
@@ -26,22 +42,6 @@ final class SwaggerServiceTest extends TestCase
         $serviceWithDebug = $service->withDebug();
         $this->assertInstanceOf(SwaggerServiceInterface::class, $serviceWithDebug);
         $this->assertTrue($serviceWithDebug->isDebug());
-    }
-
-    private function createService(): SwaggerServiceInterface
-    {
-        $container = $this->createContainer();
-        return new SwaggerService($container);
-    }
-
-    public function createContainer(): ContainerInterface
-    {
-        $definitions = [
-            Aliases::class => new Aliases(),
-            CacheInterface::class => new ArrayCache()
-        ];
-
-        return new Container($definitions);
     }
 
     public function testView()
