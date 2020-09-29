@@ -25,7 +25,12 @@ final class SwaggerService implements SwaggerServiceInterface
         $this->aliases = $container->get(Aliases::class);
         $this->cache = $container->get(CacheInterface::class);
 
-        $this->viewPath = dirname(__DIR__, 2) . '/views';
+        $this->viewPath = $this->getDefaultViewPath();
+    }
+
+    private function getDefaultViewPath(): string
+    {
+        return dirname(dirname(__DIR__, )) . '/views';
     }
 
     public function getViewPath(): string
