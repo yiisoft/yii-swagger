@@ -32,17 +32,13 @@ composer install yiisoft/swagger
 ```
 
 ```php
-    SwaggerServiceInterface::class => static function(ContainerInterface $container) use ($params){
-        return (new SwaggerService($container));
-    }
+    SwaggerServiceInterface::class => SwaggerService::class
 ```
 
 *By default SwaggerService caching json schema. If you want to disable caching configure service with debug mode*
 
 ```php
-    SwaggerServiceInterface::class => static function(ContainerInterface $container) use ($params){
-        return (new SwaggerService($container))->withDebug();
-    }
+    SwaggerServiceInterface::class => fn (SwaggerService $swaggerService) => $swaggerService->withDebug()
 ```
 
 ##### 2. Add route configuration to config/routes.php
