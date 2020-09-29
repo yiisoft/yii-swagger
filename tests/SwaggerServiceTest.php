@@ -35,27 +35,28 @@ final class SwaggerServiceTest extends TestCase
     public function testCreateService(): void
     {
         $service = $this->createService();
+        $serviceWithDebug = $service->withDebug();
 
         $this->assertInstanceOf(SwaggerServiceInterface::class, $service);
-        $this->assertFalse($service->isDebug());
-
-        $serviceWithDebug = $service->withDebug();
         $this->assertInstanceOf(SwaggerServiceInterface::class, $serviceWithDebug);
-        $this->assertTrue($serviceWithDebug->isDebug());
+
+        $this->assertNotSame($service, $serviceWithDebug);
     }
 
     public function testView()
     {
         $service = $this->createService();
+        $serviceWithViewPath = $service->withViewPath('/');
+        $serviceWithViewName = $service->withViewName('test');
 
-        $this->assertIsString($service->getViewPath());
-        $this->assertIsString($service->getViewName());
+        $this->assertInstanceOf(SwaggerServiceInterface::class, $serviceWithViewPath);
+        $this->assertInstanceOf(SwaggerServiceInterface::class, $serviceWithViewName);
 
-        $this->assertInstanceOf(SwaggerServiceInterface::class, $service->withViewPath('/'));
-        $this->assertInstanceOf(SwaggerServiceInterface::class, $service->withViewName('test'));
+        $this->assertNotEquals($service->getViewPath(), $serviceWithViewPath->getViewPath());
+        $this->assertNotEquals($service->getViewName(), $serviceWithViewName->getViewName());
 
-        $this->assertEquals('/', $service->withViewPath('/')->getViewPath());
-        $this->assertEquals('test', $service->withViewName('test')->getViewName());
+        $this->assertEquals('/', $serviceWithViewPath->getViewPath());
+        $this->assertEquals('test', $serviceWithViewName->getViewName());
     }
 
     public function testFetch()

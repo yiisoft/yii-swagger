@@ -30,7 +30,7 @@ final class SwaggerService implements SwaggerServiceInterface
 
     private function getDefaultViewPath(): string
     {
-        return dirname(dirname(__DIR__, )) . '/views';
+        return dirname(dirname(__DIR__ )) . '/views';
     }
 
     public function getViewPath(): string
