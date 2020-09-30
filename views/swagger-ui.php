@@ -5,7 +5,7 @@ use Yiisoft\Swagger\Asset\SwaggerUiAsset;
 /**
  * @var \Yiisoft\Assets\AssetManager $assetManager
  * @var string $content
- * @var string $apiUrl
+ * @var string $jsonUrl
  */
 
 $assetManager->register(
@@ -19,7 +19,7 @@ $this->setJsFiles($assetManager->getJsFiles());
 
 $this->beginPage();
 ?><!DOCTYPE html>
-<html lang="">
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

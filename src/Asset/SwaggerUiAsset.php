@@ -8,6 +8,7 @@ class SwaggerUiAsset extends AssetBundle
 {
     public ?string $basePath = '@public';
     public ?string $baseUrl = '@web';
+
     public array $css = [
         'swagger-ui.css',
     ];
