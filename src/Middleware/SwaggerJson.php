@@ -10,17 +10,17 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Swagger\Interfaces\SwaggerAnnotationRepositoryInterface;
-use Yiisoft\Swagger\Interfaces\SwaggerServiceInterface;
+use Yiisoft\Swagger\Service\SwaggerService;
 
 final class SwaggerJson implements MiddlewareInterface
 {
     private DataResponseFactoryInterface  $responseFactory;
-    private SwaggerServiceInterface $swaggerService;
     private array $annotationPaths;
+    private SwaggerService $swaggerService;
 
     public function __construct(
         DataResponseFactoryInterface $responseFactory,
-        SwaggerServiceInterface $swaggerService
+        SwaggerService $swaggerService
     ) {
         $this->responseFactory = $responseFactory;
         $this->swaggerService = $swaggerService;

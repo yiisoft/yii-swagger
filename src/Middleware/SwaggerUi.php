@@ -8,16 +8,16 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Yiisoft\Swagger\Interfaces\SwaggerServiceInterface;
+use Yiisoft\Swagger\Service\SwaggerService;
 use Yiisoft\View\ViewContextInterface;
 
 final class SwaggerUi implements MiddlewareInterface
 {
     private ViewContextInterface $viewRenderer;
-    private SwaggerServiceInterface $swaggerService;
+    private SwaggerService $swaggerService;
     private string $jsonUrl;
 
-    public function __construct(ViewContextInterface $viewRenderer, SwaggerServiceInterface $swaggerService)
+    public function __construct(ViewContextInterface $viewRenderer, SwaggerService $swaggerService)
     {
         $this->viewRenderer = $viewRenderer;
         $this->swaggerService = $swaggerService;

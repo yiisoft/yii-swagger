@@ -8,15 +8,14 @@ use OpenApi\Annotations\OpenApi;
 use Psr\Container\ContainerInterface;
 use Psr\SimpleCache\CacheInterface;
 use Yiisoft\Aliases\Aliases;
-use Yiisoft\Swagger\Interfaces\SwaggerServiceInterface;
 
-final class SwaggerService implements SwaggerServiceInterface
+final class SwaggerService
 {
 
     private Aliases $aliases;
     private CacheInterface $cache;
 
-    private $isDebug = false;
+    private bool $cacheJsonSchema = false;
     private string $viewPath;
     private string $viewName = 'swagger-ui';
 
@@ -30,7 +29,7 @@ final class SwaggerService implements SwaggerServiceInterface
 
     private function getDefaultViewPath(): string
     {
-        return dirname(dirname(__DIR__ )) . '/views';
+        return dirname(__DIR__, 2) . '/views';
     }
 
     public function getViewPath(): string
@@ -43,14 +42,14 @@ final class SwaggerService implements SwaggerServiceInterface
         return $this->viewName;
     }
 
-    public function withViewPath(string $viewPath): SwaggerServiceInterface
+    public function withViewPath(string $viewPath): self
     {
         $new = clone $this;
         $new->viewPath = $viewPath;
         return $new;
     }
 
-    public function withViewName(string $viewName): SwaggerServiceInterface
+    public function withViewName(string $viewName): self
     {
         $new = clone $this;
         $new->viewName = $viewName;
@@ -59,7 +58,7 @@ final class SwaggerService implements SwaggerServiceInterface
 
     public function fetch(array $annotationPaths): OpenApi
     {
-        if ($this->isDebug) {
+        if ($this->cacheJsonSchema) {
             $cacheKey = $this->getCacheKey($annotationPaths);
             if ($this->cache->has($cacheKey)) {
                 return $this->cache->get($cacheKey);
@@ -69,7 +68,7 @@ final class SwaggerService implements SwaggerServiceInterface
         $directories = \array_map(fn(string $path) => $this->aliases->get($path), $annotationPaths);
         $openApi = \OpenApi\scan($directories);
 
-        if ($this->isDebug) {
+        if ($this->cacheJsonSchema) {
             $this->cache->set($cacheKey, $openApi);
         }
 
@@ -81,15 +80,10 @@ final class SwaggerService implements SwaggerServiceInterface
         return \md5(\var_export([self::class, $directories], true));
     }
 
-    public function withDebug(): SwaggerServiceInterface
+    public function withCache(): self
     {
         $new = clone $this;
-        $new->isDebug = true;
+        $new->cacheJsonSchema = true;
         return $new;
-    }
-
-    public function isDebug(): bool
-    {
-        return $this->isDebug;
     }
 }

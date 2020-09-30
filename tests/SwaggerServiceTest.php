@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace Yiisoft\Swagger\Tests;
 
-use OpenApi\Annotations\OpenApi;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\SimpleCache\CacheInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Cache\ArrayCache;
 use Yiisoft\Di\Container;
-use Yiisoft\Swagger\Interfaces\SwaggerServiceInterface;
 use Yiisoft\Swagger\Service\SwaggerService;
 
 final class SwaggerServiceTest extends TestCase
@@ -26,7 +24,7 @@ final class SwaggerServiceTest extends TestCase
         return new Container($definitions);
     }
 
-    private function createService(): SwaggerServiceInterface
+    private function createService(): SwaggerService
     {
         $container = $this->createContainer();
         return new SwaggerService($container);
@@ -35,34 +33,24 @@ final class SwaggerServiceTest extends TestCase
     public function testCreateService(): void
     {
         $service = $this->createService();
-        $serviceWithDebug = $service->withDebug();
+        $cachedService = $service->withCache();
 
-        $this->assertInstanceOf(SwaggerServiceInterface::class, $service);
-        $this->assertInstanceOf(SwaggerServiceInterface::class, $serviceWithDebug);
-
-        $this->assertNotSame($service, $serviceWithDebug);
+        $this->assertNotSame($service, $cachedService);
     }
 
-    public function testView()
+    public function testView():void
     {
         $service = $this->createService();
         $serviceWithViewPath = $service->withViewPath('/');
         $serviceWithViewName = $service->withViewName('test');
 
-        $this->assertInstanceOf(SwaggerServiceInterface::class, $serviceWithViewPath);
-        $this->assertInstanceOf(SwaggerServiceInterface::class, $serviceWithViewName);
+        $this->assertDirectoryExists($service->getViewPath());
+        $this->assertFileExists($service->getViewPath() .'/'. $service->getViewName() . '.php');
 
         $this->assertNotEquals($service->getViewPath(), $serviceWithViewPath->getViewPath());
         $this->assertNotEquals($service->getViewName(), $serviceWithViewName->getViewName());
 
         $this->assertEquals('/', $serviceWithViewPath->getViewPath());
         $this->assertEquals('test', $serviceWithViewName->getViewName());
-    }
-
-    public function testFetch()
-    {
-        $service = $this->createService();
-        $openApi = $service->fetch([__DIR__ . '/data']);
-        $this->assertInstanceOf(OpenApi::class, $openApi);
     }
 }

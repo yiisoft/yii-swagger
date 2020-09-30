@@ -13,7 +13,7 @@ class ApiMock
      *     @OA\Response(response="200", description="Test api response")
      * )
      */
-    public function mockResponce()
+    public function mockResponse()
     {
     }
 }
