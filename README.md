@@ -27,66 +27,69 @@ composer install yiisoft/swagger
 ##### 1. Add swagger service definition to config/web.php
 
 ```php
-    use Yiisoft\Swagger\Interfaces\SwaggerServiceInterface;
-    use Yiisoft\Swagger\Service\SwaggerService;
+use Yiisoft\Swagger\Interfaces\SwaggerServiceInterface;
+use Yiisoft\Swagger\Service\SwaggerService;
+
+// ...
+
+return [
+    // ...
+    SwaggerServiceInterface::class => SwaggerService::class,
+];
 ```
 
-```php
-    SwaggerServiceInterface::class => SwaggerService::class
-```
-
-*By default SwaggerService caching json schema. If you want to disable caching configure service with debug mode*
+*By default SwaggerService is caching JSON schema. If you want to disable caching configure service with debug mode*
 
 ```php
-    SwaggerServiceInterface::class => fn (SwaggerService $swaggerService) => $swaggerService->withDebug()
+SwaggerServiceInterface::class => fn (SwaggerService $swaggerService) => $swaggerService->withDebug()
 ```
 
 ##### 2. Add route configuration to config/routes.php
 
 ```php
-    use Yiisoft\Swagger\Middleware\SwaggerUi;
-    use Yiisoft\Swagger\Middleware\SwaggerJson;
+use Yiisoft\Swagger\Middleware\SwaggerUi;
+use Yiisoft\Swagger\Middleware\SwaggerJson;
 ```
 
 ```php
-    // Swagger routes
-    Group::create('/swagger', [
-        Route::get('')
-            ->addMiddleware(fn (SwaggerUi $swaggerUi) => $swaggerUi->withJsonUrl('/swagger/json-url')),
-        Route::get('/json-url')
-            ->addMiddleware(static function (SwaggerJson $swaggerJson) {
-                return $swaggerJson->withAnnotationPaths([
-                    '@src/Controller' // path to api controllers
-                ]);
-            })
-            ->addMiddleware(FormatDataResponseAsJson::class),
-    ])
+// Swagger routes
+Group::create('/swagger', [
+    Route::get('')
+        ->addMiddleware(fn (SwaggerUi $swaggerUi) => $swaggerUi->withJsonUrl('/swagger/json-url')),
+    Route::get('/json-url')
+        ->addMiddleware(static function (SwaggerJson $swaggerJson) {
+            return $swaggerJson->withAnnotationPaths([
+                '@src/Controller' // path to API controllers
+            ]);
+        })
+        ->addMiddleware(FormatDataResponseAsJson::class),
+])
 ``` 
 
-##### 3. Add annotations to default api controller
+##### 3. Add annotations to default API controller
 
 ```php
-    /**
-     * @OA\Info(title="My first API", version="1.0")
-     */
-    class DefaultController {
-        ...
-    }
+/**
+ * @OA\Info(title="My first API", version="1.0")
+ */
+class DefaultController {
+    // ...
+}
 ```
 
 and bofore actions
 
 ```php
-    /**
-     * @OA\Get(
-     *     path="/api/endpoint",
-     *     @OA\Response(response="200", description="Get default action")
-     * )
-     */
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
-    {
-        ...
-    }
+/**
+ * @OA\Get(
+ *     path="/api/endpoint",
+ *     @OA\Response(response="200", description="Get default action")
+ * )
+ */
+public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+{
+    // ...
+}
 ```
 
 ## Unit testing
