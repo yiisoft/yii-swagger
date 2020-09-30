@@ -9,7 +9,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
-use Yiisoft\Swagger\Interfaces\SwaggerAnnotationRepositoryInterface;
 use Yiisoft\Swagger\Service\SwaggerService;
 
 final class SwaggerJson implements MiddlewareInterface
