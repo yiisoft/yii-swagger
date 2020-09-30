@@ -1,9 +1,9 @@
 <?php
 
-use Yiisoft\Swagger\Asset\SwaggerUiAsset;
+use Yiisoft\Assets\AssetManager;use Yiisoft\Swagger\Asset\SwaggerUiAsset;
 
 /**
- * @var \Yiisoft\Assets\AssetManager $assetManager
+ * @var AssetManager $assetManager
  * @var string $content
  * @var string $jsonUrl
  */
@@ -36,7 +36,7 @@ $this->beginBody(); ?>
 <script>
     window.onload = function () {
         // Begin Swagger UI call region
-        let ui = SwaggerUIBundle({
+        window.ui = SwaggerUIBundle({
             url: '<?= $jsonUrl; ?>',
             dom_id: '#swagger-ui',
             deepLinking: true,
@@ -48,8 +48,7 @@ $this->beginBody(); ?>
                 SwaggerUIBundle.plugins.DownloadUrl
             ],
             layout: "StandaloneLayout"
-        });
-        window.ui = ui
+        })
     }
 </script>
 
