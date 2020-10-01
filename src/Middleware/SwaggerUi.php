@@ -13,7 +13,7 @@ use Yiisoft\Yii\View\ViewRenderer;
 
 final class SwaggerUi implements MiddlewareInterface
 {
-    private string $jsonUrl;
+    private string $jsonUrl = '/';
     private SwaggerService $swaggerService;
     private ViewRenderer $viewRenderer;
 

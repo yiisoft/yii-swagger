@@ -18,7 +18,7 @@ use function var_export;
 
 final class SwaggerJson implements MiddlewareInterface
 {
-    private array $annotationPaths;
+    private array $annotationPaths = [];
     private bool $enableCache = false;
     private CacheInterface $cache;
     private DataResponseFactoryInterface $responseFactory;
