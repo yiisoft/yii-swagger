@@ -8,6 +8,8 @@ use OpenApi\Annotations\OpenApi;
 use Psr\Container\ContainerInterface;
 use Yiisoft\Aliases\Aliases;
 
+use Yiisoft\Swagger\Exception\InvalidArgumentException;
+
 use function array_map;
 use function OpenApi\scan;
 
@@ -42,6 +44,10 @@ final class SwaggerService
 
     public function fetch(array $annotationPaths): OpenApi
     {
+        if(count($annotationPaths) === 0) {
+            throw new InvalidArgumentException('$annotationPaths cannot be empty array');
+        }
+
         $directories = array_map(fn(string $path) => $this->aliases->get($path), $annotationPaths);
         return scan($directories);
     }
