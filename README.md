@@ -24,27 +24,7 @@ composer install yiisoft/swagger
 
 ## Configuration
 
-##### 1. Add swagger service definition to config/web.php
-
-```php
-use Yiisoft\Swagger\Interfaces\SwaggerServiceInterface;
-use Yiisoft\Swagger\Service\SwaggerService;
-
-// ...
-
-return [
-    // ...
-    SwaggerServiceInterface::class => SwaggerService::class,
-];
-```
-
-*By default SwaggerService is caching JSON schema. If you want to disable caching configure service with debug mode*
-
-```php
-SwaggerServiceInterface::class => fn (SwaggerService $swaggerService) => $swaggerService->withDebug()
-```
-
-##### 2. Add route configuration to config/routes.php
+##### 1. Add route configuration to config/routes.php
 
 ```php
 use Yiisoft\Swagger\Middleware\SwaggerUi;
@@ -58,15 +38,19 @@ Group::create('/swagger', [
         ->addMiddleware(fn (SwaggerUi $swaggerUi) => $swaggerUi->withJsonUrl('/swagger/json-url')),
     Route::get('/json-url')
         ->addMiddleware(static function (SwaggerJson $swaggerJson) {
-            return $swaggerJson->withAnnotationPaths([
-                '@src/Controller' // path to API controllers
-            ]);
+            return $swaggerJson
+                // Uncomment cache for production environment
+                // ->withCache(3600)
+                ->withAnnotationPaths([
+                    '@src/Controller' // Path to API controllers
+                ]);
         })
         ->addMiddleware(FormatDataResponseAsJson::class),
-])
+]),
+
 ``` 
 
-##### 3. Add annotations to default API controller
+##### 2. Add annotations to default API controller
 
 ```php
 /**
