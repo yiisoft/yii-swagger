@@ -24,6 +24,7 @@
         "swagger-api/swagger-ui": "^3.34",
         "yiisoft/aliases": "^1.0",
         "yiisoft/assets": "^1.0@dev",
+        "yiisoft/cache": "^3.0@dev",
         "yiisoft/csrf": "^3.0@dev",
         "yiisoft/data-response": "^3.0@dev",
         "yiisoft/di": "^3.0@dev",
@@ -33,7 +34,6 @@
         "zircote/swagger-php": "^3.1"
     },
     "require-dev": {
-        "yiisoft/cache": "^3.0@dev",
         "infection/infection": "^0.16.3",
         "phpunit/phpunit": "^9.3",
         "vimeo/psalm": "^3.15"
