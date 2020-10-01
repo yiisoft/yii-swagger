@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Yiisoft\Swagger\Tests\Mock;
 
 use Psr\Http\Message\ResponseInterface;
