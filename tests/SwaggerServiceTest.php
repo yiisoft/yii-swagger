@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Di\Container;
-use Yiisoft\Swagger\Exception\InvalidArgumentException;
 use Yiisoft\Swagger\Service\SwaggerService;
 
 final class SwaggerServiceTest extends TestCase
@@ -26,7 +25,7 @@ final class SwaggerServiceTest extends TestCase
     public function testSwaggerServiceEmptyArrayFetch(): void
     {
         $service = $this->createService();
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(\InvalidArgumentException::class);
         $service->fetch([]);
     }
 
@@ -34,7 +33,7 @@ final class SwaggerServiceTest extends TestCase
     {
         $container = $this->createContainer();
 
-        return new SwaggerService($container);
+        return new SwaggerService($container->get(Aliases::class));
     }
 
     private function createContainer(): ContainerInterface
