@@ -6,20 +6,20 @@
     <br>
 </p>
 
-[![Latest Stable Version](https://poser.pugx.org/yiisoft/swagger/v/stable.png)](https://packagist.org/packages/yiisoft/swagger)
-[![Total Downloads](https://poser.pugx.org/yiisoft/swagger/downloads.png)](https://packagist.org/packages/yiisoft/swagger)
-[![Build status](https://github.com/yiisoft/swagger/workflows/build/badge.svg)](https://github.com/yiisoft/swagger/actions?query=workflow%3Abuild)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/yiisoft/swagger/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/yiisoft/swagger/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/yiisoft/swagger/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/yiisoft/swagger/?branch=master)
-[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fyiisoft%2FSwagger%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/yiisoft/swagger/master)
-[![static analysis](https://github.com/yiisoft/swagger/workflows/static%20analysis/badge.svg)](https://github.com/yiisoft/swagger/actions?query=workflow%3A%22static+analysis%22)
+[![Latest Stable Version](https://poser.pugx.org/yiisoft/yii-swagger/v/stable.png)](https://packagist.org/packages/yiisoft/yii-swagger)
+[![Total Downloads](https://poser.pugx.org/yiisoft/yii-swagger/downloads.png)](https://packagist.org/packages/yiisoft/yii-swagger)
+[![Build status](https://github.com/yiisoft/yii-swagger/workflows/build/badge.svg)](https://github.com/yiisoft/yii-swagger/actions?query=workflow%3Abuild)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/yiisoft/yii-swagger/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/yiisoft/yii-swagger/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/yiisoft/yii-swagger/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/yiisoft/yii-swagger/?branch=master)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fyiisoft%2FSwagger%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/yiisoft/yii-swagger/master)
+[![static analysis](https://github.com/yiisoft/yii-swagger/workflows/static%20analysis/badge.svg)](https://github.com/yiisoft/yii-swagger/actions?query=workflow%3A%22static+analysis%22)
 
 ## Installation
 
 The package could be installed with composer:
 
 ```
-composer install yiisoft/swagger
+composer install yiisoft/yii-swagger
 ```
 
 ## Configuration
