@@ -7,7 +7,7 @@ use Yiisoft\Assets\AssetBundle;
 class SwaggerUiAsset extends AssetBundle
 {
     public ?string $basePath = '@public';
-    public ?string $baseUrl = '@web';
+    public ?string $baseUrl = '@baseUrl';
 
     public array $css = [
         'swagger-ui.css',
