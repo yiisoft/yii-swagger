@@ -19,6 +19,6 @@ class SwaggerUiAsset extends AssetBundle
 
     public function __construct()
     {
-        $this->sourcePath = dirname(__DIR__, 4) . '/swagger-api/swagger-ui/dist';
+        $this->sourcePath = '@vendor/swagger-api/swagger-ui/dist';
     }
 }
