@@ -54,10 +54,13 @@ final class SwaggerUiTest extends TestCase
             CacheInterface::class => new ArrayCache(),
             DataResponseFactoryInterface::class => DataResponseFactory::class,
             ResponseFactoryInterface::class => Psr17Factory::class,
-            ViewRenderer::class => function (Container $container) {
+            ViewRenderer::class => function (
+                DataResponseFactoryInterface $dataResponseFactory,
+                Aliases $aliases
+            ) {
                 return new ViewRenderer(
-                    $container->get(DataResponseFactoryInterface::class),
-                    $container->get(Aliases::class),
+                    $dataResponseFactory,
+                    $aliases,
                     $this->createMock(WebView::class),
 
                     $this->getCsrfViewInjection(),
