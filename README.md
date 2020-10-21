@@ -19,7 +19,7 @@
 The package could be installed with composer:
 
 ```
-composer install yiisoft/yii-swagger
+composer require yiisoft/yii-swagger
 ```
 
 ## Configuration
