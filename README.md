@@ -24,14 +24,15 @@ composer require yiisoft/yii-swagger
 
 ## Configuration
 
-##### 1. Add route configuration to config/routes.php
+### 1. Add route configuration to `config/routes.php`
 
 ```php
+use Yiisoft\DataResponse\Middleware\FormatDataResponseAsJson;
+use Yiisoft\Router\Group;
+use Yiisoft\Router\Route;
 use Yiisoft\Swagger\Middleware\SwaggerUi;
 use Yiisoft\Swagger\Middleware\SwaggerJson;
-```
 
-```php
 // Swagger routes
 Group::create('/swagger', [
     Route::get('')
@@ -50,7 +51,7 @@ Group::create('/swagger', [
 
 ``` 
 
-##### 2. Add annotations to default API controller
+### 2. Add annotations to default API controller
 
 ```php
 /**
@@ -61,7 +62,7 @@ class DefaultController {
 }
 ```
 
-and bofore actions
+and before actions
 
 ```php
 /**
