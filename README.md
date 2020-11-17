@@ -27,6 +27,7 @@ composer require yiisoft/yii-swagger
 ### 1. Add route configuration to `config/routes.php`
 
 ```php
+use Yiisoft\DataResponse\Middleware\FormatDataResponseAsHtml;
 use Yiisoft\DataResponse\Middleware\FormatDataResponseAsJson;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
@@ -36,7 +37,8 @@ use Yiisoft\Swagger\Middleware\SwaggerJson;
 // Swagger routes
 Group::create('/swagger', [
     Route::get('')
-        ->addMiddleware(fn (SwaggerUi $swaggerUi) => $swaggerUi->withJsonUrl('/swagger/json-url')),
+        ->addMiddleware(fn (SwaggerUi $swaggerUi) => $swaggerUi->withJsonUrl('/swagger/json-url'))
+        ->addMiddleware(FormatDataResponseAsHtml::class),
     Route::get('/json-url')
         ->addMiddleware(static function (SwaggerJson $swaggerJson) {
             return $swaggerJson
@@ -75,6 +77,31 @@ public function process(ServerRequestInterface $request, RequestHandlerInterface
 {
     // ...
 }
+```
+
+### 3. (Optional) Add config for aliases and asset manager
+
+```php
+use Yiisoft\Factory\Definitions\Reference;
+use Yiisoft\Assets\AssetManager;
+
+return [
+    //...
+    'yiisoft/aliases' => [
+        'aliases' => [
+            //...
+            '@views' => '@root/views',
+            '@assets' => '@public/assets',
+            '@assetsUrl' => '@baseUrl/assets',
+        ],
+    ],
+    'yiisoft/view' => [
+        'basePath' => '@views',
+        'defaultParameters' => [
+            'assetManager' => Reference::to(AssetManager::class),
+        ]
+    ],
+    //...
 ```
 
 ## Unit testing
