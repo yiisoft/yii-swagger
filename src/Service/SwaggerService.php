@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Yiisoft\Swagger\Service;
 
-use OpenApi\Annotations\OpenApi;
-use Yiisoft\Aliases\Aliases;
-
 use function array_map;
+use OpenApi\Annotations\OpenApi;
+
 use function OpenApi\scan;
+use Yiisoft\Aliases\Aliases;
 
 final class SwaggerService
 {
@@ -45,7 +45,7 @@ final class SwaggerService
             throw new \InvalidArgumentException('$annotationPaths cannot be empty array');
         }
 
-        $directories = array_map(fn(string $path) => $this->aliases->get($path), $annotationPaths);
+        $directories = array_map(fn (string $path) => $this->aliases->get($path), $annotationPaths);
         return scan($directories);
     }
 }

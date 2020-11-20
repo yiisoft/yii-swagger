@@ -62,13 +62,12 @@ final class SwaggerUiTest extends TestCase
                     $dataResponseFactory,
                     $aliases,
                     $this->createMock(WebView::class),
-
                     $this->getCsrfViewInjection(),
                     __DIR__,
                     '',
                     []
                 );
-            }
+            },
         ];
 
         return new Container($definitions);

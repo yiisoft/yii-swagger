@@ -30,7 +30,7 @@ final class SwaggerUi implements MiddlewareInterface
             ->renderPartial(
                 $this->swaggerService->getViewName(),
                 [
-                    'jsonUrl' => $this->jsonUrl
+                    'jsonUrl' => $this->jsonUrl,
                 ]
             );
     }
@@ -41,5 +41,4 @@ final class SwaggerUi implements MiddlewareInterface
         $new->jsonUrl = $jsonUrl;
         return $new;
     }
-
 }

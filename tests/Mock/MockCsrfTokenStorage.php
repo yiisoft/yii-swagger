@@ -8,7 +8,6 @@ use Yiisoft\Csrf\TokenStorage\CsrfTokenStorageInterface;
 
 class MockCsrfTokenStorage implements CsrfTokenStorageInterface
 {
-
     private ?string $token = null;
 
     public function get(): ?string

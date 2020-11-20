@@ -39,7 +39,7 @@ final class SwaggerServiceTest extends TestCase
     private function createContainer(): ContainerInterface
     {
         $definitions = [
-            Aliases::class => new Aliases()
+            Aliases::class => new Aliases(),
         ];
 
         return new Container($definitions);

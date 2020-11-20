@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Yiisoft\Swagger\Middleware;
 
 use DateInterval;
+use function md5;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\SimpleCache\CacheInterface;
+use function var_export;
+
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Swagger\Service\SwaggerService;
-
-use function md5;
-use function var_export;
 
 final class SwaggerJson implements MiddlewareInterface
 {
@@ -24,7 +24,7 @@ final class SwaggerJson implements MiddlewareInterface
     private DataResponseFactoryInterface $responseFactory;
     private SwaggerService $swaggerService;
 
-    /** @var DateInterval|int|null $cacheTTL */
+    /** @var DateInterval|int|null */
     private $cacheTTL;
 
     public function __construct(
@@ -71,6 +71,7 @@ final class SwaggerJson implements MiddlewareInterface
 
     /**
      * @param DateInterval|int|null $cacheTTL
+     *
      * @return SwaggerJson
      */
     public function withCache($cacheTTL = null): self
@@ -80,5 +81,4 @@ final class SwaggerJson implements MiddlewareInterface
         $new->cacheTTL = $cacheTTL;
         return $new;
     }
-
 }
