@@ -51,10 +51,17 @@ Group::create('/swagger', [
         })
         ->addMiddleware(FormatDataResponseAsJson::class),
 ]),
+```
 
-``` 
+### 2. Do not parse annotations when used with Doctrine or Cycle ORM
 
-### 2. Add annotations to default API controller
+Put the following into your `index.php`:
+
+```php
+\Doctrine\Common\Annotations\AnnotationReader::addGlobalIgnoredNamespace("OA");
+```
+
+### 3. Add annotations to default API controller
 
 ```php
 /**
@@ -83,7 +90,7 @@ public function process(ServerRequestInterface $request, RequestHandlerInterface
 See [Swagger-PHP documentation](https://zircote.github.io/swagger-php/Getting-started.html#write-annotations) for details
 on how to annotate your code.
 
-### 3. (Optional) Add config for aliases and asset manager
+### 4. (Optional) Add config for aliases and asset manager
 
 ```php
 use Yiisoft\Factory\Definitions\Reference;
