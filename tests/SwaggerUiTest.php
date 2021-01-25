@@ -15,7 +15,9 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\SimpleCache\CacheInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Cache\ArrayCache;
-use Yiisoft\Csrf\CsrfToken;
+use Yiisoft\Csrf\CsrfTokenInterface;
+use Yiisoft\Csrf\Synchronizer\Generator\RandomCsrfTokenGenerator;
+use Yiisoft\Csrf\Synchronizer\SynchronizerCsrfToken;
 use Yiisoft\DataResponse\DataResponseFactory;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Di\Container;
@@ -62,10 +64,9 @@ final class SwaggerUiTest extends TestCase
                     $dataResponseFactory,
                     $aliases,
                     $this->createMock(WebView::class),
-                    $this->getCsrfViewInjection(),
                     __DIR__,
                     '',
-                    []
+                    [$this->getCsrfViewInjection()]
                 );
             },
         ];
@@ -91,16 +92,17 @@ final class SwaggerUiTest extends TestCase
         return new CsrfViewInjection($csrfToken);
     }
 
-    private function createCsrfToken(string $token = null): CsrfToken
+    private function createCsrfToken(string $token = null): CsrfTokenInterface
     {
-        $mock = $this->createMock(MockCsrfTokenStorage::class);
+        $generator = new RandomCsrfTokenGenerator();
+        $storage = $this->createMock(MockCsrfTokenStorage::class);
         if ($token !== null) {
-            $mock
+            $storage
                 ->expects($this->once())
                 ->method('get')
                 ->willReturn($token);
         }
-        return new CsrfToken($mock);
+        return new SynchronizerCsrfToken($generator, $storage);
     }
 
     private function createServerRequest(string $method = Method::GET, $headers = []): ServerRequestInterface
