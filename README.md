@@ -87,7 +87,7 @@ on how to annotate your code.
 ### 3. (Optional) Add config for aliases and asset manager
 
 ```php
-use Yiisoft\Factory\Definitions\Reference;
+use Yiisoft\Factory\Definition\Reference;
 use Yiisoft\Assets\AssetManager;
 
 return [
