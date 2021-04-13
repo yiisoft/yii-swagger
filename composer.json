@@ -21,7 +21,7 @@
     "require": {
         "php": "^7.4|^8.0",
         "swagger-api/swagger-ui": "^3.37",
-        "yiisoft/aliases": "^1.1",
+        "yiisoft/aliases": "^1.1|^2.0",
         "yiisoft/assets": "^1.0@dev",
         "yiisoft/cache": "^1.0",
         "yiisoft/csrf": "^1.0",
