@@ -1,6 +1,7 @@
 <?php
 
-use Yiisoft\Assets\AssetManager;use Yiisoft\Swagger\Asset\SwaggerUiAsset;
+use Yiisoft\Assets\AssetManager;
+use Yiisoft\Swagger\Asset\SwaggerUiAsset;
 
 /**
  * @var AssetManager $assetManager
@@ -14,8 +15,8 @@ $assetManager->register(
     ]
 );
 
-$this->setCssFiles($assetManager->getCssFiles());
-$this->setJsFiles($assetManager->getJsFiles());
+$this->addCssFiles($assetManager->getCssFiles());
+$this->addJsFiles($assetManager->getJsFiles());
 
 $this->beginPage();
 ?><!DOCTYPE html>
