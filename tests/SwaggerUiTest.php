@@ -15,6 +15,8 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\NullLogger;
 use Psr\SimpleCache\CacheInterface;
 use Yiisoft\Aliases\Aliases;
+use Yiisoft\Assets\AssetLoaderInterface;
+use Yiisoft\Assets\AssetManager;
 use Yiisoft\Cache\ArrayCache;
 use Yiisoft\Csrf\CsrfTokenInterface;
 use Yiisoft\Csrf\Synchronizer\Generator\RandomCsrfTokenGenerator;
@@ -23,9 +25,11 @@ use Yiisoft\DataResponse\DataResponseFactory;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Di\Container;
 use Yiisoft\Http\Method;
+use Yiisoft\Swagger\Asset\SwaggerUiAsset;
 use Yiisoft\Swagger\Middleware\SwaggerUi;
 use Yiisoft\Swagger\Service\SwaggerService;
 use Yiisoft\Swagger\Tests\Mock\MockCsrfTokenStorage;
+use Yiisoft\Swagger\Tests\Spy\AssetLoaderSpy;
 use Yiisoft\Test\Support\EventDispatcher\SimpleEventDispatcher;
 use Yiisoft\View\WebView;
 use Yiisoft\Yii\View\CsrfViewInjection;
@@ -35,13 +39,14 @@ final class SwaggerUiTest extends TestCase
 {
     public function testSwaggerUiMiddlewareWithUrl(): void
     {
-        $middleware = $this->createMiddleware();
+        $middleware = $this->createMiddleware($this->createContainer());
         $this->assertNotSame($middleware, $middleware->withJsonUrl('/'));
     }
 
     public function testSwaggerUiMiddleware(): void
     {
-        $middleware = $this->createMiddleware()->withJsonUrl('/');
+        $container = $this->createContainer();
+        $middleware = $this->createMiddleware($container)->withJsonUrl('/');
 
         $request = $this->createServerRequest();
         $handler = $this->createRequestHandler();
@@ -49,11 +54,19 @@ final class SwaggerUiTest extends TestCase
         $response = $middleware->process($request, $handler);
 
         $this->assertEquals(200, $response->getStatusCode());
+
+        /** @var AssetLoaderSpy $assetSpy */
+        $assetSpy = $container->get(AssetLoaderInterface::class);
+        $this->assertEquals([SwaggerUiAsset::class], $assetSpy->getLoaded());
     }
 
     private function createContainer(): ContainerInterface
     {
         $definitions = [
+            AssetLoaderInterface::class => new AssetLoaderSpy(),
+            AssetManager::class => static function (Aliases $aliases, AssetLoaderInterface $assetLoader) {
+                return new AssetManager($aliases, $assetLoader);
+            },
             Aliases::class => new Aliases(),
             CacheInterface::class => new ArrayCache(),
             DataResponseFactoryInterface::class => DataResponseFactory::class,
@@ -76,13 +89,12 @@ final class SwaggerUiTest extends TestCase
         return new Container($definitions);
     }
 
-    private function createMiddleware(): SwaggerUi
+    private function createMiddleware(ContainerInterface $container): SwaggerUi
     {
-        $container = $this->createContainer();
-
         return new SwaggerUi(
             $container->get(ViewRenderer::class),
-            $container->get(SwaggerService::class)
+            $container->get(SwaggerService::class),
+            $container->get(AssetManager::class)
         );
     }
 

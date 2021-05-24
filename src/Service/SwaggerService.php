@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yiisoft\Swagger\Service;
 
+use InvalidArgumentException;
 use function array_map;
 use OpenApi\Annotations\OpenApi;
 
@@ -42,7 +43,7 @@ final class SwaggerService
     public function fetch(array $annotationPaths): OpenApi
     {
         if (count($annotationPaths) === 0) {
-            throw new \InvalidArgumentException('$annotationPaths cannot be empty array');
+            throw new InvalidArgumentException('$annotationPaths cannot be empty array');
         }
 
         $directories = array_map(fn (string $path) => $this->aliases->get($path), $annotationPaths);
