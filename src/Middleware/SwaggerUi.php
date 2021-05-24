@@ -34,7 +34,7 @@ final class SwaggerUi implements MiddlewareInterface
                 $this->swaggerService->getViewName(),
                 [
                     'jsonUrl' => $this->jsonUrl,
-                    'assetManager' => $this->assetManager
+                    'assetManager' => $this->assetManager,
                 ]
             );
     }
