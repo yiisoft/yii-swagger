@@ -10,7 +10,6 @@ use OpenApi\Util;
 use function array_map;
 use OpenApi\Annotations\OpenApi;
 
-use function OpenApi\scan;
 use Yiisoft\Aliases\Aliases;
 
 final class SwaggerService
