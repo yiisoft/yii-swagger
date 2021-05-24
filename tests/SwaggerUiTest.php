@@ -12,6 +12,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Psr\Log\NullLogger;
 use Psr\SimpleCache\CacheInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Cache\ArrayCache;
@@ -25,6 +26,7 @@ use Yiisoft\Http\Method;
 use Yiisoft\Swagger\Middleware\SwaggerUi;
 use Yiisoft\Swagger\Service\SwaggerService;
 use Yiisoft\Swagger\Tests\Mock\MockCsrfTokenStorage;
+use Yiisoft\Test\Support\EventDispatcher\SimpleEventDispatcher;
 use Yiisoft\View\WebView;
 use Yiisoft\Yii\View\CsrfViewInjection;
 use Yiisoft\Yii\View\ViewRenderer;
@@ -63,7 +65,7 @@ final class SwaggerUiTest extends TestCase
                 return new ViewRenderer(
                     $dataResponseFactory,
                     $aliases,
-                    $this->createMock(WebView::class),
+                    $this->createWebView(),
                     __DIR__,
                     '',
                     [$this->getCsrfViewInjection()]
@@ -77,7 +79,6 @@ final class SwaggerUiTest extends TestCase
     private function createMiddleware(): SwaggerUi
     {
         $container = $this->createContainer();
-
 
         return new SwaggerUi(
             $container->get(ViewRenderer::class),
@@ -118,5 +119,10 @@ final class SwaggerUiTest extends TestCase
             ->willReturn(new Response(200));
 
         return $requestHandler;
+    }
+
+    private function createWebView(): WebView
+    {
+        return new WebView(__DIR__, new SimpleEventDispatcher(), new NullLogger());
     }
 }
