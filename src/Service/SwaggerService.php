@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Yiisoft\Swagger\Service;
 
 use InvalidArgumentException;
+use OpenApi\Generator;
+use OpenApi\Util;
 use function array_map;
 use OpenApi\Annotations\OpenApi;
 
@@ -47,6 +49,7 @@ final class SwaggerService
         }
 
         $directories = array_map(fn (string $path) => $this->aliases->get($path), $annotationPaths);
-        return scan($directories);
+
+        return Generator::scan(Util::finder($directories));
     }
 }
