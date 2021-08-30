@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\SimpleCache\CacheInterface;
 use Yiisoft\Aliases\Aliases;
@@ -56,6 +57,7 @@ final class SwaggerJsonTest extends TestCase
             CacheInterface::class => new ArrayCache(),
             DataResponseFactoryInterface::class => DataResponseFactory::class,
             ResponseFactoryInterface::class => Psr17Factory::class,
+            StreamFactoryInterface::class => Psr17Factory::class,
         ];
 
         return new Container($definitions);
