@@ -53,6 +53,7 @@ final class SwaggerUiTest extends TestCase
         $handler = $this->createRequestHandler();
 
         $response = $middleware->process($request, $handler);
+        $response->getBody();
 
         $this->assertEquals(200, $response->getStatusCode());
 
