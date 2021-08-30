@@ -11,6 +11,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\NullLogger;
 use Psr\SimpleCache\CacheInterface;
@@ -71,6 +72,7 @@ final class SwaggerUiTest extends TestCase
             CacheInterface::class => new ArrayCache(),
             DataResponseFactoryInterface::class => DataResponseFactory::class,
             ResponseFactoryInterface::class => Psr17Factory::class,
+            StreamFactoryInterface::class => Psr17Factory::class,
             ViewRenderer::class => function (
                 DataResponseFactoryInterface $dataResponseFactory,
                 Aliases $aliases
