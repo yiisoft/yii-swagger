@@ -97,7 +97,8 @@ final class SwaggerUiTest extends TestCase
         return new SwaggerUi(
             $container->get(ViewRenderer::class),
             $container->get(SwaggerService::class),
-            $container->get(AssetManager::class)
+            $container->get(AssetManager::class),
+            []
         );
     }
 

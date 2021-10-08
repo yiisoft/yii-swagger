@@ -1,12 +1,11 @@
 <?php
 
-use Yiisoft\Assets\AssetManager;
-use Yiisoft\Swagger\Asset\SwaggerUiAsset;
+use Yiisoft\Assets\AssetManager;use Yiisoft\Json\Json;use Yiisoft\Swagger\Asset\SwaggerUiAsset;
 
 /**
  * @var AssetManager $assetManager
  * @var string $content
- * @var string $jsonUrl
+ * @var array $options
  */
 
 $assetManager->register(
@@ -38,17 +37,14 @@ $this->beginBody(); ?>
     window.onload = function () {
         // Begin Swagger UI call region
         window.ui = SwaggerUIBundle({
-            url: '<?= $jsonUrl; ?>',
-            dom_id: '#swagger-ui',
-            deepLinking: true,
-            presets: [
-                SwaggerUIBundle.presets.apis,
-                SwaggerUIStandalonePreset
-            ],
-            plugins: [
-                SwaggerUIBundle.plugins.DownloadUrl
-            ],
-            layout: "StandaloneLayout"
+            <?php foreach ($options as $key => $val) {
+                if (in_array($key, ['presets', 'plugins']) && count($val) > 0) {
+                    echo $key . ': [' . implode(',', $val) . '],';
+                    continue;
+                }
+
+                echo $key . ':' . Json::encode($val) . ',';
+            }?>
         })
     }
 </script>
@@ -59,3 +55,4 @@ $this->endBody(); ?>
 </html>
 <?php
 $this->endPage(true);
+
