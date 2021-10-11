@@ -15,7 +15,7 @@ use Yiisoft\Yii\View\ViewRenderer;
 
 final class SwaggerUi implements MiddlewareInterface
 {
-    private array $defaultOptions = [
+    private array $defaultParams = [
         'dom_id' => '#swagger-ui',
         'deepLinking' => true,
         'presets' => [
@@ -31,30 +31,30 @@ final class SwaggerUi implements MiddlewareInterface
     private SwaggerService $swaggerService;
     private ViewRenderer $viewRenderer;
     private AssetManager $assetManager;
-    private array $options;
+    private array $params;
 
     public function __construct(
         ViewRenderer $viewRenderer,
         SwaggerService $swaggerService,
         AssetManager $assetManager,
-        array $options
+        array $params
     ) {
         $this->swaggerService = $swaggerService;
         $this->viewRenderer = $viewRenderer;
         $this->assetManager = $assetManager;
-        $this->options = $options;
+        $this->params = $params;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $options = ArrayHelper::merge($this->defaultOptions, $this->options);
-        $options['url'] = $this->jsonUrl;
+        $params = ArrayHelper::merge($this->defaultParams, $this->params);
+        $params['url'] = $this->jsonUrl;
 
         return $this->viewRenderer
             ->withViewPath($this->swaggerService->getViewPath())
             ->renderPartial($this->swaggerService->getViewName(), [
                 'assetManager' => $this->assetManager,
-                'options' => $options,
+                'params' => $params,
             ]);
     }
 

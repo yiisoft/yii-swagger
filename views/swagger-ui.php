@@ -5,7 +5,7 @@ use Yiisoft\Assets\AssetManager;use Yiisoft\Json\Json;use Yiisoft\Swagger\Asset\
 /**
  * @var AssetManager $assetManager
  * @var string $content
- * @var array $options
+ * @var array $params
  */
 
 $assetManager->register(
@@ -37,7 +37,7 @@ $this->beginBody(); ?>
     window.onload = function () {
         // Begin Swagger UI call region
         window.ui = SwaggerUIBundle({
-            <?php foreach ($options as $key => $val) {
+            <?php foreach ($params as $key => $val) {
                 if (in_array($key, ['presets', 'plugins']) && count($val) > 0) {
                     echo $key . ': [' . implode(',', $val) . '],';
                     continue;
