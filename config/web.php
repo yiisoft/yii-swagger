@@ -7,7 +7,7 @@ use Yiisoft\Swagger\Middleware\SwaggerUI;
 return [
     SwaggerUI::class => [
         '__construct()' => [
-            'params' => $params['yiisoft/yii-swagger']['yi-params'],
+            'params' => $params['yiisoft/yii-swagger']['ui-params'],
         ],
     ],
 ];
