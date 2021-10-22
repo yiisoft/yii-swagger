@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Yiisoft\Swagger\Tests;
 
-use HttpSoft\Message\ResponseFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7\Response;
 use Nyholm\Psr7\ServerRequest;
