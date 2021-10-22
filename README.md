@@ -111,9 +111,9 @@ return [
 
 ### 4. (Optional) Configure SwaggerUI
 
-You can use the parameters in config/params.php to configure SwaggerUI
+You can use the parameters in `config/params.php` to configure SwaggerUI.
 
-For example, you can enable persist authorization by setting the persistAuthorization parameter to true
+For example, you can enable persisting authorization by setting the `persistAuthorization` parameter to `true`.
 
 ```php
     //...
@@ -126,7 +126,7 @@ For example, you can enable persist authorization by setting the persistAuthoriz
 ```
 
 
-You can find a complete list of parameters by <a href="https://swagger.io/docs/open-source-tools/swagger-ui/usage/configuration/">following the link</a>
+You can find a complete list of parameters by <a href="https://swagger.io/docs/open-source-tools/swagger-ui/usage/configuration/">following the link</a>.
 
 ### Unit testing
 
