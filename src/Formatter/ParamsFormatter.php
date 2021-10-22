@@ -9,7 +9,7 @@ use Yiisoft\Html\Html;
 
 final class ParamsFormatter
 {
-    public function format(array $params)
+    public function format(array $params): string
     {
         if (ArrayHelper::isAssociative($params)) {
             $result = [];
