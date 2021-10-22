@@ -14,15 +14,16 @@ final class ParamsFormatter
         if (ArrayHelper::isAssociative($params)) {
             $result = [];
 
-            foreach ($params as $key => $value) {
+            $keys = array_keys($params);
+            foreach ($keys as $key) {
                 $element = Html::encode($key) . ':';
 
-                if (is_array($value)) {
-                    $result[] = $element . $this->format($value);
+                if (is_array($params[$key])) {
+                    $result[] = $element . $this->format($params[$key]);
                     continue;
                 }
 
-                $result[] = $element . '"' . Html::encode($value) . '"';
+                $result[] = $element . '"' . Html::encode((string)$params[$key]) . '"';
             }
 
             return '{' . implode(', ', $result) . '}';
