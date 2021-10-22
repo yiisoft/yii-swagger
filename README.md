@@ -109,6 +109,25 @@ return [
     //...
 ```
 
+### 4. (Optional) Configure SwaggerUI
+
+You can use the parameters in `config/params.php` to configure SwaggerUI.
+
+For example, you can enable persisting authorization by setting the `persistAuthorization` parameter to `true`.
+
+```php
+    //...
+    'yiisoft/yii-swagger' => [
+        'ui-params' => [
+            'persistAuthorization' => true,
+        ],
+    ],
+    //...
+```
+
+
+You can find a complete list of parameters by <a href="https://swagger.io/docs/open-source-tools/swagger-ui/usage/configuration/">following the link</a>.
+
 ### Unit testing
 
 The package is tested with [PHPUnit](https://phpunit.de/). To run tests:
@@ -151,3 +170,4 @@ The Yii Swagger is free software. It is released under the terms of the BSD Lice
 Please see [`LICENSE`](./LICENSE.md) for more information.
 
 Maintained by [Yii Software](https://www.yiiframework.com/).
+

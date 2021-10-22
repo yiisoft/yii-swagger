@@ -2,11 +2,11 @@
 
 use Yiisoft\Assets\AssetManager;
 use Yiisoft\Swagger\Asset\SwaggerUiAsset;
-
+use Yiisoft\Swagger\Formatter\ParamsFormatter;
 /**
  * @var AssetManager $assetManager
  * @var string $content
- * @var string $jsonUrl
+ * @var array $params
  */
 
 $assetManager->register(
@@ -37,19 +37,7 @@ $this->beginBody(); ?>
 <script>
     window.onload = function () {
         // Begin Swagger UI call region
-        window.ui = SwaggerUIBundle({
-            url: '<?= $jsonUrl; ?>',
-            dom_id: '#swagger-ui',
-            deepLinking: true,
-            presets: [
-                SwaggerUIBundle.presets.apis,
-                SwaggerUIStandalonePreset
-            ],
-            plugins: [
-                SwaggerUIBundle.plugins.DownloadUrl
-            ],
-            layout: "StandaloneLayout"
-        })
+        window.ui = SwaggerUIBundle(<?=(new ParamsFormatter)->format($params)?>);
     }
 </script>
 
