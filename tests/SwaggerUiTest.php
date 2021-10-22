@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Yiisoft\Swagger\Tests;
 
+use HttpSoft\Message\ResponseFactory;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Nyholm\Psr7\Response;
 use Nyholm\Psr7\ServerRequest;
@@ -19,6 +20,7 @@ use Yiisoft\Aliases\Aliases;
 use Yiisoft\Assets\AssetLoaderInterface;
 use Yiisoft\Assets\AssetManager;
 use Yiisoft\Cache\ArrayCache;
+use Yiisoft\Csrf\CsrfMiddleware;
 use Yiisoft\Csrf\CsrfTokenInterface;
 use Yiisoft\Csrf\Synchronizer\Generator\RandomCsrfTokenGenerator;
 use Yiisoft\Csrf\Synchronizer\SynchronizerCsrfToken;
@@ -104,8 +106,9 @@ final class SwaggerUiTest extends TestCase
     private function getCsrfViewInjection(): CsrfViewInjection
     {
         $csrfToken = $this->createCsrfToken();
+        $csrfMiddleware = $this->createCsrfMiddleware($csrfToken);
 
-        return new CsrfViewInjection($csrfToken);
+        return new CsrfViewInjection($csrfToken, $csrfMiddleware);
     }
 
     private function createCsrfToken(string $token = null): CsrfTokenInterface
@@ -119,6 +122,12 @@ final class SwaggerUiTest extends TestCase
                 ->willReturn($token);
         }
         return new SynchronizerCsrfToken($generator, $storage);
+    }
+
+    private function createCsrfMiddleware(CsrfTokenInterface $csrfToken): CsrfMiddleware
+    {
+        $responseFactory = new Psr17Factory();
+        return new CsrfMiddleware($responseFactory, $csrfToken);
     }
 
     private function createServerRequest(string $method = Method::GET, $headers = []): ServerRequestInterface
