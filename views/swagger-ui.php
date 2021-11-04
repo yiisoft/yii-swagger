@@ -9,11 +9,7 @@ use Yiisoft\Swagger\Formatter\ParamsFormatter;
  * @var array $params
  */
 
-$assetManager->register(
-    [
-        SwaggerUiAsset::class
-    ]
-);
+$assetManager->register(SwaggerUiAsset::class);
 
 $this->addCssFiles($assetManager->getCssFiles());
 $this->addJsFiles($assetManager->getJsFiles());
