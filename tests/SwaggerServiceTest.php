@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Di\Container;
+use Yiisoft\Di\ContainerConfig;
 use Yiisoft\Swagger\Service\SwaggerService;
 
 final class SwaggerServiceTest extends TestCase
@@ -38,10 +39,11 @@ final class SwaggerServiceTest extends TestCase
 
     private function createContainer(): ContainerInterface
     {
-        $definitions = [
-            Aliases::class => new Aliases(),
-        ];
+        $config = ContainerConfig::create()
+            ->withDefinitions([
+                Aliases::class => new Aliases(),
+            ]);
 
-        return new Container($definitions);
+        return new Container($config);
     }
 }

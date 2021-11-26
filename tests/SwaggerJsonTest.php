@@ -19,6 +19,7 @@ use Yiisoft\Cache\ArrayCache;
 use Yiisoft\DataResponse\DataResponseFactory;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Di\Container;
+use Yiisoft\Di\ContainerConfig;
 use Yiisoft\Http\Method;
 use Yiisoft\Swagger\Middleware\SwaggerJson;
 use Yiisoft\Swagger\Service\SwaggerService;
@@ -52,15 +53,16 @@ final class SwaggerJsonTest extends TestCase
 
     private function createContainer(): ContainerInterface
     {
-        $definitions = [
-            Aliases::class => new Aliases(),
-            CacheInterface::class => new ArrayCache(),
-            DataResponseFactoryInterface::class => DataResponseFactory::class,
-            ResponseFactoryInterface::class => Psr17Factory::class,
-            StreamFactoryInterface::class => Psr17Factory::class,
-        ];
+        $config = ContainerConfig::create()
+            ->withDefinitions([
+                Aliases::class => new Aliases(),
+                CacheInterface::class => new ArrayCache(),
+                DataResponseFactoryInterface::class => DataResponseFactory::class,
+                ResponseFactoryInterface::class => Psr17Factory::class,
+                StreamFactoryInterface::class => Psr17Factory::class,
+            ]);
 
-        return new Container($definitions);
+        return new Container($config);
     }
 
     private function createServerRequest(string $method = Method::GET, $headers = []): ServerRequestInterface

@@ -26,6 +26,7 @@ use Yiisoft\Csrf\Synchronizer\SynchronizerCsrfToken;
 use Yiisoft\DataResponse\DataResponseFactory;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Di\Container;
+use Yiisoft\Di\ContainerConfig;
 use Yiisoft\Http\Method;
 use Yiisoft\Swagger\Asset\SwaggerUiAsset;
 use Yiisoft\Swagger\Middleware\SwaggerUi;
@@ -65,32 +66,33 @@ final class SwaggerUiTest extends TestCase
 
     private function createContainer(): ContainerInterface
     {
-        $definitions = [
-            AssetLoaderInterface::class => new AssetLoaderSpy(),
-            AssetManager::class => static function (Aliases $aliases, AssetLoaderInterface $assetLoader) {
-                return new AssetManager($aliases, $assetLoader);
-            },
-            Aliases::class => new Aliases(),
-            CacheInterface::class => new ArrayCache(),
-            DataResponseFactoryInterface::class => DataResponseFactory::class,
-            ResponseFactoryInterface::class => Psr17Factory::class,
-            StreamFactoryInterface::class => Psr17Factory::class,
-            ViewRenderer::class => function (
-                DataResponseFactoryInterface $dataResponseFactory,
-                Aliases $aliases
-            ) {
-                return new ViewRenderer(
-                    $dataResponseFactory,
-                    $aliases,
-                    $this->createWebView(),
-                    __DIR__,
-                    '',
-                    [$this->getCsrfViewInjection()]
-                );
-            },
-        ];
+        $config = ContainerConfig::create()
+            ->withDefinitions([
+                AssetLoaderInterface::class => new AssetLoaderSpy(),
+                AssetManager::class => static function (Aliases $aliases, AssetLoaderInterface $assetLoader) {
+                    return new AssetManager($aliases, $assetLoader);
+                },
+                Aliases::class => new Aliases(),
+                CacheInterface::class => new ArrayCache(),
+                DataResponseFactoryInterface::class => DataResponseFactory::class,
+                ResponseFactoryInterface::class => Psr17Factory::class,
+                StreamFactoryInterface::class => Psr17Factory::class,
+                ViewRenderer::class => function (
+                    DataResponseFactoryInterface $dataResponseFactory,
+                    Aliases $aliases
+                ) {
+                    return new ViewRenderer(
+                        $dataResponseFactory,
+                        $aliases,
+                        $this->createWebView(),
+                        __DIR__,
+                        '',
+                        [$this->getCsrfViewInjection()]
+                    );
+                },
+            ]);
 
-        return new Container($definitions);
+        return new Container($config);
     }
 
     private function createMiddleware(ContainerInterface $container): SwaggerUi
