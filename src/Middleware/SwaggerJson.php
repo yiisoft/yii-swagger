@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace Yiisoft\Swagger\Middleware;
 
 use DateInterval;
-use function md5;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Psr\SimpleCache\CacheInterface;
-use function var_export;
+use Yiisoft\Cache\CacheInterface;
 
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Swagger\Service\SwaggerService;
@@ -39,27 +37,13 @@ final class SwaggerJson implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $cacheKey = $this->enableCache ? $this->getCacheKey() : false;
+        $openApi = !$this->enableCache ? $this->swaggerService->fetch($this->annotationPaths) : $this->cache->getOrSet(
+            [self::class, $this->annotationPaths],
+            static fn () => $this->swaggerService->fetch($this->annotationPaths),
+            $this->cacheTTL,
+        );
 
-        if ($cacheKey && $this->cache->has($cacheKey)) {
-            return $this->responseFactory
-                ->createResponse($this->cache->get($cacheKey));
-        }
-
-        $openApi = $this->swaggerService
-            ->fetch($this->annotationPaths);
-
-        if ($cacheKey) {
-            $this->cache->set($cacheKey, $openApi, $this->cacheTTL);
-        }
-
-        return $this->responseFactory
-            ->createResponse($openApi);
-    }
-
-    private function getCacheKey(): string
-    {
-        return md5(var_export([self::class, $this->annotationPaths], true));
+        return $this->responseFactory->createResponse($openApi);
     }
 
     public function withAnnotationPaths(array $annotationPaths): self
