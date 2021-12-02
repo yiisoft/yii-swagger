@@ -4,35 +4,30 @@ declare(strict_types=1);
 
 namespace Yiisoft\Swagger\Tests;
 
-use Nyholm\Psr7\Factory\Psr17Factory;
-use Nyholm\Psr7\Response;
-use Nyholm\Psr7\ServerRequest;
+use HttpSoft\Message\ResponseFactory;
+use HttpSoft\Message\ServerRequestFactory;
+use HttpSoft\Message\StreamFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Psr\Log\NullLogger;
 use Psr\SimpleCache\CacheInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Assets\AssetLoaderInterface;
 use Yiisoft\Assets\AssetManager;
 use Yiisoft\Cache\ArrayCache;
+use Yiisoft\Cache\Cache;
 use Yiisoft\Csrf\CsrfMiddleware;
-use Yiisoft\Csrf\CsrfTokenInterface;
 use Yiisoft\Csrf\Synchronizer\Generator\RandomCsrfTokenGenerator;
 use Yiisoft\Csrf\Synchronizer\SynchronizerCsrfToken;
 use Yiisoft\DataResponse\DataResponseFactory;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
-use Yiisoft\Di\Container;
-use Yiisoft\Di\ContainerConfig;
-use Yiisoft\Http\Method;
 use Yiisoft\Swagger\Asset\SwaggerUiAsset;
 use Yiisoft\Swagger\Middleware\SwaggerUi;
 use Yiisoft\Swagger\Service\SwaggerService;
-use Yiisoft\Swagger\Tests\Mock\MockCsrfTokenStorage;
-use Yiisoft\Swagger\Tests\Spy\AssetLoaderSpy;
+use Yiisoft\Swagger\Tests\Support\CsrfTokenStorage;
+use Yiisoft\Swagger\Tests\Support\AssetLoaderSpy;
+use Yiisoft\Test\Support\Container\SimpleContainer;
 use Yiisoft\Test\Support\EventDispatcher\SimpleEventDispatcher;
 use Yiisoft\View\WebView;
 use Yiisoft\Yii\View\CsrfViewInjection;
@@ -57,42 +52,35 @@ final class SwaggerUiTest extends TestCase
         $response = $middleware->process($request, $handler);
         $response->getBody();
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
 
         /** @var AssetLoaderSpy $assetSpy */
         $assetSpy = $container->get(AssetLoaderInterface::class);
-        $this->assertEquals([SwaggerUiAsset::class], $assetSpy->getLoaded());
+        $this->assertSame([SwaggerUiAsset::class], $assetSpy->getLoaded());
     }
 
     private function createContainer(): ContainerInterface
     {
-        $config = ContainerConfig::create()
-            ->withDefinitions([
-                AssetLoaderInterface::class => new AssetLoaderSpy(),
-                AssetManager::class => static function (Aliases $aliases, AssetLoaderInterface $assetLoader) {
-                    return new AssetManager($aliases, $assetLoader);
-                },
-                Aliases::class => new Aliases(),
-                CacheInterface::class => new ArrayCache(),
-                DataResponseFactoryInterface::class => DataResponseFactory::class,
-                ResponseFactoryInterface::class => Psr17Factory::class,
-                StreamFactoryInterface::class => Psr17Factory::class,
-                ViewRenderer::class => function (
-                    DataResponseFactoryInterface $dataResponseFactory,
-                    Aliases $aliases
-                ) {
-                    return new ViewRenderer(
-                        $dataResponseFactory,
-                        $aliases,
-                        $this->createWebView(),
-                        __DIR__,
-                        '',
-                        [$this->getCsrfViewInjection()]
-                    );
-                },
-            ]);
+        $aliases = new Aliases();
+        $assetLoader = new AssetLoaderSpy();
+        $dataResponseFactory = new DataResponseFactory(new ResponseFactory(), new StreamFactory());
 
-        return new Container($config);
+        return new SimpleContainer([
+            Aliases::class => $aliases,
+            AssetLoaderInterface::class => $assetLoader,
+            AssetManager::class => new AssetManager($aliases, $assetLoader),
+            CacheInterface::class => new Cache(new ArrayCache()),
+            DataResponseFactoryInterface::class => $dataResponseFactory,
+            SwaggerService::class => new SwaggerService($aliases),
+            ViewRenderer::class => new ViewRenderer(
+                $dataResponseFactory,
+                $aliases,
+                $this->createWebView(),
+                __DIR__,
+                '',
+                [$this->getCsrfViewInjection()],
+            ),
+        ]);
     }
 
     private function createMiddleware(ContainerInterface $container): SwaggerUi
@@ -101,54 +89,33 @@ final class SwaggerUiTest extends TestCase
             $container->get(ViewRenderer::class),
             $container->get(SwaggerService::class),
             $container->get(AssetManager::class),
-            []
+            [],
         );
     }
 
     private function getCsrfViewInjection(): CsrfViewInjection
     {
-        $csrfToken = $this->createCsrfToken();
-        $csrfMiddleware = $this->createCsrfMiddleware($csrfToken);
+        $csrfToken = new SynchronizerCsrfToken(new RandomCsrfTokenGenerator(), new CsrfTokenStorage());
+        $csrfMiddleware = new CsrfMiddleware(new ResponseFactory(), $csrfToken);
 
         return new CsrfViewInjection($csrfToken, $csrfMiddleware);
     }
 
-    private function createCsrfToken(string $token = null): CsrfTokenInterface
+    private function createServerRequest(): ServerRequestInterface
     {
-        $generator = new RandomCsrfTokenGenerator();
-        $storage = $this->createMock(MockCsrfTokenStorage::class);
-        if ($token !== null) {
-            $storage
-                ->expects($this->once())
-                ->method('get')
-                ->willReturn($token);
-        }
-        return new SynchronizerCsrfToken($generator, $storage);
-    }
-
-    private function createCsrfMiddleware(CsrfTokenInterface $csrfToken): CsrfMiddleware
-    {
-        $responseFactory = new Psr17Factory();
-        return new CsrfMiddleware($responseFactory, $csrfToken);
-    }
-
-    private function createServerRequest(string $method = Method::GET, $headers = []): ServerRequestInterface
-    {
-        return new ServerRequest($method, '/', $headers);
+        return (new ServerRequestFactory())->createServerRequest('GET', '/');
     }
 
     private function createRequestHandler(): RequestHandlerInterface
     {
         $requestHandler = $this->createMock(RequestHandlerInterface::class);
-        $requestHandler
-            ->method('handle')
-            ->willReturn(new Response(200));
+        $requestHandler->method('handle')->willReturn((new ResponseFactory())->createResponse());
 
         return $requestHandler;
     }
 
     private function createWebView(): WebView
     {
-        return new WebView(__DIR__, new SimpleEventDispatcher(), new NullLogger());
+        return new WebView(__DIR__, new SimpleEventDispatcher());
     }
 }

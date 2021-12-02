@@ -1,36 +1,40 @@
 checks:
-    php: true
+  php: true
 
 filter:
-    paths:
-        - "src/*"
+  paths:
+    - "src/*"
 
 build:
-    nodes:
-        analysis:
-            environment:
-                php: 7.4.12
+  image: default-bionic
 
-            tests:
-                override:
-                    - php-scrutinizer-run
+  environment:
+    variables:
+      YII_ENV: test
 
-        tests-and-coverage:
-            environment:
-                php: 7.4.12
+    php:
+      version: 8.0.11
+      ini:
+        xdebug.mode: coverage
 
-            dependencies:
-                override:
-                    - composer self-update
-                    - composer update --prefer-dist --no-interaction --no-progress --optimize-autoloader --ansi
+  nodes:
+    analysis:
+      tests:
+        override:
+          - php-scrutinizer-run
 
-            tests:
-                override:
-                    -
-                        command: "./vendor/bin/phpunit --coverage-clover ./coverage.xml"
-                        on_node: 1
-                        coverage:
-                            file: coverage.xml
-                            format: php-clover
+    codeception:
+      dependencies:
+        override:
+          - composer self-update
+          - composer update --prefer-dist --no-interaction --no-progress --optimize-autoloader --ansi
 
-
+      tests:
+        override:
+          - command: |
+              ./yii serve 127.0.0.1:8080 > ./runtime/yii.log 2>&1 &
+              vendor/bin/codecept run --coverage-xml
+            on_node: 1
+            coverage:
+              file: runtime/tests/_output/coverage.xml
+              format: php-clover

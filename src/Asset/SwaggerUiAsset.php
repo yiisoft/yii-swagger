@@ -6,7 +6,7 @@ namespace Yiisoft\Swagger\Asset;
 
 use Yiisoft\Assets\AssetBundle;
 
-class SwaggerUiAsset extends AssetBundle
+final class SwaggerUiAsset extends AssetBundle
 {
     public ?string $basePath = '@assets';
 

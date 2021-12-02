@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Swagger\Tests\Mock;
+namespace Yiisoft\Swagger\Tests\Support;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -11,7 +11,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 /**
  * @OA\Info(title="Yii test api", version="1.0")
  */
-class ApiMock
+final class ApiMock
 {
     /**
      * @OA\Get(

@@ -5,6 +5,8 @@ declare(strict_types=1);
 use Yiisoft\Swagger\Middleware\SwaggerUi;
 use Yiisoft\Swagger\Service\SwaggerService;
 
+/** @var array $params */
+
 return [
     SwaggerService::class => SwaggerService::class,
     SwaggerUi::class => [

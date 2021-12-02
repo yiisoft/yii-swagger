@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Swagger\Tests\Spy;
+namespace Yiisoft\Swagger\Tests\Support;
 
 use Yiisoft\Assets\AssetBundle;
 use Yiisoft\Assets\AssetLoaderInterface;
 
-class AssetLoaderSpy implements AssetLoaderInterface
+final class AssetLoaderSpy implements AssetLoaderInterface
 {
     private array $loaded = [];
 

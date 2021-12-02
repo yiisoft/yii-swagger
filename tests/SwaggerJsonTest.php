@@ -4,25 +4,23 @@ declare(strict_types=1);
 
 namespace Yiisoft\Swagger\Tests;
 
-use Nyholm\Psr7\Factory\Psr17Factory;
-use Nyholm\Psr7\Response;
-use Nyholm\Psr7\ServerRequest;
+use HttpSoft\Message\ResponseFactory;
+use HttpSoft\Message\ServerRequestFactory;
+use HttpSoft\Message\StreamFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Psr\SimpleCache\CacheInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Cache\ArrayCache;
+use Yiisoft\Cache\Cache;
+use Yiisoft\Cache\CacheInterface;
+use Yiisoft\DataResponse\DataResponse;
 use Yiisoft\DataResponse\DataResponseFactory;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
-use Yiisoft\Di\Container;
-use Yiisoft\Di\ContainerConfig;
-use Yiisoft\Http\Method;
 use Yiisoft\Swagger\Middleware\SwaggerJson;
 use Yiisoft\Swagger\Service\SwaggerService;
+use Yiisoft\Test\Support\Container\SimpleContainer;
 
 final class SwaggerJsonTest extends TestCase
 {
@@ -33,11 +31,12 @@ final class SwaggerJsonTest extends TestCase
         $this->assertNotSame($middleware, $middleware->withAnnotationPaths([]));
         $this->assertNotSame($middleware, $middleware->withCache());
 
+        /** @var DataResponse $response */
         $response = $middleware
-            ->withAnnotationPaths([__DIR__ . '/Mock'])
+            ->withAnnotationPaths([__DIR__ . '/Support'])
             ->process($this->createServerRequest(), $this->createRequestHandler());
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertSame(200, $response->getStatusCode());
     }
 
     private function createMiddleware(): SwaggerJson
@@ -53,29 +52,25 @@ final class SwaggerJsonTest extends TestCase
 
     private function createContainer(): ContainerInterface
     {
-        $config = ContainerConfig::create()
-            ->withDefinitions([
-                Aliases::class => new Aliases(),
-                CacheInterface::class => new ArrayCache(),
-                DataResponseFactoryInterface::class => DataResponseFactory::class,
-                ResponseFactoryInterface::class => Psr17Factory::class,
-                StreamFactoryInterface::class => Psr17Factory::class,
-            ]);
+        $aliases = new Aliases();
 
-        return new Container($config);
+        return new SimpleContainer([
+            Aliases::class => $aliases,
+            CacheInterface::class => new Cache(new ArrayCache()),
+            DataResponseFactoryInterface::class => new DataResponseFactory(new ResponseFactory(), new StreamFactory()),
+            SwaggerService::class => new SwaggerService($aliases),
+        ]);
     }
 
-    private function createServerRequest(string $method = Method::GET, $headers = []): ServerRequestInterface
+    private function createServerRequest(): ServerRequestInterface
     {
-        return new ServerRequest($method, '/', $headers);
+        return (new ServerRequestFactory())->createServerRequest('GET', '/');
     }
 
     private function createRequestHandler(): RequestHandlerInterface
     {
         $requestHandler = $this->createMock(RequestHandlerInterface::class);
-        $requestHandler
-            ->method('handle')
-            ->willReturn(new Response(200));
+        $requestHandler->method('handle')->willReturn((new ResponseFactory())->createResponse());
 
         return $requestHandler;
     }
