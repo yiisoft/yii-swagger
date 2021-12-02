@@ -10,7 +10,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Cache\CacheInterface;
-
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Swagger\Service\SwaggerService;
 
@@ -21,9 +20,7 @@ final class SwaggerJson implements MiddlewareInterface
     private CacheInterface $cache;
     private DataResponseFactoryInterface $responseFactory;
     private SwaggerService $swaggerService;
-
-    /** @var DateInterval|int|null */
-    private $cacheTTL;
+    private DateInterval|int|null $cacheTTL;
 
     public function __construct(
         CacheInterface $cache,
@@ -46,6 +43,11 @@ final class SwaggerJson implements MiddlewareInterface
         return $this->responseFactory->createResponse($openApi);
     }
 
+    /**
+     * @param string[] $annotationPaths
+     *
+     * @return self
+     */
     public function withAnnotationPaths(array $annotationPaths): self
     {
         $new = clone $this;
@@ -56,9 +58,9 @@ final class SwaggerJson implements MiddlewareInterface
     /**
      * @param DateInterval|int|null $cacheTTL
      *
-     * @return SwaggerJson
+     * @return self
      */
-    public function withCache($cacheTTL = null): self
+    public function withCache(DateInterval|int $cacheTTL = null): self
     {
         $new = clone $this;
         $new->enableCache = true;

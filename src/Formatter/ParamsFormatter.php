@@ -7,14 +7,19 @@ namespace Yiisoft\Swagger\Formatter;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Html;
 
+use function array_keys;
+use function array_map;
+use function implode;
+use function is_array;
+
 final class ParamsFormatter
 {
     public function format(array $params): string
     {
         if (ArrayHelper::isAssociative($params)) {
+            $keys = array_keys($params);
             $result = [];
 
-            $keys = array_keys($params);
             foreach ($keys as $key) {
                 $element = Html::encode($key) . ':';
 
