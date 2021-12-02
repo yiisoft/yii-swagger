@@ -15,7 +15,7 @@
 [![static analysis](https://github.com/yiisoft/yii-swagger/workflows/static%20analysis/badge.svg)](https://github.com/yiisoft/yii-swagger/actions?query=workflow%3A%22static+analysis%22)
 [![type-coverage](https://shepherd.dev/github/yiisoft/yii-swagger/coverage.svg)](https://shepherd.dev/github/yiisoft/yii-swagger)
 
-Open Api Swagger for Yii Framework.
+OpenAPI Swagger for Yii Framework.
 
 ## Requirements
 
