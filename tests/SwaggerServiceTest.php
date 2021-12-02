@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Yiisoft\Swagger\Tests;
 
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerInterface;
 use Yiisoft\Aliases\Aliases;
-use Yiisoft\Di\Container;
-use Yiisoft\Di\ContainerConfig;
 use Yiisoft\Swagger\Service\SwaggerService;
 
 final class SwaggerServiceTest extends TestCase
@@ -25,25 +23,14 @@ final class SwaggerServiceTest extends TestCase
 
     public function testSwaggerServiceEmptyArrayFetch(): void
     {
-        $service = $this->createService();
-        $this->expectException(\InvalidArgumentException::class);
-        $service->fetch([]);
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Annotation paths cannot be empty array.');
+
+        $this->createService()->fetch([]);
     }
 
     private function createService(): SwaggerService
     {
-        $container = $this->createContainer();
-
-        return new SwaggerService($container->get(Aliases::class));
-    }
-
-    private function createContainer(): ContainerInterface
-    {
-        $config = ContainerConfig::create()
-            ->withDefinitions([
-                Aliases::class => new Aliases(),
-            ]);
-
-        return new Container($config);
+        return new SwaggerService(new Aliases());
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yiisoft\Swagger\Middleware;
 
 use DateInterval;
+use OpenApi\Annotations\OpenApi;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -20,7 +21,7 @@ final class SwaggerJson implements MiddlewareInterface
     private CacheInterface $cache;
     private DataResponseFactoryInterface $responseFactory;
     private SwaggerService $swaggerService;
-    private DateInterval|int|null $cacheTTL;
+    private DateInterval|int|null $cacheTTL = null;
 
     public function __construct(
         CacheInterface $cache,
@@ -34,6 +35,7 @@ final class SwaggerJson implements MiddlewareInterface
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        /** @var OpenApi $openApi */
         $openApi = !$this->enableCache ? $this->swaggerService->fetch($this->annotationPaths) : $this->cache->getOrSet(
             [self::class, $this->annotationPaths],
             static fn () => $this->swaggerService->fetch($this->annotationPaths),

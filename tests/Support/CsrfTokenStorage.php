@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Swagger\Tests\Mock;
+namespace Yiisoft\Swagger\Tests\Support;
 
 use Yiisoft\Csrf\Synchronizer\Storage\CsrfTokenStorageInterface;
 
-class MockCsrfTokenStorage implements CsrfTokenStorageInterface
+final class CsrfTokenStorage implements CsrfTokenStorageInterface
 {
     private ?string $token = null;
 
