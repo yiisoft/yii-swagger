@@ -51,9 +51,9 @@ Group::create('/swagger', [
             return $swaggerJson
                 // Uncomment cache for production environment
                 // ->withCache(3600)
-                ->withAnnotationPaths([
+                ->withAnnotationPaths(
                     '@src/Controller' // Path to API controllers
-                ]);
+                );
         })
         ->addMiddleware(FormatDataResponseAsJson::class),
 ]),
