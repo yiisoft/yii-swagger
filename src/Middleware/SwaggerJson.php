@@ -45,7 +45,6 @@ final class SwaggerJson implements MiddlewareInterface
         return $this->responseFactory->createResponse($openApi);
     }
 
-
     /**
      * @param string ...$annotationPaths
      *
