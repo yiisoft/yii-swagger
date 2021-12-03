@@ -46,11 +46,11 @@ final class SwaggerJson implements MiddlewareInterface
     }
 
     /**
-     * @param string[] $annotationPaths
+     * @param string ...$annotationPaths
      *
      * @return self
      */
-    public function withAnnotationPaths(array $annotationPaths): self
+    public function withAnnotationPaths(string ...$annotationPaths): self
     {
         $new = clone $this;
         $new->annotationPaths = $annotationPaths;
