@@ -42,7 +42,7 @@ final class SwaggerService
         return $this->viewName;
     }
 
-    public function fetch(array $annotationPaths): OpenApi
+    public function fetch(array $annotationPaths): ?OpenApi
     {
         if ($annotationPaths === []) {
             throw new InvalidArgumentException('Annotation paths cannot be empty array.');
