@@ -6,12 +6,15 @@ namespace Yiisoft\Swagger\Service;
 
 use InvalidArgumentException;
 use OpenApi\Generator;
+use OpenApi\Processors\MergeIntoOpenApi;
 use OpenApi\Util;
 use OpenApi\Annotations\OpenApi;
+use RuntimeException;
 use Yiisoft\Aliases\Aliases;
 
 use function array_map;
 use function dirname;
+use function sprintf;
 
 final class SwaggerService
 {
@@ -48,8 +51,17 @@ final class SwaggerService
             throw new InvalidArgumentException('Annotation paths cannot be empty array.');
         }
 
-        $directories = array_map(fn (string $path) => $this->aliases->get($path), $annotationPaths);
+        $directories = array_map(fn (string $path): string => $this->aliases->get($path), $annotationPaths);
+        $openApi = Generator::scan(Util::finder($directories));
 
-        return Generator::scan(Util::finder($directories));
+        if ($openApi === null) {
+            throw new RuntimeException(sprintf(
+                'No OpenApi target set. Run the "%s" processor before "%s::fetch()".',
+                MergeIntoOpenApi::class,
+                self::class,
+            ));
+        }
+
+        return $openApi;
     }
 }
