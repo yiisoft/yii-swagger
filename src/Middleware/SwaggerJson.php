@@ -38,7 +38,7 @@ final class SwaggerJson implements MiddlewareInterface
         /** @var OpenApi $openApi */
         $openApi = !$this->enableCache ? $this->swaggerService->fetch($this->annotationPaths) : $this->cache->getOrSet(
             [self::class, $this->annotationPaths],
-            static fn () => $this->swaggerService->fetch($this->annotationPaths),
+            fn () => $this->swaggerService->fetch($this->annotationPaths),
             $this->cacheTTL,
         );
 
