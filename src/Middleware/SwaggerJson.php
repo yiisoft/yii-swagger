@@ -21,7 +21,7 @@ final class SwaggerJson implements MiddlewareInterface
     private CacheInterface $cache;
     private DataResponseFactoryInterface $responseFactory;
     private SwaggerService $swaggerService;
-    private DateInterval|int|null $cacheTTL = null;
+    private DateInterval|int|null $cacheTTL;
 
     public function __construct(
         CacheInterface $cache,
