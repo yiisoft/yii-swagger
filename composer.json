@@ -1,7 +1,7 @@
 {
     "name": "yiisoft/yii-swagger",
     "type": "library",
-    "description": "Open Api Swagger for Yii Framework",
+    "description": "OpenAPI Swagger for Yii Framework",
     "keywords": [
         "yii",
         "swagger",
@@ -27,8 +27,6 @@
             "url": "https://github.com/sponsors/yiisoft"
         }
     ],
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "require": {
         "php": "^8.0",
         "swagger-api/swagger-ui": "^4.1",
@@ -60,9 +58,6 @@
         }
     },
     "extra": {
-        "branch-alias": {
-            "dev-master": "3.0.x-dev"
-        },
         "config-plugin-options": {
             "source-directory": "config"
         },
