@@ -65,7 +65,7 @@ final class SwaggerJson implements MiddlewareInterface
     public function withCache(DateInterval|int $cacheTTL = null): self
     {
         $new = clone $this;
-        $new->enableCache = true;
+        $new->enableCache = $cacheTTL !== null;
         $new->cacheTTL = $cacheTTL;
         return $new;
     }
