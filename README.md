@@ -94,7 +94,8 @@ You can use the parameters in `config/params.php` to configure SwaggerJson:
 'yiisoft/yii-swagger' => [
     'annotation-paths' => [
         '@src/Controller' // Directory where annotations are used
-    ]
+    ],
+    'cacheTTL' => 60 // Enables caching and sets TTL, "null" value means infinite cache TTL.
 ]
 //...
 ```

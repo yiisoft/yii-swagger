@@ -8,6 +8,5 @@ return [
             'persistAuthorization' => true,
         ],
         'annotation-paths' => [],
-        'cacheTTL' => null,
     ],
 ];

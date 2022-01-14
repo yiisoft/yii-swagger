@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Yiisoft\Injector\Injector;
 use Yiisoft\Swagger\Middleware\SwaggerJson;
 use Yiisoft\Swagger\Middleware\SwaggerUi;
 use Yiisoft\Swagger\Service\SwaggerService;
@@ -15,8 +16,12 @@ return [
             'params' => $params['yiisoft/yii-swagger']['ui-params'],
         ],
     ],
-    SwaggerJson::class => [
-        'withAnnotationPaths()' => [...$params['yiisoft/yii-swagger']['annotation-paths']],
-        'withCache()' => [$params['yiisoft/yii-swagger']['cacheTTL']],
-    ],
+    SwaggerJson::class => static function (Injector $injector) use ($params) {
+        $params = $params['yiisoft/yii-swagger'];
+        $swaggerJson = $injector->make(SwaggerJson::class);
+        if (array_key_exists('cacheTTL', $params)) {
+            $swaggerJson = $swaggerJson->withCache($params['cacheTTL']);
+        }
+        return $swaggerJson->withAnnotationPaths(...$params['annotation-paths']);
+    },
 ];
