@@ -7,5 +7,6 @@ return [
         'ui-params' => [
             'persistAuthorization' => true,
         ],
+        'annotation-paths' => [],
     ],
 ];

@@ -44,18 +44,11 @@ use Yiisoft\Swagger\Middleware\SwaggerJson;
 // Swagger routes
 Group::create('/swagger', [
     Route::get('')
-        ->addMiddleware(fn (SwaggerUi $swaggerUi) => $swaggerUi->withJsonUrl('/swagger/json-url'))
-        ->addMiddleware(FormatDataResponseAsHtml::class),
+        ->middleware(FormatDataResponseAsHtml::class)
+        ->action(fn (SwaggerUi $swaggerUi) => $swaggerUi->withJsonUrl('/swagger/json-url')),
     Route::get('/json-url')
-        ->addMiddleware(static function (SwaggerJson $swaggerJson) {
-            return $swaggerJson
-                // Uncomment cache for production environment
-                // ->withCache(3600)
-                ->withAnnotationPaths(
-                    '@src/Controller' // Path to API controllers
-                );
-        })
-        ->addMiddleware(FormatDataResponseAsJson::class),
+        ->middleware(FormatDataResponseAsJson::class)
+        ->action(SwaggerJson::class),
 ]),
 ```
 
@@ -90,7 +83,24 @@ public function process(ServerRequestInterface $request, RequestHandlerInterface
 See [Swagger-PHP documentation](https://zircote.github.io/swagger-php/Getting-started.html#write-annotations) for details
 on how to annotate your code.
 
-### 3. (Optional) Add config for aliases and asset manager
+### 3. Configure `SwaggerJson` middleware
+
+For annotations to be registered you need to configure `SwaggerJson`.
+
+You can use the parameters in `config/params.php` to configure `SwaggerJson`:
+
+```php
+//...
+'yiisoft/yii-swagger' => [
+    'annotation-paths' => [
+        '@src/Controller' // Directory where annotations are used
+    ],
+    'cacheTTL' => 60 // Enables caching and sets TTL, "null" value means infinite cache TTL.
+]
+//...
+```
+
+### 4. (Optional) Add config for aliases and asset manager
 
 ```php
 use Yiisoft\Definitions\Reference;
@@ -115,9 +125,9 @@ return [
     //...
 ```
 
-### 4. (Optional) Configure SwaggerUI
+### 5. (Optional) Configure `SwaggerUi` middleware
 
-You can use the parameters in `config/params.php` to configure SwaggerUI.
+You can use the parameters in `config/params.php` to configure `SwaggerUi`.
 
 For example, you can enable persisting authorization by setting the `persistAuthorization` parameter to `true`.
 
