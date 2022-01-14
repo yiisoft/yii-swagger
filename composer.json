@@ -34,7 +34,6 @@
         "yiisoft/assets": "^2.0",
         "yiisoft/cache": "^1.0",
         "yiisoft/data-response": "^1.0",
-        "yiisoft/injector": "^1.0",
         "yiisoft/yii-view": "^4.0",
         "zircote/swagger-php": "^4.0"
     },
