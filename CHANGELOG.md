@@ -1,5 +1,9 @@
 # Yii Swagger Change Log
 
+## 1.1.1 under development
+
+- no changes in this release.
+
 ## 1.1.0 January 14, 2022
 
 - Enh #48: Add ability to configure `Yii\Swagger\Middleware\SwaggerJson` via config params (rustamwin)
