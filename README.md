@@ -83,11 +83,11 @@ public function process(ServerRequestInterface $request, RequestHandlerInterface
 See [Swagger-PHP documentation](https://zircote.github.io/swagger-php/Getting-started.html#write-annotations) for details
 on how to annotate your code.
 
-### 3. Configure SwaggerJson
+### 3. Configure `SwaggerJson` middleware
 
 For annotations to be registered you need to configure `SwaggerJson`.
 
-You can use the parameters in `config/params.php` to configure SwaggerJson:
+You can use the parameters in `config/params.php` to configure `SwaggerJson`:
 
 ```php
 //...
@@ -125,9 +125,9 @@ return [
     //...
 ```
 
-### 5. (Optional) Configure SwaggerUI
+### 5. (Optional) Configure `SwaggerUi` middleware
 
-You can use the parameters in `config/params.php` to configure SwaggerUI.
+You can use the parameters in `config/params.php` to configure `SwaggerUi`.
 
 For example, you can enable persisting authorization by setting the `persistAuthorization` parameter to `true`.
 
