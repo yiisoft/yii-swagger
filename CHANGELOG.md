@@ -1,8 +1,8 @@
 # Yii Swagger Change Log
 
-## 1.1.1 under development
+## 1.2.0 under development
 
-- no changes in this release.
+- Enh #49: Add ability to configure `OpenApi\Annotations\OpenAPI` to `Yiisoft\Swagger\Service\SwaggerService` (devanych)
 
 ## 1.1.0 January 14, 2022
 

@@ -11,12 +11,18 @@ use Yiisoft\Swagger\Service\SwaggerService;
 /** @var array $params */
 
 return [
-    SwaggerService::class => SwaggerService::class,
+    SwaggerService::class => [
+        'withOptions()' => [
+            $params['yiisoft/yii-swagger']['swagger-options'],
+        ],
+    ],
+
     SwaggerUi::class => [
         '__construct()' => [
             'params' => $params['yiisoft/yii-swagger']['ui-params'],
         ],
     ],
+
     SwaggerJson::class => static function (
         CacheInterface $cache,
         DataResponseFactoryInterface $responseFactory,
@@ -24,9 +30,11 @@ return [
     ) use ($params) {
         $params = $params['yiisoft/yii-swagger'];
         $swaggerJson = new SwaggerJson($cache, $responseFactory, $swaggerService);
+
         if (array_key_exists('cacheTTL', $params)) {
             $swaggerJson = $swaggerJson->withCache($params['cacheTTL']);
         }
+
         return $swaggerJson->withAnnotationPaths(...$params['annotation-paths']);
     },
 ];
