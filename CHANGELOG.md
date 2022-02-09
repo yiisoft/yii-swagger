@@ -2,7 +2,7 @@
 
 ## 1.2.0 under development
 
-- Enh #49: Add ability to configure `OpenApi\Annotations\OpenAPI` to `Yiisoft\Swagger\Service\SwaggerService` (devanych)
+- Enh #49: Add ability to configure `OpenApi\Annotations\OpenAPI` generation to `Yiisoft\Swagger\Service\SwaggerService` (devanych)
 
 ## 1.1.0 January 14, 2022
 

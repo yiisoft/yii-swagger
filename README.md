@@ -96,7 +96,7 @@ You can use the parameters in `config/params.php` to configure `SwaggerJson`:
         '@src/Controller' // Directory where annotations are used
     ],
     'cacheTTL' => 60 // Enables caching and sets TTL, "null" value means infinite cache TTL.
-]
+],
 //...
 ```
 
@@ -123,6 +123,7 @@ return [
         ]
     ],
     //...
+];
 ```
 
 ### 5. (Optional) Configure `SwaggerUi` middleware
@@ -132,16 +133,42 @@ You can use the parameters in `config/params.php` to configure `SwaggerUi`.
 For example, you can enable persisting authorization by setting the `persistAuthorization` parameter to `true`.
 
 ```php
-    //...
-    'yiisoft/yii-swagger' => [
-        'ui-params' => [
-            'persistAuthorization' => true,
-        ],
+//...
+'yiisoft/yii-swagger' => [
+    'ui-params' => [
+        'persistAuthorization' => true,
     ],
-    //...
+],
+//...
 ```
 
 You can find a complete list of parameters by [following the link](https://swagger.io/docs/open-source-tools/swagger-ui/usage/configuration/).
+
+### 6. (Optional) Configure `SwaggerService`
+
+You can specify options for generation an `OpenApi\Annotations\OpenApi`
+instance in `config/params.php` to configure `SwaggerService`:
+
+```php
+//...
+'yiisoft/yii-swagger' => [
+    // Default values are specified.
+    'open-api-options' => [
+        'aliases' => OpenApi\Generator::DEFAULT_ALIASES,
+        'namespaces' => OpenApi\Generator::DEFAULT_NAMESPACES,
+        'analyser' => null,
+        'analysis' => null,
+        'processors' => null,
+        'logger' => null,
+        'validate' => true,
+        'version' => OpenApi\Annotations\OpenApi::DEFAULT_VERSION,
+    ],
+],
+//...
+```
+
+For more information about generation an `OpenApi\Annotations\OpenApi` instance, see the
+documentation of the [zircote/swagger-php](https://github.com/zircote/swagger-php) package.
 
 ## Testing
 

@@ -42,7 +42,7 @@ final class SwaggerService
     }
 
     /**
-     * Returns a new instance with the specified swagger options.
+     * Returns a new instance with the specified options for {@see OpenApi} generation.
      *
      * @param array $options For {@see Generator::scan()}.
      *
