@@ -8,5 +8,6 @@ return [
             'persistAuthorization' => true,
         ],
         'annotation-paths' => [],
+        'swagger-options' => [],
     ],
 ];

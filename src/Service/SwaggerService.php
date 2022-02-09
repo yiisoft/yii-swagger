@@ -22,15 +22,11 @@ final class SwaggerService
 
     private string $viewPath;
     private string $viewName;
+    private array $options = [];
 
     public function __construct(Aliases $aliases)
     {
         $this->aliases = $aliases;
-        $this->setupDefaults();
-    }
-
-    private function setupDefaults(): void
-    {
         $this->viewPath = dirname(__DIR__, 2) . '/views';
         $this->viewName = 'swagger-ui';
     }
@@ -45,6 +41,20 @@ final class SwaggerService
         return $this->viewName;
     }
 
+    /**
+     * Returns a new instance with the specified swagger options.
+     *
+     * @param array $options For {@see Generator::scan()}.
+     *
+     * @return self
+     */
+    public function withOptions(array $options): self
+    {
+        $new = clone $this;
+        $new->options = $options;
+        return $new;
+    }
+
     public function fetch(array $annotationPaths): OpenApi
     {
         if ($annotationPaths === []) {
@@ -52,7 +62,7 @@ final class SwaggerService
         }
 
         $directories = array_map(fn (string $path): string => $this->aliases->get($path), $annotationPaths);
-        $openApi = Generator::scan(Util::finder($directories));
+        $openApi = Generator::scan(Util::finder($directories), $this->options);
 
         if ($openApi === null) {
             throw new RuntimeException(sprintf(

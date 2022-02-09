@@ -29,6 +29,13 @@ final class SwaggerServiceTest extends TestCase
         $this->createService()->fetch([]);
     }
 
+    public function testImmutability(): void
+    {
+        $service = $this->createService();
+
+        $this->assertNotSame($service, $service->withOptions([]));
+    }
+
     private function createService(): SwaggerService
     {
         return new SwaggerService(new Aliases());
