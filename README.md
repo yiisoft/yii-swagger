@@ -80,7 +80,7 @@ public function process(ServerRequestInterface $request, RequestHandlerInterface
 }
 ```
 
-See [Swagger-PHP documentation](https://zircote.github.io/swagger-php/Getting-started.html#write-annotations) for details
+See [Swagger-PHP documentation](https://github.com/zircote/swagger-php/tree/master/docs) for details
 on how to annotate your code.
 
 ### 3. Configure `SwaggerJson` middleware
