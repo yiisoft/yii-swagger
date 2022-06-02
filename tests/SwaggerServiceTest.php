@@ -26,7 +26,9 @@ final class SwaggerServiceTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Annotation paths cannot be empty array.');
 
-        $this->createService()->fetch([]);
+        $this
+            ->createService()
+            ->fetch([]);
     }
 
     public function testImmutability(): void

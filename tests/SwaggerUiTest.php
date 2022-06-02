@@ -44,7 +44,9 @@ final class SwaggerUiTest extends TestCase
     public function testSwaggerUiMiddleware(): void
     {
         $container = $this->createContainer();
-        $middleware = $this->createMiddleware($container)->withJsonUrl('/');
+        $middleware = $this
+            ->createMiddleware($container)
+            ->withJsonUrl('/');
 
         $request = $this->createServerRequest();
         $handler = $this->createRequestHandler();
@@ -109,7 +111,9 @@ final class SwaggerUiTest extends TestCase
     private function createRequestHandler(): RequestHandlerInterface
     {
         $requestHandler = $this->createMock(RequestHandlerInterface::class);
-        $requestHandler->method('handle')->willReturn((new ResponseFactory())->createResponse());
+        $requestHandler
+            ->method('handle')
+            ->willReturn((new ResponseFactory())->createResponse());
 
         return $requestHandler;
     }

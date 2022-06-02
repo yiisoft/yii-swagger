@@ -70,7 +70,9 @@ final class SwaggerJsonTest extends TestCase
     private function createRequestHandler(): RequestHandlerInterface
     {
         $requestHandler = $this->createMock(RequestHandlerInterface::class);
-        $requestHandler->method('handle')->willReturn((new ResponseFactory())->createResponse());
+        $requestHandler
+            ->method('handle')
+            ->willReturn((new ResponseFactory())->createResponse());
 
         return $requestHandler;
     }
