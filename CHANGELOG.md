@@ -2,7 +2,7 @@
 
 ## 1.2.1 under development
 
-- no changes in this release.
+- Chg #58: Add support `yiisoft/yii-view` version of `^5.0` (@rustamwin)
 
 ## 1.2.0 February 10, 2022
 
