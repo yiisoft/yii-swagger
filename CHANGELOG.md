@@ -1,5 +1,9 @@
 # Yii Swagger Change Log
 
+## 1.2.2 under development
+
+- no changes in this release.
+
 ## 1.2.1 July 26, 2022
 
 - Chg #58: Add support `yiisoft/yii-view` version of `^5.0` (@rustamwin)
