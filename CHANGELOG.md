@@ -1,6 +1,6 @@
 # Yii Swagger Change Log
 
-## 1.2.2 under development
+## 1.2.2 July 28, 2022
 
 - Chg #59: Add support `yiisoft/cache` version of `^2.0` (@xepozz)
 
