@@ -2,7 +2,7 @@
 
 ## 1.2.2 under development
 
-- no changes in this release.
+- Chg #59: Add support `yiisoft/cache` version of `^2.0` (@xepozz)
 
 ## 1.2.1 July 26, 2022
 
