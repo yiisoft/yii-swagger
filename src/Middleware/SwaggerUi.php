@@ -28,21 +28,9 @@ final class SwaggerUi implements MiddlewareInterface
         'layout' => 'StandaloneLayout',
     ];
     private string $jsonUrl = '/';
-    private SwaggerService $swaggerService;
-    private ViewRenderer $viewRenderer;
-    private AssetManager $assetManager;
-    private array $params;
 
-    public function __construct(
-        ViewRenderer $viewRenderer,
-        SwaggerService $swaggerService,
-        AssetManager $assetManager,
-        array $params
-    ) {
-        $this->swaggerService = $swaggerService;
-        $this->viewRenderer = $viewRenderer;
-        $this->assetManager = $assetManager;
-        $this->params = $params;
+    public function __construct(private ViewRenderer $viewRenderer, private SwaggerService $swaggerService, private AssetManager $assetManager, private array $params)
+    {
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface

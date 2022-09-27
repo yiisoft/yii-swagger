@@ -18,17 +18,13 @@ use function sprintf;
 
 final class SwaggerService
 {
-    private Aliases $aliases;
-
     private string $viewPath;
-    private string $viewName;
+    private string $viewName = 'swagger-ui';
     private array $options = [];
 
-    public function __construct(Aliases $aliases)
+    public function __construct(private Aliases $aliases)
     {
-        $this->aliases = $aliases;
         $this->viewPath = dirname(__DIR__, 2) . '/views';
-        $this->viewName = 'swagger-ui';
     }
 
     public function getViewPath(): string
@@ -45,8 +41,6 @@ final class SwaggerService
      * Returns a new instance with the specified options for {@see OpenApi} generation.
      *
      * @param array $options For {@see Generator::scan()}.
-     *
-     * @return self
      */
     public function withOptions(array $options): self
     {
