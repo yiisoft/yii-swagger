@@ -29,7 +29,12 @@ final class SwaggerUi implements MiddlewareInterface
     ];
     private string $jsonUrl = '/';
 
-    public function __construct(private ViewRenderer $viewRenderer, private SwaggerService $swaggerService, private AssetManager $assetManager, private array $params)
+    public function __construct(
+        private ViewRenderer $viewRenderer, 
+        private SwaggerService $swaggerService, 
+        private AssetManager $assetManager, 
+        private array $params
+    )
     {
     }
 
