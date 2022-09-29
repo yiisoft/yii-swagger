@@ -18,19 +18,13 @@ final class SwaggerJson implements MiddlewareInterface
 {
     private array $annotationPaths = [];
     private bool $enableCache = false;
-    private CacheInterface $cache;
-    private DataResponseFactoryInterface $responseFactory;
-    private SwaggerService $swaggerService;
     private DateInterval|int|null $cacheTTL = null;
 
     public function __construct(
-        CacheInterface $cache,
-        DataResponseFactoryInterface $responseFactory,
-        SwaggerService $swaggerService
+        private CacheInterface $cache,
+        private DataResponseFactoryInterface $responseFactory,
+        private SwaggerService $swaggerService
     ) {
-        $this->cache = $cache;
-        $this->responseFactory = $responseFactory;
-        $this->swaggerService = $swaggerService;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
@@ -45,11 +39,6 @@ final class SwaggerJson implements MiddlewareInterface
         return $this->responseFactory->createResponse($openApi);
     }
 
-    /**
-     * @param string ...$annotationPaths
-     *
-     * @return self
-     */
     public function withAnnotationPaths(string ...$annotationPaths): self
     {
         $new = clone $this;
@@ -59,8 +48,6 @@ final class SwaggerJson implements MiddlewareInterface
 
     /**
      * @param DateInterval|int|null $cacheTTL
-     *
-     * @return self
      */
     public function withCache(DateInterval|int $cacheTTL = null): self
     {
