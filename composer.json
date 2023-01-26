@@ -31,7 +31,7 @@
         "php": "^8.0",
         "swagger-api/swagger-ui": "^4.1",
         "yiisoft/aliases": "^1.1|^2.0",
-        "yiisoft/assets": "^2.0",
+        "yiisoft/assets": "^3.0",
         "yiisoft/cache": "^1.0|^2.0",
         "yiisoft/data-response": "^1.0",
         "yiisoft/yii-view": "^4.0|^5.0",
