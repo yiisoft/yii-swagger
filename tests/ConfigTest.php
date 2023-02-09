@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Yiisoft\Swagger\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Yiisoft\Aliases\Aliases;
 use Yiisoft\Assets\AssetLoaderInterface;
 use Yiisoft\Cache\CacheInterface;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
@@ -63,4 +62,3 @@ final class ConfigTest extends TestCase
         return require dirname(__DIR__) . '/config/params.php';
     }
 }
-
