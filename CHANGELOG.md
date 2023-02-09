@@ -2,7 +2,8 @@
 
 ## 1.2.3 under development
 
-- no changes in this release.
+- Enh #18: Explicitly add transitive dependencies `psr/http-message`, `psr/http-server-handler`, 
+  `psr/http-server-middleware`, `yiisoft/arrays` and `yiisoft/html` (@vjik)
 
 ## 1.2.2 July 28, 2022
 
