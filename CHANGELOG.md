@@ -1,13 +1,13 @@
 # Yii Swagger Change Log
 
-## 2.0.0 under development
+## 2.0.0 February 16, 2023
 
+- Chg #69: Adapt configuration group names to Yii conventions (@vjik)
 - Enh #62: Explicitly add transitive dependencies `psr/http-message`, `psr/http-server-handler`, 
   `psr/http-server-middleware`, `yiisoft/arrays` and `yiisoft/html` (@vjik)
 - Enh #67, #71: Add support `yiisoft/assets` version of `^3.0|^4.0` (@vjik)
-- Chg #69: Adapt configuration group names to Yii conventions (@vjik)
 - Enh #72: Add support `yiisoft/aliases` version of `^3.0`, `yiisoft/cache` version of `^3.0`,
-  `yiisoft/data-response` version of `^2.0`, `yiisoft/yii-view` version of `^6.0` (@vjik) 
+  `yiisoft/data-response` version of `^2.0`, `yiisoft/yii-view` version of `^6.0` (@vjik)
 
 ## 1.2.2 July 28, 2022
 
