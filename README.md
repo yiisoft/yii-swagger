@@ -26,7 +26,7 @@ OpenAPI Swagger for Yii Framework.
 The package could be installed with composer:
 
 ```shell
-composer require yiisoft/yii-swagger --prefer-dist
+composer require yiisoft/yii-swagger
 ```
 
 ## Configuration
