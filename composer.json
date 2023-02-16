@@ -51,6 +51,7 @@
         "spatie/phpunit-watcher": "^1.23",
         "vimeo/psalm": "^4.18",
         "yiisoft/csrf": "^1.2",
+        "yiisoft/di": "^1.2",
         "yiisoft/psr-dummy-provider": "^1.0",
         "yiisoft/test-support": "^3.0"
     },
@@ -69,7 +70,7 @@
             "source-directory": "config"
         },
         "config-plugin": {
-            "web": "web.php",
+            "di-web": "di-web.php",
             "params": "params.php"
         }
 
