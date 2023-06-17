@@ -8,13 +8,12 @@ use DateInterval;
 use OpenApi\Annotations\OpenApi;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Cache\CacheInterface;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Swagger\Service\SwaggerService;
 
-final class SwaggerJson implements MiddlewareInterface
+final class SwaggerJson implements RequestHandlerInterface
 {
     private array $annotationPaths = [];
     private bool $enableCache = false;
@@ -27,7 +26,7 @@ final class SwaggerJson implements MiddlewareInterface
     ) {
     }
 
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         /** @var OpenApi $openApi */
         $openApi = !$this->enableCache ? $this->swaggerService->fetch($this->annotationPaths) : $this->cache->getOrSet(
