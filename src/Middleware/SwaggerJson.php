@@ -14,6 +14,9 @@ use Yiisoft\Cache\CacheInterface;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Swagger\Service\SwaggerService;
 
+/**
+ * @deprecated Use {@see \Yiisoft\Swagger\Action\SwaggerJson} instead. Will be removed in next major version.
+ */
 final class SwaggerJson implements MiddlewareInterface
 {
     private array $annotationPaths = [];
