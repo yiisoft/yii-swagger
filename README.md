@@ -39,7 +39,7 @@ use Yiisoft\DataResponse\Middleware\FormatDataResponseAsJson;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
 use Yiisoft\Swagger\Middleware\SwaggerUi;
-use Yiisoft\Swagger\Middleware\SwaggerJson;
+use Yiisoft\Swagger\Action\SwaggerJson;
 
 // Swagger routes
 Group::create('/swagger', [
@@ -83,7 +83,7 @@ public function process(ServerRequestInterface $request, RequestHandlerInterface
 See [Swagger-PHP documentation](https://zircote.github.io/swagger-php/guide/annotations.html) for details
 on how to annotate your code.
 
-### 3. Configure `SwaggerJson` middleware
+### 3. Configure `SwaggerJson` action
 
 For annotations to be registered you need to configure `SwaggerJson`.
 
@@ -126,7 +126,7 @@ return [
 ];
 ```
 
-### 5. (Optional) Configure `SwaggerUi` middleware
+### 5. (Optional) Configure `SwaggerUi` action
 
 You can use the parameters in `config/params.php` to configure `SwaggerUi`.
 
