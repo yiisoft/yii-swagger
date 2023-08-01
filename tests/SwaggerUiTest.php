@@ -10,7 +10,6 @@ use HttpSoft\Message\StreamFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 use Psr\SimpleCache\CacheInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Assets\AssetLoaderInterface;
@@ -22,11 +21,11 @@ use Yiisoft\Csrf\Synchronizer\Generator\RandomCsrfTokenGenerator;
 use Yiisoft\Csrf\Synchronizer\SynchronizerCsrfToken;
 use Yiisoft\DataResponse\DataResponseFactory;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
+use Yiisoft\Swagger\Action\SwaggerUi;
 use Yiisoft\Swagger\Asset\SwaggerUiAsset;
-use Yiisoft\Swagger\Middleware\SwaggerUi;
 use Yiisoft\Swagger\Service\SwaggerService;
-use Yiisoft\Swagger\Tests\Support\CsrfTokenStorage;
 use Yiisoft\Swagger\Tests\Support\AssetLoaderSpy;
+use Yiisoft\Swagger\Tests\Support\CsrfTokenStorage;
 use Yiisoft\Test\Support\Container\SimpleContainer;
 use Yiisoft\Test\Support\EventDispatcher\SimpleEventDispatcher;
 use Yiisoft\View\WebView;
@@ -37,21 +36,20 @@ final class SwaggerUiTest extends TestCase
 {
     public function testSwaggerUiMiddlewareWithUrl(): void
     {
-        $middleware = $this->createMiddleware($this->createContainer());
+        $middleware = $this->createAction($this->createContainer());
         $this->assertNotSame($middleware, $middleware->withJsonUrl('/'));
     }
 
     public function testSwaggerUiMiddleware(): void
     {
         $container = $this->createContainer();
-        $middleware = $this
-            ->createMiddleware($container)
+        $action = $this
+            ->createAction($container)
             ->withJsonUrl('/');
 
         $request = $this->createServerRequest();
-        $handler = $this->createRequestHandler();
 
-        $response = $middleware->process($request, $handler);
+        $response = $action->handle($request);
         $response->getBody();
 
         $this->assertSame(200, $response->getStatusCode());
@@ -85,7 +83,7 @@ final class SwaggerUiTest extends TestCase
         ]);
     }
 
-    private function createMiddleware(ContainerInterface $container): SwaggerUi
+    private function createAction(ContainerInterface $container): SwaggerUi
     {
         return new SwaggerUi(
             $container->get(ViewRenderer::class),
@@ -106,16 +104,6 @@ final class SwaggerUiTest extends TestCase
     private function createServerRequest(): ServerRequestInterface
     {
         return (new ServerRequestFactory())->createServerRequest('GET', '/');
-    }
-
-    private function createRequestHandler(): RequestHandlerInterface
-    {
-        $requestHandler = $this->createMock(RequestHandlerInterface::class);
-        $requestHandler
-            ->method('handle')
-            ->willReturn((new ResponseFactory())->createResponse());
-
-        return $requestHandler;
     }
 
     private function createWebView(): WebView
