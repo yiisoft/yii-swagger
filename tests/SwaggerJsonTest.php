@@ -10,7 +10,6 @@ use HttpSoft\Message\StreamFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Cache\ArrayCache;
 use Yiisoft\Cache\Cache;
@@ -18,7 +17,7 @@ use Yiisoft\Cache\CacheInterface;
 use Yiisoft\DataResponse\DataResponse;
 use Yiisoft\DataResponse\DataResponseFactory;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
-use Yiisoft\Swagger\Middleware\SwaggerJson;
+use Yiisoft\Swagger\Action\SwaggerJson;
 use Yiisoft\Swagger\Service\SwaggerService;
 use Yiisoft\Test\Support\Container\SimpleContainer;
 
@@ -26,20 +25,20 @@ final class SwaggerJsonTest extends TestCase
 {
     public function testSwaggerJsonMiddleware(): void
     {
-        $middleware = $this->createMiddleware();
+        $action = $this->createAction();
 
-        $this->assertNotSame($middleware, $middleware->withAnnotationPaths());
-        $this->assertNotSame($middleware, $middleware->withCache());
+        $this->assertNotSame($action, $action->withAnnotationPaths());
+        $this->assertNotSame($action, $action->withCache());
 
         /** @var DataResponse $response */
-        $response = $middleware
+        $response = $action
             ->withAnnotationPaths(__DIR__ . '/Support')
-            ->process($this->createServerRequest(), $this->createRequestHandler());
+            ->handle($this->createServerRequest());
 
         $this->assertSame(200, $response->getStatusCode());
     }
 
-    private function createMiddleware(): SwaggerJson
+    private function createAction(): SwaggerJson
     {
         $container = $this->createContainer();
 
@@ -65,15 +64,5 @@ final class SwaggerJsonTest extends TestCase
     private function createServerRequest(): ServerRequestInterface
     {
         return (new ServerRequestFactory())->createServerRequest('GET', '/');
-    }
-
-    private function createRequestHandler(): RequestHandlerInterface
-    {
-        $requestHandler = $this->createMock(RequestHandlerInterface::class);
-        $requestHandler
-            ->method('handle')
-            ->willReturn((new ResponseFactory())->createResponse());
-
-        return $requestHandler;
     }
 }

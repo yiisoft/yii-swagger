@@ -2,22 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Swagger\Middleware;
+namespace Yiisoft\Swagger\Action;
 
 use DateInterval;
 use OpenApi\Annotations\OpenApi;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Cache\CacheInterface;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Swagger\Service\SwaggerService;
 
-/**
- * @deprecated Use {@see \Yiisoft\Swagger\Action\SwaggerJson} instead. Will be removed in next major version.
- */
-final class SwaggerJson implements MiddlewareInterface
+final class SwaggerJson implements RequestHandlerInterface
 {
     private array $annotationPaths = [];
     private bool $enableCache = false;
@@ -30,14 +26,18 @@ final class SwaggerJson implements MiddlewareInterface
     ) {
     }
 
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        /** @var OpenApi $openApi */
-        $openApi = !$this->enableCache ? $this->swaggerService->fetch($this->annotationPaths) : $this->cache->getOrSet(
-            [self::class, $this->annotationPaths],
-            fn () => $this->swaggerService->fetch($this->annotationPaths),
-            $this->cacheTTL,
-        );
+        if (!$this->enableCache) {
+            $openApi = $this->swaggerService->fetch($this->annotationPaths);
+        } else {
+            /** @var OpenApi $openApi */
+            $openApi = $this->cache->getOrSet(
+                [self::class, $this->annotationPaths],
+                fn () => $this->swaggerService->fetch($this->annotationPaths),
+                $this->cacheTTL,
+            );
+        }
 
         return $this->responseFactory->createResponse($openApi);
     }
