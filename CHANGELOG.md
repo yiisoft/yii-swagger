@@ -1,8 +1,10 @@
 # Yii Swagger Change Log
 
-## 2.0.1 under development
+## 2.1.0 under development
 
-- no changes in this release.
+- Chg #79: Add `\Yiisoft\Swagger\Action\SwaggerJson` and `\Yiisoft\Swagger\Action\SwaggerUi` actions,
+  mark `\Yiisoft\Swagger\Middleware\SwaggerJson` and `\Yiisoft\Swagger\Middleware\SwaggerUi` as deprecated. 
+  It will be removed in next major version. (@xepozz)
 
 ## 2.0.0 February 16, 2023
 
