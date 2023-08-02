@@ -2,21 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Swagger\Middleware;
+namespace Yiisoft\Swagger\Action;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Assets\AssetManager;
 use Yiisoft\Swagger\Service\SwaggerService;
 use Yiisoft\Yii\View\ViewRenderer;
 
-/**
- * @deprecated Use {@see \Yiisoft\Swagger\Action\SwaggerUi} instead. Will be removed in next major version.
- */
-final class SwaggerUi implements MiddlewareInterface
+final class SwaggerUi implements RequestHandlerInterface
 {
     private array $defaultParams = [
         'dom_id' => '#swagger-ui',
@@ -40,7 +36,7 @@ final class SwaggerUi implements MiddlewareInterface
     ) {
     }
 
-    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
         $params = ArrayHelper::merge($this->defaultParams, $this->params);
         $params['url'] = $this->jsonUrl;
