@@ -32,7 +32,7 @@
         "psr/http-message": "^1.0",
         "psr/http-server-handler": "^1.0",
         "psr/http-server-middleware": "^1.0",
-        "swagger-api/swagger-ui": "^5.3",
+        "swagger-api/swagger-ui": "^4.1|^5.0",
         "yiisoft/aliases": "^1.1|^2.0|^3.0",
         "yiisoft/arrays": "^3.0",
         "yiisoft/assets": "^2.0|^3.0|^4.0",
