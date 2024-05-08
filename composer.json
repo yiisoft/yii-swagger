@@ -29,7 +29,7 @@
     ],
     "require": {
         "php": "^8.0",
-        "psr/http-message": "^1.0",
+        "psr/http-message": "^2.0",
         "psr/http-server-handler": "^1.0",
         "psr/http-server-middleware": "^1.0",
         "swagger-api/swagger-ui": "^4.1|^5.0",
