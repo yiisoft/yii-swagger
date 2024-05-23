@@ -1,6 +1,9 @@
 <p align="center">
     <a href="https://github.com/yiisoft" target="_blank">
-        <img src="https://github.com/yiisoft.png" height="100px">
+        <img src="https://yiisoft.github.io/docs/images/yii_logo.svg" height="100px" alt="Yii">
+    </a>
+    <a href="https://swagger.io/" target="_blank">
+        <img src="https://static1.smartbear.co/swagger/media/assets/images/swagger_logo.svg" height="80px" alt="Swagger">
     </a>
     <h1 align="center">Yii Swagger</h1>
     <br>
