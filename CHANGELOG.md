@@ -1,5 +1,9 @@
 # Yii Swagger Change Log
 
+## 2.1.1 under development
+
+- Enh #95: Add support for `psr/http-message` version `^2.0` (@bautrukevich)
+
 ## 2.1.0 under development
 
 - Chg #79: Add `\Yiisoft\Swagger\Action\SwaggerJson` and `\Yiisoft\Swagger\Action\SwaggerUi` actions,
