@@ -11,7 +11,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Assets\AssetManager;
 use Yiisoft\Swagger\Service\SwaggerService;
-use Yiisoft\Yii\View\ViewRenderer;
+use Yiisoft\Yii\View\Renderer\ViewRenderer;
 
 /**
  * @deprecated Use {@see \Yiisoft\Swagger\Action\SwaggerUi} instead. Will be removed in next major version.

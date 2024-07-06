@@ -3,6 +3,7 @@
 ## 2.1.1 under development
 
 - Enh #95: Add support for `psr/http-message` version `^2.0` (@bautrukevich)
+- Chg #97: Raise required `yiisoft/yii-view` version to `^7.1` (@vjik)
 
 ## 2.1.0 under development
 
