@@ -15,7 +15,7 @@ use Yiisoft\Swagger\Middleware\SwaggerUi;
 use Yiisoft\Swagger\Service\SwaggerService;
 use Yiisoft\Test\Support\EventDispatcher\SimpleEventDispatcher;
 use Yiisoft\View\WebView;
-use Yiisoft\Yii\View\ViewRenderer;
+use Yiisoft\Yii\View\Renderer\ViewRenderer;
 
 final class ConfigTest extends TestCase
 {

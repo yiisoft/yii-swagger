@@ -29,8 +29,8 @@ use Yiisoft\Swagger\Tests\Support\CsrfTokenStorage;
 use Yiisoft\Test\Support\Container\SimpleContainer;
 use Yiisoft\Test\Support\EventDispatcher\SimpleEventDispatcher;
 use Yiisoft\View\WebView;
-use Yiisoft\Yii\View\CsrfViewInjection;
-use Yiisoft\Yii\View\ViewRenderer;
+use Yiisoft\Yii\View\Renderer\CsrfViewInjection;
+use Yiisoft\Yii\View\Renderer\ViewRenderer;
 
 final class SwaggerUiTest extends TestCase
 {
