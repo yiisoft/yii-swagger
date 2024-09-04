@@ -6,7 +6,7 @@
 
 ## 2.1.1 September 04, 2024
 
-- Chg #?: Replace `yiisoft/yii-view` dependency with `yiisoft/yii-view-renderer` (@arogachev)
+- Chg #103: Replace `yiisoft/yii-view` dependency with `yiisoft/yii-view-renderer` (@arogachev)
 
 ## 2.1.0 September 04, 2024
 
