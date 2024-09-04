@@ -39,7 +39,7 @@
         "yiisoft/cache": "^1.0|^2.0|^3.0",
         "yiisoft/data-response": "^1.0|^2.0",
         "yiisoft/html": "^3.0",
-        "yiisoft/yii-view": "^7.1.0",
+        "yiisoft/yii-view-renderer": "^7.1.0",
         "zircote/swagger-php": "^4.0"
     },
     "require-dev": {
