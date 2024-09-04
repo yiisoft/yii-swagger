@@ -1,13 +1,13 @@
 # Yii Swagger Change Log
 
-## 2.1.0 under development
+## 2.1.0 September 04, 2024
 
-- Enh #95: Add support for `psr/http-message` version `^2.0` (@bautrukevich)
-- Chg #97: Raise required `yiisoft/yii-view` version to `^7.1` (@vjik)
 - Chg #79: Add `\Yiisoft\Swagger\Action\SwaggerJson` and `\Yiisoft\Swagger\Action\SwaggerUi` actions,
   mark `\Yiisoft\Swagger\Middleware\SwaggerJson` and `\Yiisoft\Swagger\Middleware\SwaggerUi` as deprecated. 
   It will be removed in next major version. (@xepozz)
+- Chg #97: Raise required `yiisoft/yii-view` version to `^7.1` (@vjik)
 - Enh #81: Add `swagger-api/swagger-ui` of version 5 support (@vjik)
+- Enh #95: Add support for `psr/http-message` version `^2.0` (@bautrukevich)
 
 ## 2.0.0 February 16, 2023
 
