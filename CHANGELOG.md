@@ -1,14 +1,6 @@
 # Yii Swagger Change Log
 
-## 2.1.2 under development
-
-- no changes in this release.
-
-## 2.1.1 September 04, 2024
-
-- no changes in this release.
-
-## 2.1.1 September 04, 2024
+## 2.1.1 under development
 
 - Chg #103: Replace `yiisoft/yii-view` dependency with `yiisoft/yii-view-renderer` (@arogachev)
 
