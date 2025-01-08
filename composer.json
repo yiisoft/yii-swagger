@@ -40,7 +40,7 @@
         "yiisoft/data-response": "^1.0|^2.0",
         "yiisoft/html": "^3.0",
         "yiisoft/yii-view-renderer": "^7.1.0",
-        "zircote/swagger-php": "^4.0"
+        "zircote/swagger-php": "^5.0"
     },
     "require-dev": {
         "doctrine/annotations": "^2.0",
