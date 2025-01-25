@@ -2,7 +2,7 @@
 
 ## 2.1.2 under development
 
-- no changes in this release.
+- Enh #109: Add support `yiisoft/assets` version of `^5.0` (@vjik)
 
 ## 2.1.1 September 04, 2024
 
