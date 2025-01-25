@@ -22,8 +22,9 @@ final class SwaggerService
     private string $viewName = 'swagger-ui';
     private array $options = [];
 
-    public function __construct(private Aliases $aliases)
-    {
+    public function __construct(
+        private readonly Aliases $aliases,
+    ) {
         $this->viewPath = dirname(__DIR__, 2) . '/views';
     }
 
