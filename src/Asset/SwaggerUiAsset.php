@@ -18,14 +18,14 @@ final class SwaggerUiAsset extends AssetBundle
     public ?string $baseUrl = '@assetsUrl';
 
     /**
-     * @psalm-var array<string|CssFile>
+     * @psalm-var array<array-key, string|CssFile>
      */
     public array $css = [
         'swagger-ui.css',
     ];
 
     /**
-     * @psalm-var array<string|JsFile>
+     * @psalm-var array<array-key, string|JsFile>
      */
     public array $js = [
         'swagger-ui-bundle.js',
