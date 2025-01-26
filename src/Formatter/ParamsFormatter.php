@@ -34,7 +34,7 @@ final class ParamsFormatter
             return '{' . implode(', ', $result) . '}';
         }
 
-        $result = array_map([Html::class, 'encode'], $params);
+        $result = array_map(Html::encode(...), $params);
 
         return '[' . implode(', ', $result) . ']';
     }
