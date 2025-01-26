@@ -3,6 +3,7 @@
 ## 2.1.2 under development
 
 - Enh #109: Add support `yiisoft/assets` version of `^5.0` (@vjik)
+- Enh #110: Raise the minimum PHP version to 8.1 and minor refactoring (@vjik)
 
 ## 2.1.1 September 04, 2024
 

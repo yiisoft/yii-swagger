@@ -20,9 +20,9 @@ final class SwaggerJson implements RequestHandlerInterface
     private DateInterval|int|null $cacheTTL = null;
 
     public function __construct(
-        private CacheInterface $cache,
-        private DataResponseFactoryInterface $responseFactory,
-        private SwaggerService $swaggerService
+        private readonly CacheInterface $cache,
+        private readonly DataResponseFactoryInterface $responseFactory,
+        private readonly SwaggerService $swaggerService
     ) {
     }
 
