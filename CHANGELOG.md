@@ -1,5 +1,9 @@
 # Yii Swagger Change Log
 
+## 2.2.1 under development
+
+- no changes in this release.
+
 ## 2.2.0 January 27, 2025
 
 - Enh #109: Add support `yiisoft/assets` version of `^5.0` (@vjik)
