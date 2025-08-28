@@ -2,7 +2,7 @@
 
 ## 2.2.1 under development
 
-- no changes in this release.
+- Enh #112: Bump `yiisoft/assets` to version `5.1.1`, refactor `SwaggerUiAsset` (@vjik)
 
 ## 2.2.0 January 27, 2025
 
