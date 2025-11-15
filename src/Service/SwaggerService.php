@@ -56,7 +56,7 @@ final class SwaggerService
             throw new InvalidArgumentException('Annotation paths cannot be empty array.');
         }
 
-        $directories = array_map(fn (string $path): string => $this->aliases->get($path), $annotationPaths);
+        $directories = array_map($this->aliases->get(...), $annotationPaths);
         $openApi = Generator::scan(Util::finder($directories), $this->options);
 
         if ($openApi === null) {

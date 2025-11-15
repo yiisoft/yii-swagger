@@ -3,6 +3,7 @@
 ## 2.2.1 under development
 
 - Enh #112: Bump `yiisoft/assets` to version `5.1.1`, refactor `SwaggerUiAsset` (@vjik)
+- Chg #113: Change PHP version constraint to `8.1 - 8.4` (@rustamwin)
 
 ## 2.2.0 January 27, 2025
 
