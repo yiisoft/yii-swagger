@@ -45,7 +45,7 @@ final class SwaggerJsonTest extends TestCase
         return new SwaggerJson(
             $container->get(CacheInterface::class),
             $container->get(DataResponseFactoryInterface::class),
-            $container->get(SwaggerService::class)
+            $container->get(SwaggerService::class),
         );
     }
 

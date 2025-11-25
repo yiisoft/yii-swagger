@@ -26,16 +26,15 @@ final class SwaggerJson implements MiddlewareInterface
     public function __construct(
         private readonly CacheInterface $cache,
         private readonly DataResponseFactoryInterface $responseFactory,
-        private readonly SwaggerService $swaggerService
-    ) {
-    }
+        private readonly SwaggerService $swaggerService,
+    ) {}
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         /** @var OpenApi $openApi */
         $openApi = !$this->enableCache ? $this->swaggerService->fetch($this->annotationPaths) : $this->cache->getOrSet(
             [self::class, $this->annotationPaths],
-            fn () => $this->swaggerService->fetch($this->annotationPaths),
+            fn() => $this->swaggerService->fetch($this->annotationPaths),
             $this->cacheTTL,
         );
 

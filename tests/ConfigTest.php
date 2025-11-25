@@ -37,8 +37,7 @@ final class ConfigTest extends TestCase
         return new Container(
             ContainerConfig::create()->withDefinitions(
                 $this->getDiConfig($postfix)
-                +
-                [
+                + [
                     DataResponseFactoryInterface::class => $this->createMock(DataResponseFactoryInterface::class),
                     WebView::class => new WebView(__DIR__, new SimpleEventDispatcher()),
                     ViewRenderer::class => [
@@ -46,8 +45,8 @@ final class ConfigTest extends TestCase
                     ],
                     AssetLoaderInterface::class => $this->createMock(AssetLoaderInterface::class),
                     CacheInterface::class => $this->createMock(CacheInterface::class),
-                ]
-            )
+                ],
+            ),
         );
     }
 
