@@ -33,7 +33,7 @@ return [
     OldSwaggerJson::class => static function (
         CacheInterface $cache,
         DataResponseFactoryInterface $responseFactory,
-        SwaggerService $swaggerService
+        SwaggerService $swaggerService,
     ) use ($params) {
         $params = $params['yiisoft/yii-swagger'];
         $swaggerJson = new OldSwaggerJson($cache, $responseFactory, $swaggerService);
@@ -47,7 +47,7 @@ return [
     SwaggerJson::class => static function (
         CacheInterface $cache,
         DataResponseFactoryInterface $responseFactory,
-        SwaggerService $swaggerService
+        SwaggerService $swaggerService,
     ) use ($params) {
         $params = $params['yiisoft/yii-swagger'];
         $swaggerJson = new SwaggerJson($cache, $responseFactory, $swaggerService);

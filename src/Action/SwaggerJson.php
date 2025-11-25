@@ -22,9 +22,8 @@ final class SwaggerJson implements RequestHandlerInterface
     public function __construct(
         private readonly CacheInterface $cache,
         private readonly DataResponseFactoryInterface $responseFactory,
-        private readonly SwaggerService $swaggerService
-    ) {
-    }
+        private readonly SwaggerService $swaggerService,
+    ) {}
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
@@ -34,7 +33,7 @@ final class SwaggerJson implements RequestHandlerInterface
             /** @var OpenApi $openApi */
             $openApi = $this->cache->getOrSet(
                 [self::class, $this->annotationPaths],
-                fn () => $this->swaggerService->fetch($this->annotationPaths),
+                fn() => $this->swaggerService->fetch($this->annotationPaths),
                 $this->cacheTTL,
             );
         }
