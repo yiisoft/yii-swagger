@@ -19,7 +19,5 @@ final class ApiMock
      *     @OA\Response(response="200", description="Test api response")
      * )
      */
-    public function mockResponse(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
-    {
-    }
+    public function mockResponse(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {}
 }

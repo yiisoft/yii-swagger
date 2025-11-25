@@ -28,7 +28,7 @@ final class ParamsFormatter
                     continue;
                 }
 
-                $result[] = $element . '"' . Html::encode((string)$params[$key]) . '"';
+                $result[] = $element . '"' . Html::encode((string) $params[$key]) . '"';
             }
 
             return '{' . implode(', ', $result) . '}';

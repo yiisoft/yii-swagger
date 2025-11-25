@@ -32,9 +32,8 @@ final class SwaggerUi implements RequestHandlerInterface
         private readonly ViewRenderer $viewRenderer,
         private readonly SwaggerService $swaggerService,
         private readonly AssetManager $assetManager,
-        private readonly array $params
-    ) {
-    }
+        private readonly array $params,
+    ) {}
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {

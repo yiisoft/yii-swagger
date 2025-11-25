@@ -36,9 +36,8 @@ final class SwaggerUi implements MiddlewareInterface
         private readonly ViewRenderer $viewRenderer,
         private readonly SwaggerService $swaggerService,
         private readonly AssetManager $assetManager,
-        private readonly array $params
-    ) {
-    }
+        private readonly array $params,
+    ) {}
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
