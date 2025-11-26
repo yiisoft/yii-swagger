@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Yiisoft\Swagger\Service;
 
 use InvalidArgumentException;
+use OpenApi\Annotations\OpenApi;
 use OpenApi\Generator;
 use OpenApi\Processors\MergeIntoOpenApi;
-use OpenApi\Util;
-use OpenApi\Annotations\OpenApi;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Yiisoft\Aliases\Aliases;
 
@@ -24,6 +24,7 @@ final class SwaggerService
 
     public function __construct(
         private readonly Aliases $aliases,
+        private readonly ?LoggerInterface $logger = null,
     ) {
         $this->viewPath = dirname(__DIR__, 2) . '/views';
     }
@@ -41,7 +42,7 @@ final class SwaggerService
     /**
      * Returns a new instance with the specified options for {@see OpenApi} generation.
      *
-     * @param array $options For {@see Generator::scan()}.
+     * @param array $options For {@see Generator}.
      */
     public function withOptions(array $options): self
     {
@@ -50,21 +51,31 @@ final class SwaggerService
         return $new;
     }
 
-    public function fetch(array $annotationPaths): OpenApi
+    public function fetch(array $paths): OpenApi
     {
-        if ($annotationPaths === []) {
+        if ($paths === []) {
             throw new InvalidArgumentException('Annotation paths cannot be empty array.');
         }
 
-        $directories = array_map($this->aliases->get(...), $annotationPaths);
-        $openApi = Generator::scan(Util::finder($directories), $this->options);
+        $directories = array_map($this->aliases->get(...), $paths);
+
+        $generator = (new Generator($this->logger))
+            ->setVersion($this->options['version'])
+            ->setAliases($this->options['aliases'])
+            ->setNamespaces($this->options['namespaces'])
+            ->setConfig($this->options['config']);
+
+
+        $openApi = $generator->generate($directories, null, $this->options['validate']);
 
         if ($openApi === null) {
-            throw new RuntimeException(sprintf(
-                'No OpenApi target set. Run the "%s" processor before "%s::fetch()".',
-                MergeIntoOpenApi::class,
-                self::class,
-            ));
+            throw new RuntimeException(
+                sprintf(
+                    'No OpenApi target set. Run the "%s" processor before "%s::fetch()".',
+                    MergeIntoOpenApi::class,
+                    self::class,
+                ),
+            );
         }
 
         return $openApi;
