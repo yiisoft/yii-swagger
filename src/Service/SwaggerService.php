@@ -24,7 +24,7 @@ final class SwaggerService
 
     public function __construct(
         private readonly Aliases $aliases,
-        private readonly LoggerInterface|null $logger = null,
+        private readonly ?LoggerInterface $logger = null,
     ) {
         $this->viewPath = dirname(__DIR__, 2) . '/views';
     }
