@@ -76,7 +76,7 @@ final class SwaggerService
             $generator->setNamespaces($this->options['namespaces']);
         }
 
-        $openApi = $generator->generate($directories, null, (bool)($this->options['validate'] ?? true));
+        $openApi = $generator->generate($directories, null, (bool) ($this->options['validate'] ?? true));
 
         if ($openApi === null) {
             throw new RuntimeException(
