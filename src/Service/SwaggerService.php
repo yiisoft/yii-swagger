@@ -24,7 +24,7 @@ final class SwaggerService
 
     public function __construct(
         private readonly Aliases $aliases,
-        private readonly ?LoggerInterface $logger = null,
+        private readonly LoggerInterface|null $logger = null,
     ) {
         $this->viewPath = dirname(__DIR__, 2) . '/views';
     }
@@ -54,19 +54,24 @@ final class SwaggerService
     public function fetch(array $paths): OpenApi
     {
         if ($paths === []) {
-            throw new InvalidArgumentException('Annotation paths cannot be empty array.');
+            throw new InvalidArgumentException('Source paths cannot be empty array.');
         }
 
         $directories = array_map($this->aliases->get(...), $paths);
 
         $generator = (new Generator($this->logger))
-            ->setVersion($this->options['version'])
-            ->setAliases($this->options['aliases'])
-            ->setNamespaces($this->options['namespaces'])
-            ->setConfig($this->options['config']);
+            ->setVersion($this->options['version'] ?? null)
+            ->setConfig($this->options['config'] ?? []);
+
+        if (!empty($this->options['aliases'])) {
+            $generator->setAliases($this->options['aliases']);
+        }
+        if (!empty($this->options['namespaces'])) {
+            $generator->setNamespaces($this->options['namespaces']);
+        }
 
 
-        $openApi = $generator->generate($directories, null, $this->options['validate']);
+        $openApi = $generator->generate($directories, null, $this->options['validate'] ?? true);
 
         if ($openApi === null) {
             throw new RuntimeException(

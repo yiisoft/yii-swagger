@@ -15,7 +15,7 @@ use Yiisoft\Swagger\Service\SwaggerService;
 return [
     SwaggerService::class => [
         'withOptions()' => [
-            $params['yiisoft/yii-swagger']['open-api-options'],
+            $params['yiisoft/yii-swagger']['options'],
         ],
     ],
 

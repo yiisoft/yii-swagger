@@ -16,7 +16,7 @@ use Yiisoft\Assets\AssetLoaderInterface;
 use Yiisoft\Assets\AssetManager;
 use Yiisoft\Cache\ArrayCache;
 use Yiisoft\Cache\Cache;
-use Yiisoft\Csrf\CsrfMiddleware;
+use Yiisoft\Csrf\CsrfTokenMiddleware;
 use Yiisoft\Csrf\Synchronizer\Generator\RandomCsrfTokenGenerator;
 use Yiisoft\Csrf\Synchronizer\SynchronizerCsrfToken;
 use Yiisoft\DataResponse\DataResponseFactory;
@@ -96,7 +96,7 @@ final class SwaggerUiTest extends TestCase
     private function getCsrfViewInjection(): CsrfViewInjection
     {
         $csrfToken = new SynchronizerCsrfToken(new RandomCsrfTokenGenerator(), new CsrfTokenStorage());
-        $csrfMiddleware = new CsrfMiddleware(new ResponseFactory(), $csrfToken);
+        $csrfMiddleware = new CsrfTokenMiddleware(new ResponseFactory(), $csrfToken);
 
         return new CsrfViewInjection($csrfToken, $csrfMiddleware);
     }
