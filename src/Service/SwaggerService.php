@@ -59,19 +59,24 @@ final class SwaggerService
 
         $directories = array_map($this->aliases->get(...), $paths);
 
-        $generator = (new Generator($this->logger))
-            ->setVersion($this->options['version'] ?? null)
-            ->setConfig($this->options['config'] ?? []);
+        $config = [];
+        if (isset($this->options['config']) && is_array($this->options['config']) && !array_is_list($this->options['config'])) {
+            /** @var array<string, mixed> */
+            $config = $this->options['config'];
+        }
 
-        if (!empty($this->options['aliases'])) {
+        $generator = (new Generator($this->logger))
+            ->setVersion(isset($this->options['version']) ? (string) $this->options['version'] : null)
+            ->setConfig($config);
+
+        if (!empty($this->options['aliases']) && is_array($this->options['aliases'])) {
             $generator->setAliases($this->options['aliases']);
         }
-        if (!empty($this->options['namespaces'])) {
+        if (!empty($this->options['namespaces']) && is_array($this->options['namespaces'])) {
             $generator->setNamespaces($this->options['namespaces']);
         }
 
-
-        $openApi = $generator->generate($directories, null, $this->options['validate'] ?? true);
+        $openApi = $generator->generate($directories, null, (bool)($this->options['validate'] ?? true));
 
         if ($openApi === null) {
             throw new RuntimeException(
