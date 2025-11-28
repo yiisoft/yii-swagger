@@ -15,7 +15,7 @@ use Yiisoft\Swagger\Service\SwaggerService;
 
 final class SwaggerJson implements RequestHandlerInterface
 {
-    private array $annotationPaths = [];
+    private array $paths = [];
     private bool $enableCache = false;
     private DateInterval|int|null $cacheTTL = null;
 
@@ -28,12 +28,12 @@ final class SwaggerJson implements RequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         if (!$this->enableCache) {
-            $openApi = $this->swaggerService->fetch($this->annotationPaths);
+            $openApi = $this->swaggerService->fetch($this->paths);
         } else {
             /** @var OpenApi $openApi */
             $openApi = $this->cache->getOrSet(
-                [self::class, $this->annotationPaths],
-                fn() => $this->swaggerService->fetch($this->annotationPaths),
+                [self::class, $this->paths],
+                fn() => $this->swaggerService->fetch($this->paths),
                 $this->cacheTTL,
             );
         }
@@ -41,10 +41,10 @@ final class SwaggerJson implements RequestHandlerInterface
         return $this->responseFactory->createResponse($openApi);
     }
 
-    public function withAnnotationPaths(string ...$annotationPaths): self
+    public function withPaths(string ...$paths): self
     {
         $new = clone $this;
-        $new->annotationPaths = $annotationPaths;
+        $new->paths = $paths;
         return $new;
     }
 

@@ -24,7 +24,7 @@ final class SwaggerServiceTest extends TestCase
     public function testSwaggerServiceEmptyArrayFetch(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Annotation paths cannot be empty array.');
+        $this->expectExceptionMessage('Source paths cannot be empty array.');
 
         $this
             ->createService()

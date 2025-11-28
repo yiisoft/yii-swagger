@@ -7,7 +7,13 @@ return [
         'ui-params' => [
             'persistAuthorization' => true,
         ],
-        'annotation-paths' => [],
-        'open-api-options' => [],
+        'source-paths' => [],
+        'options' => [
+            'aliases' => [],
+            'namespaces' => [],
+            'config' => [],
+            'validate' => true,
+            'version' => null,
+        ],
     ],
 ];

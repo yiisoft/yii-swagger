@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Yiisoft\Swagger\Service;
 
 use InvalidArgumentException;
+use OpenApi\Annotations\OpenApi;
 use OpenApi\Generator;
 use OpenApi\Processors\MergeIntoOpenApi;
-use OpenApi\Util;
-use OpenApi\Annotations\OpenApi;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 use Yiisoft\Aliases\Aliases;
 
@@ -24,6 +24,7 @@ final class SwaggerService
 
     public function __construct(
         private readonly Aliases $aliases,
+        private readonly ?LoggerInterface $logger = null,
     ) {
         $this->viewPath = dirname(__DIR__, 2) . '/views';
     }
@@ -41,7 +42,7 @@ final class SwaggerService
     /**
      * Returns a new instance with the specified options for {@see OpenApi} generation.
      *
-     * @param array $options For {@see Generator::scan()}.
+     * @param array $options For {@see Generator}.
      */
     public function withOptions(array $options): self
     {
@@ -50,21 +51,41 @@ final class SwaggerService
         return $new;
     }
 
-    public function fetch(array $annotationPaths): OpenApi
+    public function fetch(array $paths): OpenApi
     {
-        if ($annotationPaths === []) {
-            throw new InvalidArgumentException('Annotation paths cannot be empty array.');
+        if ($paths === []) {
+            throw new InvalidArgumentException('Source paths cannot be empty array.');
         }
 
-        $directories = array_map($this->aliases->get(...), $annotationPaths);
-        $openApi = Generator::scan(Util::finder($directories), $this->options);
+        $directories = array_map($this->aliases->get(...), $paths);
+
+        $config = [];
+        if (isset($this->options['config']) && is_array($this->options['config']) && !array_is_list($this->options['config'])) {
+            /** @var array<string, mixed> */
+            $config = $this->options['config'];
+        }
+
+        $generator = (new Generator($this->logger))
+            ->setVersion(isset($this->options['version']) ? (string) $this->options['version'] : null)
+            ->setConfig($config);
+
+        if (!empty($this->options['aliases']) && is_array($this->options['aliases'])) {
+            $generator->setAliases($this->options['aliases']);
+        }
+        if (!empty($this->options['namespaces']) && is_array($this->options['namespaces'])) {
+            $generator->setNamespaces($this->options['namespaces']);
+        }
+
+        $openApi = $generator->generate($directories, null, (bool) ($this->options['validate'] ?? true));
 
         if ($openApi === null) {
-            throw new RuntimeException(sprintf(
-                'No OpenApi target set. Run the "%s" processor before "%s::fetch()".',
-                MergeIntoOpenApi::class,
-                self::class,
-            ));
+            throw new RuntimeException(
+                sprintf(
+                    'No OpenApi target set. Run the "%s" processor before "%s::fetch()".',
+                    MergeIntoOpenApi::class,
+                    self::class,
+                ),
+            );
         }
 
         return $openApi;

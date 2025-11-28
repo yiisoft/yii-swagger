@@ -15,7 +15,7 @@ use Yiisoft\Swagger\Service\SwaggerService;
 return [
     SwaggerService::class => [
         'withOptions()' => [
-            $params['yiisoft/yii-swagger']['open-api-options'],
+            $params['yiisoft/yii-swagger']['options'],
         ],
     ],
 
@@ -42,7 +42,7 @@ return [
             $swaggerJson = $swaggerJson->withCache($params['cacheTTL']);
         }
 
-        return $swaggerJson->withAnnotationPaths(...$params['annotation-paths']);
+        return $swaggerJson->withAnnotationPaths(...$params['source-paths']);
     },
     SwaggerJson::class => static function (
         CacheInterface $cache,
@@ -56,6 +56,6 @@ return [
             $swaggerJson = $swaggerJson->withCache($params['cacheTTL']);
         }
 
-        return $swaggerJson->withAnnotationPaths(...$params['annotation-paths']);
+        return $swaggerJson->withPaths(...$params['source-paths']);
     },
 ];

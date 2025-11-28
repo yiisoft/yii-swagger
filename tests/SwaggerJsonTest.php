@@ -27,12 +27,12 @@ final class SwaggerJsonTest extends TestCase
     {
         $action = $this->createAction();
 
-        $this->assertNotSame($action, $action->withAnnotationPaths());
+        $this->assertNotSame($action, $action->withPaths());
         $this->assertNotSame($action, $action->withCache());
 
         /** @var DataResponse $response */
         $response = $action
-            ->withAnnotationPaths(__DIR__ . '/Support')
+            ->withPaths(__DIR__ . '/Support')
             ->handle($this->createServerRequest());
 
         $this->assertSame(200, $response->getStatusCode());
