@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Swagger\Middleware;
+namespace Yiisoft\Yii\Swagger\Middleware;
 
 use DateInterval;
 use OpenApi\Annotations\OpenApi;
@@ -12,10 +12,10 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Cache\CacheInterface;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
-use Yiisoft\Swagger\Service\SwaggerService;
+use Yiisoft\Yii\Swagger\Service\SwaggerService;
 
 /**
- * @deprecated Use {@see \Yiisoft\Swagger\Action\SwaggerJson} instead. Will be removed in next major version.
+ * @deprecated Use {@see \Yiisoft\Yii\Swagger\Action\SwaggerJson} instead. Will be removed in next major version.
  */
 final class SwaggerJson implements MiddlewareInterface
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Swagger\Tests;
+namespace Yiisoft\Yii\Swagger\Tests;
 
 use HttpSoft\Message\ResponseFactory;
 use HttpSoft\Message\ServerRequestFactory;
@@ -17,8 +17,8 @@ use Yiisoft\Cache\CacheInterface;
 use Yiisoft\DataResponse\DataResponse;
 use Yiisoft\DataResponse\DataResponseFactory;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
-use Yiisoft\Swagger\Action\SwaggerJson;
-use Yiisoft\Swagger\Service\SwaggerService;
+use Yiisoft\Yii\Swagger\Action\SwaggerJson;
+use Yiisoft\Yii\Swagger\Service\SwaggerService;
 use Yiisoft\Test\Support\Container\SimpleContainer;
 
 final class SwaggerJsonTest extends TestCase

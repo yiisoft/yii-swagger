@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Swagger\Action;
+namespace Yiisoft\Yii\Swagger\Action;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Assets\AssetManager;
-use Yiisoft\Swagger\Service\SwaggerService;
+use Yiisoft\Yii\Swagger\Service\SwaggerService;
 use Yiisoft\Yii\View\Renderer\ViewRenderer;
 
 final class SwaggerUi implements RequestHandlerInterface

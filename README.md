@@ -37,8 +37,8 @@ use Yiisoft\DataResponse\Middleware\FormatDataResponseAsHtml;
 use Yiisoft\DataResponse\Middleware\FormatDataResponseAsJson;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
-use Yiisoft\Swagger\Middleware\SwaggerUi;
-use Yiisoft\Swagger\Action\SwaggerJson;
+use Yiisoft\Yii\Swagger\Middleware\SwaggerUi;
+use Yiisoft\Yii\Swagger\Action\SwaggerJson;
 
 // Swagger routes
 Group::create('/swagger', [

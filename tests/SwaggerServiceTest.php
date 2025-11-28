@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Swagger\Tests;
+namespace Yiisoft\Yii\Swagger\Tests;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Yiisoft\Aliases\Aliases;
-use Yiisoft\Swagger\Service\SwaggerService;
+use Yiisoft\Yii\Swagger\Service\SwaggerService;
 
 final class SwaggerServiceTest extends TestCase
 {

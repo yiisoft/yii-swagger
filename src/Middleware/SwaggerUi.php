@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Swagger\Middleware;
+namespace Yiisoft\Yii\Swagger\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -10,11 +10,11 @@ use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Assets\AssetManager;
-use Yiisoft\Swagger\Service\SwaggerService;
+use Yiisoft\Yii\Swagger\Service\SwaggerService;
 use Yiisoft\Yii\View\Renderer\ViewRenderer;
 
 /**
- * @deprecated Use {@see \Yiisoft\Swagger\Action\SwaggerUi} instead. Will be removed in next major version.
+ * @deprecated Use {@see \Yiisoft\Yii\Swagger\Action\SwaggerUi} instead. Will be removed in next major version.
  */
 final class SwaggerUi implements MiddlewareInterface
 {

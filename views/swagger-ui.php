@@ -1,8 +1,8 @@
 <?php
 
 use Yiisoft\Assets\AssetManager;
-use Yiisoft\Swagger\Asset\SwaggerUiAsset;
-use Yiisoft\Swagger\Formatter\ParamsFormatter;
+use Yiisoft\Yii\Swagger\Asset\SwaggerUiAsset;
+use Yiisoft\Yii\Swagger\Formatter\ParamsFormatter;
 /**
  * @var AssetManager $assetManager
  * @var string $content
