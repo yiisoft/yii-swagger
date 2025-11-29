@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Swagger\Formatter;
+namespace Yiisoft\Yii\Swagger\Formatter;
 
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Html\Html;

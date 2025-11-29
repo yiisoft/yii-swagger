@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Swagger\Tests\Support;
+namespace Yiisoft\Yii\Swagger\Tests\Support;
 
 use Yiisoft\Assets\AssetBundle;
 use Yiisoft\Assets\AssetLoaderInterface;

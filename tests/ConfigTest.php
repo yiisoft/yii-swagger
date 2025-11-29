@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Swagger\Tests;
+namespace Yiisoft\Yii\Swagger\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Yiisoft\Assets\AssetLoaderInterface;
@@ -10,9 +10,9 @@ use Yiisoft\Cache\CacheInterface;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
 use Yiisoft\Di\Container;
 use Yiisoft\Di\ContainerConfig;
-use Yiisoft\Swagger\Action\SwaggerJson;
-use Yiisoft\Swagger\Action\SwaggerUi;
-use Yiisoft\Swagger\Service\SwaggerService;
+use Yiisoft\Yii\Swagger\Action\SwaggerJson;
+use Yiisoft\Yii\Swagger\Action\SwaggerUi;
+use Yiisoft\Yii\Swagger\Service\SwaggerService;
 use Yiisoft\Test\Support\EventDispatcher\SimpleEventDispatcher;
 use Yiisoft\View\WebView;
 use Yiisoft\Yii\View\Renderer\ViewRenderer;

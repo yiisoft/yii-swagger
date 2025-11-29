@@ -59,12 +59,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Yiisoft\\Swagger\\": "src"
+            "Yiisoft\\Yii\\Swagger\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Yiisoft\\Swagger\\Tests\\": "tests"
+            "Yiisoft\\Yii\\Swagger\\Tests\\": "tests/"
         }
     },
     "extra": {

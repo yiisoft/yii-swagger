@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Swagger\Asset;
+namespace Yiisoft\Yii\Swagger\Asset;
 
 use Yiisoft\Assets\AssetBundle;
 

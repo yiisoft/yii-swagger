@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Swagger\Tests;
+namespace Yiisoft\Yii\Swagger\Tests;
 
 use HttpSoft\Message\ResponseFactory;
 use HttpSoft\Message\ServerRequestFactory;
@@ -21,11 +21,11 @@ use Yiisoft\Csrf\Synchronizer\Generator\RandomCsrfTokenGenerator;
 use Yiisoft\Csrf\Synchronizer\SynchronizerCsrfToken;
 use Yiisoft\DataResponse\DataResponseFactory;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
-use Yiisoft\Swagger\Action\SwaggerUi;
-use Yiisoft\Swagger\Asset\SwaggerUiAsset;
-use Yiisoft\Swagger\Service\SwaggerService;
-use Yiisoft\Swagger\Tests\Support\AssetLoaderSpy;
-use Yiisoft\Swagger\Tests\Support\CsrfTokenStorage;
+use Yiisoft\Yii\Swagger\Action\SwaggerUi;
+use Yiisoft\Yii\Swagger\Asset\SwaggerUiAsset;
+use Yiisoft\Yii\Swagger\Service\SwaggerService;
+use Yiisoft\Yii\Swagger\Tests\Support\AssetLoaderSpy;
+use Yiisoft\Yii\Swagger\Tests\Support\CsrfTokenStorage;
 use Yiisoft\Test\Support\Container\SimpleContainer;
 use Yiisoft\Test\Support\EventDispatcher\SimpleEventDispatcher;
 use Yiisoft\View\WebView;

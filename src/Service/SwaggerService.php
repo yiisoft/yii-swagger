@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Yiisoft\Swagger\Service;
+namespace Yiisoft\Yii\Swagger\Service;
 
 use InvalidArgumentException;
 use OpenApi\Annotations\OpenApi;

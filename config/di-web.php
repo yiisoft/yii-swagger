@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 use Yiisoft\Cache\CacheInterface;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
-use Yiisoft\Swagger\Middleware\SwaggerJson as OldSwaggerJson;
-use Yiisoft\Swagger\Middleware\SwaggerUi as OldSwaggerUi;
-use Yiisoft\Swagger\Action\SwaggerJson;
-use Yiisoft\Swagger\Action\SwaggerUi;
-use Yiisoft\Swagger\Service\SwaggerService;
+use Yiisoft\Yii\Swagger\Middleware\SwaggerJson as OldSwaggerJson;
+use Yiisoft\Yii\Swagger\Middleware\SwaggerUi as OldSwaggerUi;
+use Yiisoft\Yii\Swagger\Action\SwaggerJson;
+use Yiisoft\Yii\Swagger\Action\SwaggerUi;
+use Yiisoft\Yii\Swagger\Service\SwaggerService;
 
 /** @var array $params */
 
