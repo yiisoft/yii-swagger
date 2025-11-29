@@ -22,7 +22,7 @@ name: mutation test
 
 jobs:
   mutation:
-    uses: yiisoft/actions/.github/workflows/roave-infection.yml@fix-roave-infection
+    uses: yiisoft/actions/.github/workflows/roave-infection.yml@master
     with:
       os: >-
         ['ubuntu-latest']
