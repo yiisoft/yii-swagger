@@ -6,6 +6,7 @@
 - Chg #113: Change PHP version constraint to `8.1 - 8.4` (@rustamwin)
 - Chg #115: Bump `zircote/swagger-php` to version `^5.0`. Drop version `^4.1` of `swagger-api/swagger-ui`  (@rustamwin)
 - Chg #116: Change project namespace to `Yiisoft\Yii\Swagger` (@rustamwin)
+- Chg #118: Remove deprecated `Yiisoft\Yii\Swagger\Middleware\SwaggerJson` and `Yiisoft\Yii\Swagger\Middleware\SwaggerUi` (@rustamwin)`
 
 ## 2.2.0 January 27, 2025
 
