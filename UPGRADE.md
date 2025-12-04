@@ -9,5 +9,8 @@ application when you upgrade the package from one version to another.
 
 ## Upgrade from 2.x
 
-- `Yiisoft\Yii\Swagger\Middleware\SwaggerJson` and `Yiisoft\Yii\Swagger\Middleware\SwaggerUi` was removed.
-  Replace usage of them to `\Yiisoft\Swagger\Action\SwaggerJson` and `\Yiisoft\Swagger\Action\SwaggerUi`
+- The namespace has changed from `Yiisoft\Swagger` to `Yiisoft\Yii\Swagger`.
+  You should update all usages to the new namespace.
+- `Yiisoft\Swagger\Middleware\SwaggerJson` and `Yiisoft\Swagger\Middleware\SwaggerUi` was removed.
+  Replace usage of them to `\Yiisoft\Swagger\Action\SwaggerJson` and `\Yiisoft\Swagger\Action\SwaggerUi`.
+- Rename configuration parameters: `annotation-paths` to `source-paths`, `open-api-options` to `options`.
