@@ -38,6 +38,19 @@ final class SwaggerJsonTest extends TestCase
         $this->assertSame(200, $response->getStatusCode());
     }
 
+    public function testSwaggerJsonMiddlewareWithCache(): void
+    {
+        $action = $this->createAction();
+
+        /** @var DataResponse $response */
+        $response = $action
+            ->withPaths(__DIR__ . '/Support')
+            ->withCache(120)
+            ->handle($this->createServerRequest());
+
+        $this->assertSame(200, $response->getStatusCode());
+    }
+
     private function createAction(): SwaggerJson
     {
         $container = $this->createContainer();
