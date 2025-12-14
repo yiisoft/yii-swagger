@@ -82,7 +82,7 @@ final class SwaggerServiceTest extends TestCase
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage(
-            'No OpenApi target set. Run the "OpenApi\\Processors\\MergeIntoOpenApi" processor before "Yiisoft\\Yii\\Swagger\\Service\\SwaggerService::fetch()".'
+            'No OpenApi target set. Run the "OpenApi\\Processors\\MergeIntoOpenApi" processor before "Yiisoft\\Yii\\Swagger\\Service\\SwaggerService::fetch()".',
         );
 
         $service->fetch([__DIR__]);

@@ -16,10 +16,8 @@ final class ApiMock
     #[OA\Get(
         path: "/api/test",
         responses: [
-            new OA\Response(response: "200", description: "Test api response")
-        ]
+            new OA\Response(response: "200", description: "Test api response"),
+        ],
     )]
-    public function mockResponse(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
-    {
-    }
+    public function mockResponse(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {}
 }

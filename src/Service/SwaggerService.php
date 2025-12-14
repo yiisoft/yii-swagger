@@ -64,7 +64,7 @@ final class SwaggerService
         $analysis = isset($this->options['analysis']) && $this->options['analysis'] instanceof Analysis
             ? $this->options['analysis']
             : null;
-        $validate = !isset($this->options['validate']) || (bool)$this->options['validate'];
+        $validate = !isset($this->options['validate']) || (bool) $this->options['validate'];
 
         $generator = $this->generator ?? $this->createGenerator();
 
