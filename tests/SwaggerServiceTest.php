@@ -9,6 +9,7 @@ use OpenApi\Generator;
 use OpenApi\Pipeline;
 use PHPUnit\Framework\TestCase;
 use Yiisoft\Aliases\Aliases;
+use Yiisoft\Test\Support\Log\SimpleLogger;
 use Yiisoft\Yii\Swagger\Service\SwaggerService;
 use Yiisoft\Yii\Swagger\Tests\Support\GeneratorStub;
 use OpenApi\Analysis;
@@ -76,7 +77,7 @@ final class SwaggerServiceTest extends TestCase
 
     public function testFetchThrowsWhenGeneratorReturnsNull(): void
     {
-        $generator = new Generator();
+        $generator = new Generator(new SimpleLogger());
         $generator->setProcessorPipeline(new Pipeline());
         $service = new SwaggerService(new Aliases(), $generator);
 

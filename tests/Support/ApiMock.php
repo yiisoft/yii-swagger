@@ -9,8 +9,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-#[OA\Info("Yii test api", "1.0")]
-#[OA\Schema(schema: "TestResponse", type: "object", properties: [])]
+#[OA\Info(version: "1.0", title: "Yii test api")]
+#[OA\Schema(schema: "TestResponse", properties: [], type: "object")]
 final class ApiMock
 {
     #[OA\Get(
