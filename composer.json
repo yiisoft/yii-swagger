@@ -43,7 +43,6 @@
         "zircote/swagger-php": "^5.0"
     },
     "require-dev": {
-        "doctrine/annotations": "^2.0",
         "friendsofphp/php-cs-fixer": "^3.89.1",
         "httpsoft/http-message": "^1.0",
         "maglnet/composer-require-checker": "^4.4",
