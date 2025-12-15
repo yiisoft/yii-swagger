@@ -37,7 +37,7 @@ use Yiisoft\DataResponse\Middleware\FormatDataResponseAsHtml;
 use Yiisoft\DataResponse\Middleware\FormatDataResponseAsJson;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
-use Yiisoft\Yii\Swagger\Middleware\SwaggerUi;
+use Yiisoft\Yii\Swagger\Action\SwaggerUi;
 use Yiisoft\Yii\Swagger\Action\SwaggerJson;
 
 // Swagger routes
@@ -51,14 +51,12 @@ Group::create('/swagger', [
 ]),
 ```
 
-### 2. Add annotations to default API controller
+### 2. Add attributes to default API controller
 
 ```php
-use OpenApi\Annotations as OA;
+use OpenApi\Attributes as OA;
 
-/**
- * @OA\Info(title="My first API", version="1.0")
- */
+#[OA\Info(title:"My first API", version:"1.0")]
 class DefaultController {
     // ...
 }
@@ -67,31 +65,34 @@ class DefaultController {
 and before actions
 
 ```php
-/**
- * @OA\Get(
- *     path="/api/endpoint",
- *     @OA\Response(response="200", description="Get default action")
- * )
- */
+use OpenApi\Attributes as OA;
+
+#[OA\Get(
+    path: "/api/endpoint",
+    summary: "Get default endpoint",
+    responses: [
+        new OA\Response(response: "200", description: "Get default action"),
+    ],
+)]
 public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
 {
     // ...
 }
 ```
 
-See [Swagger-PHP documentation](https://zircote.github.io/swagger-php/guide/annotations.html) for details
+See [Swagger-PHP documentation](https://zircote.github.io/swagger-php/guide/attributes.html) for details
 on how to annotate your code.
 
 ### 3. Configure `SwaggerJson` action
 
-For annotations to be registered you need to configure `SwaggerJson`.
+For attributes to be registered you need to configure `SwaggerJson`.
 
 You can use the parameters in `config/params.php` to configure `SwaggerJson`:
 
 ```php
 //...
 'yiisoft/yii-swagger' => [
-    'annotation-paths' => [
+    'source-paths' => [
         '@src/Controller' // Directory where annotations are used
     ],
     'cacheTTL' => 60 // Enables caching and sets TTL, "null" value means infinite cache TTL.
@@ -152,18 +153,28 @@ instance in `config/params.php` to configure `SwaggerService`:
 //...
 'yiisoft/yii-swagger' => [
     // Default values are specified.
-    'open-api-options' => [
-        'aliases' => OpenApi\Generator::DEFAULT_ALIASES,
-        'namespaces' => OpenApi\Generator::DEFAULT_NAMESPACES,
-        'analyser' => null,
-        'analysis' => null,
-        'processors' => null,
-        'logger' => null,
+    'options' => [
+        'aliases' => [],
+        'namespaces' => [],
+        'config' => [],
         'validate' => true,
         'version' => OpenApi\Annotations\OpenApi::DEFAULT_VERSION,
     ],
 ],
 //...
+```
+
+Or you can specify definition of `OpenApi\Generator` in `di-web.php`:
+
+```php
+use Yiisoft\Yii\Swagger\Service\SwaggerService;
+
+return [
+    Generator::class => [
+        'setAnalyser' => [myAnalyser()],
+    ],
+    //...
+]
 ```
 
 For more information about generation an `OpenApi\Annotations\OpenApi` instance, see the
