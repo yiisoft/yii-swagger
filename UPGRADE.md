@@ -15,3 +15,4 @@ application when you upgrade the package from one version to another.
   Replace usage of them to `\Yiisoft\Swagger\Action\SwaggerJson` and `\Yiisoft\Swagger\Action\SwaggerUi`.
 - Rename configuration parameters: `annotation-paths` to `source-paths`, `open-api-options` to `options`.
 - Annotations support has been deprecated. To continue using annotations in your code, install `doctrine/annotations`.
+- Added optional `OpenApi\Generator` parameter to `SwaggerService` constructor, update instance creating locations.
