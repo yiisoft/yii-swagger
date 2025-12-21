@@ -167,11 +167,11 @@ final class SwaggerServiceTest extends TestCase
     {
         $service = $this->createService();
 
-        $service = $service->withOptions(['version' => '1.0.0']);
+        $service = $service->withOptions(['version' => '3.1.0']);
         $openApi = $service->fetch([__DIR__ . '/Support']);
 
         $this->assertInstanceOf(OpenApi::class, $openApi);
-        $this->assertSame('1.0.0', $openApi->openapi);
+        $this->assertSame('3.1.0', $openApi->openapi);
     }
 
     public function testFetchWithInternalGeneratorAndConfigOption(): void
