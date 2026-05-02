@@ -38,7 +38,7 @@
         "yiisoft/assets": "^5.1.1",
         "yiisoft/cache": "^1.0|^2.0|^3.0",
         "yiisoft/data-response": "^1.0|^2.0",
-        "yiisoft/html": "^3.0",
+        "yiisoft/html": "^4.0",
         "yiisoft/yii-view-renderer": "^7.1.0",
         "zircote/swagger-php": "^5.0"
     },
