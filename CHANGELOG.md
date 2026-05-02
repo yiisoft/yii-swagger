@@ -11,6 +11,7 @@
 - Chg #120: Remove support of `doctrine/annotations` by default (@rustamwin)
 - Enh #121: Add support for PHP version `8.4` (@rustamwin)
 - Enh #122: Explicitly import functions in "use" section (@mspirkov)
+- Enh #124: Add support for `yiisoft/html` version `^4.0` (@vjik)
 
 ## 2.2.0 January 27, 2025
 
