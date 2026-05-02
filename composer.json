@@ -48,7 +48,6 @@
         "maglnet/composer-require-checker": "^4.4",
         "phpunit/phpunit": "^10.5.48",
         "rector/rector": "^2.2.7",
-        "roave/backward-compatibility-check": "^8",
         "roave/infection-static-analysis-plugin": "^1.35",
         "spatie/phpunit-watcher": "^1.23",
         "vimeo/psalm": "^5.26.1 || ^6.13.1",
