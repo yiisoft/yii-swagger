@@ -30,7 +30,7 @@ use Yiisoft\Test\Support\Container\SimpleContainer;
 use Yiisoft\Test\Support\EventDispatcher\SimpleEventDispatcher;
 use Yiisoft\View\WebView;
 use Yiisoft\Yii\View\Renderer\CsrfViewInjection;
-use Yiisoft\Yii\View\Renderer\ViewRenderer;
+use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 
 final class SwaggerUiTest extends TestCase
 {
@@ -63,7 +63,9 @@ final class SwaggerUiTest extends TestCase
     {
         $aliases = new Aliases();
         $assetLoader = new AssetLoaderSpy();
-        $dataResponseFactory = new DataResponseFactory(new ResponseFactory(), new StreamFactory());
+        $responseFactory = new ResponseFactory();
+        $streamFactory = new StreamFactory();
+        $dataResponseFactory = new DataResponseFactory($responseFactory, $streamFactory);
 
         return new SimpleContainer([
             Aliases::class => $aliases,
@@ -72,8 +74,9 @@ final class SwaggerUiTest extends TestCase
             CacheInterface::class => new Cache(new ArrayCache()),
             DataResponseFactoryInterface::class => $dataResponseFactory,
             SwaggerService::class => new SwaggerService($aliases),
-            ViewRenderer::class => new ViewRenderer(
-                $dataResponseFactory,
+            WebViewRenderer::class => new WebViewRenderer(
+                $responseFactory,
+                $streamFactory,
                 $aliases,
                 $this->createWebView(),
                 __DIR__,
@@ -86,7 +89,7 @@ final class SwaggerUiTest extends TestCase
     private function createAction(ContainerInterface $container): SwaggerUi
     {
         return new SwaggerUi(
-            $container->get(ViewRenderer::class),
+            $container->get(WebViewRenderer::class),
             $container->get(SwaggerService::class),
             $container->get(AssetManager::class),
             [],

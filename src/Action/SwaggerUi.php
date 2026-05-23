@@ -10,7 +10,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Arrays\ArrayHelper;
 use Yiisoft\Assets\AssetManager;
 use Yiisoft\Yii\Swagger\Service\SwaggerService;
-use Yiisoft\Yii\View\Renderer\ViewRenderer;
+use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 
 final class SwaggerUi implements RequestHandlerInterface
 {
@@ -29,7 +29,7 @@ final class SwaggerUi implements RequestHandlerInterface
     private string $jsonUrl = '/';
 
     public function __construct(
-        private readonly ViewRenderer $viewRenderer,
+        private readonly WebViewRenderer $viewRenderer,
         private readonly SwaggerService $swaggerService,
         private readonly AssetManager $assetManager,
         private readonly array $params,

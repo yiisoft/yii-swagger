@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Yiisoft\Yii\Swagger\Tests;
 
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 use Yiisoft\Assets\AssetLoaderInterface;
 use Yiisoft\Cache\CacheInterface;
 use Yiisoft\DataResponse\DataResponseFactoryInterface;
@@ -15,7 +17,7 @@ use Yiisoft\Yii\Swagger\Action\SwaggerUi;
 use Yiisoft\Yii\Swagger\Service\SwaggerService;
 use Yiisoft\Test\Support\EventDispatcher\SimpleEventDispatcher;
 use Yiisoft\View\WebView;
-use Yiisoft\Yii\View\Renderer\ViewRenderer;
+use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 
 use function dirname;
 
@@ -41,8 +43,10 @@ final class ConfigTest extends TestCase
                 $this->getDiConfig($postfix)
                 + [
                     DataResponseFactoryInterface::class => $this->createMock(DataResponseFactoryInterface::class),
+                    ResponseFactoryInterface::class => $this->createMock(ResponseFactoryInterface::class),
+                    StreamFactoryInterface::class => $this->createMock(StreamFactoryInterface::class),
                     WebView::class => new WebView(__DIR__, new SimpleEventDispatcher()),
-                    ViewRenderer::class => [
+                    WebViewRenderer::class => [
                         '__construct()' => ['viewPath' => __DIR__],
                     ],
                     AssetLoaderInterface::class => $this->createMock(AssetLoaderInterface::class),
