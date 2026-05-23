@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Yiisoft\Cache\CacheInterface;
-use Yiisoft\DataResponse\DataResponseFactoryInterface;
+use Yiisoft\DataResponse\ResponseFactory\DataResponseFactoryInterface;
 use Yiisoft\Yii\Swagger\Action\SwaggerJson;
 use Yiisoft\Yii\Swagger\Action\SwaggerUi;
 use Yiisoft\Yii\Swagger\Service\SwaggerService;

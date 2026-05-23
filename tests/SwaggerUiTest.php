@@ -19,8 +19,8 @@ use Yiisoft\Cache\Cache;
 use Yiisoft\Csrf\CsrfTokenMiddleware;
 use Yiisoft\Csrf\Synchronizer\Generator\RandomCsrfTokenGenerator;
 use Yiisoft\Csrf\Synchronizer\SynchronizerCsrfToken;
-use Yiisoft\DataResponse\DataResponseFactory;
-use Yiisoft\DataResponse\DataResponseFactoryInterface;
+use Yiisoft\DataResponse\ResponseFactory\DataResponseFactory;
+use Yiisoft\DataResponse\ResponseFactory\DataResponseFactoryInterface;
 use Yiisoft\Yii\Swagger\Action\SwaggerUi;
 use Yiisoft\Yii\Swagger\Asset\SwaggerUiAsset;
 use Yiisoft\Yii\Swagger\Service\SwaggerService;
@@ -65,7 +65,7 @@ final class SwaggerUiTest extends TestCase
         $assetLoader = new AssetLoaderSpy();
         $responseFactory = new ResponseFactory();
         $streamFactory = new StreamFactory();
-        $dataResponseFactory = new DataResponseFactory($responseFactory, $streamFactory);
+        $dataResponseFactory = new DataResponseFactory($responseFactory);
 
         return new SimpleContainer([
             Aliases::class => $aliases,

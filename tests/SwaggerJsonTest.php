@@ -6,7 +6,6 @@ namespace Yiisoft\Yii\Swagger\Tests;
 
 use HttpSoft\Message\ResponseFactory;
 use HttpSoft\Message\ServerRequestFactory;
-use HttpSoft\Message\StreamFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -14,9 +13,8 @@ use Yiisoft\Aliases\Aliases;
 use Yiisoft\Cache\ArrayCache;
 use Yiisoft\Cache\Cache;
 use Yiisoft\Cache\CacheInterface;
-use Yiisoft\DataResponse\DataResponse;
-use Yiisoft\DataResponse\DataResponseFactory;
-use Yiisoft\DataResponse\DataResponseFactoryInterface;
+use Yiisoft\DataResponse\ResponseFactory\DataResponseFactory;
+use Yiisoft\DataResponse\ResponseFactory\DataResponseFactoryInterface;
 use Yiisoft\Yii\Swagger\Action\SwaggerJson;
 use Yiisoft\Yii\Swagger\Service\SwaggerService;
 use Yiisoft\Test\Support\Container\SimpleContainer;
@@ -30,7 +28,6 @@ final class SwaggerJsonTest extends TestCase
         $this->assertNotSame($action, $action->withPaths());
         $this->assertNotSame($action, $action->withCache());
 
-        /** @var DataResponse $response */
         $response = $action
             ->withPaths(__DIR__ . '/Support')
             ->handle($this->createServerRequest());
@@ -42,7 +39,6 @@ final class SwaggerJsonTest extends TestCase
     {
         $action = $this->createAction();
 
-        /** @var DataResponse $response */
         $response = $action
             ->withPaths(__DIR__ . '/Support')
             ->withCache(120)
@@ -69,7 +65,7 @@ final class SwaggerJsonTest extends TestCase
         return new SimpleContainer([
             Aliases::class => $aliases,
             CacheInterface::class => new Cache(new ArrayCache()),
-            DataResponseFactoryInterface::class => new DataResponseFactory(new ResponseFactory(), new StreamFactory()),
+            DataResponseFactoryInterface::class => new DataResponseFactory(new ResponseFactory()),
             SwaggerService::class => new SwaggerService($aliases),
         ]);
     }

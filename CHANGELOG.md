@@ -13,6 +13,7 @@
 - Enh #122: Explicitly import functions in "use" section (@mspirkov)
 - Enh #124: Add support for `yiisoft/html` version `^4.0` (@vjik)
 - Chg #129: Replace deprecated `ViewRenderer` with `WebViewRenderer` (@vjik)
+- Chg #130: Replace deprecated `DataResponseFactoryInterface` with new interface (@vjik)
 
 ## 2.2.0 January 27, 2025
 
