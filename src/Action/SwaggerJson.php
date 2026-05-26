@@ -51,7 +51,7 @@ final class SwaggerJson implements RequestHandlerInterface
     /**
      * @param DateInterval|int|null $cacheTTL
      */
-    public function withCache(DateInterval|int $cacheTTL = null): self
+    public function withCache(DateInterval|int|null $cacheTTL = null): self
     {
         $new = clone $this;
         $new->enableCache = true;
