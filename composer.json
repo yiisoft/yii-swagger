@@ -82,7 +82,7 @@
         }
     },
     "scripts": {
-        "test": "phpunit",
+        "test": "phpunit --display-deprecations",
         "psalm": "psalm",
         "cs-fix": "php-cs-fixer fix"
     }
