@@ -1,21 +1,27 @@
+name: backwards compatibility
+
 on:
   pull_request:
     paths: &paths
       - 'src/**'
-      - '.github/workflows/bc.yml'
+      - 'config/**'
+      - 'views/**'
       - 'composer.json'
+      - '.github/workflows/bc.yml'
   push:
     branches: ['master']
     paths: *paths
 
-name: backwards compatibility
-
 permissions:
   contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   roave_bc_check:
     uses: yiisoft/actions/.github/workflows/bc.yml@master
     with:
       php: >-
-        ['8.2']
+        ['8.5']

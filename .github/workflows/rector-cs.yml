@@ -5,6 +5,7 @@ on:
     paths:
       - 'src/**'
       - 'config/**'
+      - 'views/**'
       - 'tests/**'
       - '.github/workflows/rector-cs.yml'
       - 'composer.json'
@@ -20,6 +21,8 @@ concurrency:
 
 jobs:
   rector:
+    permissions:
+      contents: write  # Required to commit formatting fixes back to the PR
     uses: yiisoft/actions/.github/workflows/rector-cs.yml@master
     with:
       php: '8.1'
