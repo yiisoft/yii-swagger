@@ -15,6 +15,7 @@
 - Chg #129: Replace deprecated `ViewRenderer` with `WebViewRenderer` (@vjik)
 - Chg #130: Replace deprecated `DataResponseFactoryInterface` with new interface (@vjik)
 - Bug #131: Fix implicitly nullable parameter in `SwaggerJson::withCache()` (@vjik)
+- Enh #138: Remove unused `"psr/http-server-middleware` dependency (@vjik)
 
 ## 2.2.0 January 27, 2025
 
