@@ -96,11 +96,36 @@ final class SwaggerService
             ->setVersion(isset($this->options['version']) ? (string) $this->options['version'] : null)
             ->setConfig($config);
 
+        // `aliases` and `namespaces` are docblock-annotation features and are passed through the
+        // Generator options on both supported major versions of zircote/swagger-php. The methods are
+        // deprecated in 6.x since 6.11 (removed in 8.0), so the deprecation is suppressed per call site.
         if (!empty($this->options['aliases']) && is_array($this->options['aliases'])) {
-            $generator->setAliases($this->options['aliases']);
+            /**
+             * @var array<array-key, string> $aliasesOption
+             */
+            $aliasesOption = $this->options['aliases'];
+            $aliases = [];
+            foreach ($aliasesOption as $alias => $namespace) {
+                $aliases[(string) $alias] = $namespace;
+            }
+            /**
+             * @psalm-suppress DeprecatedMethod
+             */
+            $generator->setAliases($aliases);
         }
         if (!empty($this->options['namespaces']) && is_array($this->options['namespaces'])) {
-            $generator->setNamespaces($this->options['namespaces']);
+            /**
+             * @var list<string> $namespacesOption
+             */
+            $namespacesOption = $this->options['namespaces'];
+            $namespaces = [];
+            foreach ($namespacesOption as $namespace) {
+                $namespaces[] = $namespace;
+            }
+            /**
+             * @psalm-suppress DeprecatedMethod
+             */
+            $generator->setNamespaces($namespaces);
         }
         if (!empty($this->options['analyser']) && $this->options['analyser'] instanceof AnalyserInterface) {
             $generator->setAnalyser($this->options['analyser']);
