@@ -8,8 +8,6 @@ use InvalidArgumentException;
 use OpenApi\Analysers\AttributeAnnotationFactory;
 use OpenApi\Analysers\DocBlockAnnotationFactory;
 use OpenApi\Analysers\ReflectionAnalyser;
-use OpenApi\Generator;
-use OpenApi\Pipeline;
 use PHPUnit\Framework\TestCase;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Test\Support\Log\SimpleLogger;
@@ -19,6 +17,8 @@ use OpenApi\Analysis;
 use OpenApi\Annotations\OpenApi;
 use OpenApi\Context;
 use RuntimeException;
+
+use const JSON_THROW_ON_ERROR;
 
 final class SwaggerServiceTest extends TestCase
 {
@@ -151,8 +151,7 @@ final class SwaggerServiceTest extends TestCase
 
     public function testFetchThrowsWhenGeneratorReturnsNull(): void
     {
-        $generator = new Generator(new SimpleLogger());
-        $generator->setProcessorPipeline(new Pipeline());
+        $generator = new GeneratorStub(null);
         $service = new SwaggerService(new Aliases(), $generator);
 
         $this->expectException(RuntimeException::class);
@@ -172,6 +171,19 @@ final class SwaggerServiceTest extends TestCase
 
         $this->assertInstanceOf(OpenApi::class, $openApi);
         $this->assertSame('3.1.0', $openApi->openapi);
+    }
+
+    public function testFetchPreservesClassicDocument(): void
+    {
+        $service = $this->createService();
+
+        $openApi = $service->fetch([__DIR__ . '/Support']);
+        $document = json_decode($openApi->toJson(), true, 512, JSON_THROW_ON_ERROR);
+
+        $this->assertSame('3.0.0', $document['openapi']);
+        $this->assertSame('Yii test api', $document['info']['title']);
+        $this->assertSame('object', $document['components']['schemas']['TestResponse']['type']);
+        $this->assertSame('Test api response', $document['paths']['/api/test']['get']['responses']['200']['description']);
     }
 
     public function testFetchWithInternalGeneratorAndConfigOption(): void
