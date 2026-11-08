@@ -12,6 +12,7 @@ use PHPUnit\Framework\TestCase;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Test\Support\Log\SimpleLogger;
 use Yiisoft\Yii\Swagger\Service\SwaggerService;
+use Yiisoft\Yii\Swagger\Tests\Support\ApiMock;
 use Yiisoft\Yii\Swagger\Tests\Support\GeneratorStub;
 use OpenApi\Analysis;
 use OpenApi\Annotations\OpenApi;
@@ -196,8 +197,27 @@ final class SwaggerServiceTest extends TestCase
             ],
         ]);
         $openApi = $service->fetch([__DIR__ . '/Support']);
+        $document = json_decode($openApi->toJson(), true, 512, JSON_THROW_ON_ERROR);
 
-        $this->assertInstanceOf(OpenApi::class, $openApi);
+        $this->assertSame(
+            'GET::/api/test::' . ApiMock::class . '::mockResponse',
+            $document['paths']['/api/test']['get']['operationId'],
+        );
+    }
+
+    public function testFetchRemovesUnusedComponentsWhenCleanupIsEnabled(): void
+    {
+        $service = $this->createService()->withOptions([
+            'config' => [
+                'cleanUnusedComponents' => ['enabled' => true],
+            ],
+        ]);
+
+        $openApi = $service->fetch([__DIR__ . '/Support']);
+        $document = json_decode($openApi->toJson(), true, 512, JSON_THROW_ON_ERROR);
+
+        $this->assertArrayNotHasKey('TestResponse', $document['components']['schemas'] ?? []);
+        $this->assertSame('Test api response', $document['paths']['/api/test']['get']['responses']['200']['description']);
     }
 
     public function testFetchWithInternalGeneratorAndInvalidConfigOption(): void
