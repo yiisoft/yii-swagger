@@ -51,7 +51,7 @@
         "psr/simple-cache": "^3.0",
         "rector/rector": "^2.4.3",
         "shipmonk/composer-dependency-analyser": "^1.8",
-        "vimeo/psalm": "^5.26.1 || ^6.16.1",
+        "vimeo/psalm": "^5.26.1 || ^6.16.1 || ^7.0.0",
         "yiisoft/csrf": "^2.2.3",
         "yiisoft/di": "^1.4.1",
         "yiisoft/psr-dummy-provider": "^1.0.2",
