@@ -48,13 +48,17 @@
         "phpunit/phpunit": "^10.5.63",
         "psr/container": "^2.0",
         "psr/http-factory": "^1.1",
+        "psr/http-server-middleware": "^1.0",
         "psr/simple-cache": "^3.0",
         "rector/rector": "^2.4.3",
         "shipmonk/composer-dependency-analyser": "^1.8",
         "vimeo/psalm": "^5.26.1 || ^6.16.1",
         "yiisoft/csrf": "^2.2.3",
         "yiisoft/di": "^1.4.1",
+        "yiisoft/middleware-dispatcher": "^5.2",
         "yiisoft/psr-dummy-provider": "^1.0.2",
+        "yiisoft/router": "^4.0.2",
+        "yiisoft/router-fastroute": "^4.0.3",
         "yiisoft/test-support": "^3.2",
         "yiisoft/view": "^12.2"
     },
@@ -62,6 +66,9 @@
         "psr-4": {
             "Yiisoft\\Yii\\Swagger\\": "src/"
         }
+    },
+    "suggest": {
+        "yiisoft/router": "Needed for the opt-in RoutePath processor (^4.0.2)."
     },
     "autoload-dev": {
         "psr-4": {

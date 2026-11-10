@@ -186,6 +186,37 @@ return [
 For more information about generation an `OpenApi\Annotations\OpenApi` instance, see the
 documentation of the [zircote/swagger-php](https://github.com/zircote/swagger-php) package.
 
+### 7. (Optional) Use route paths in OpenAPI
+
+You can omit an operation's `path` and use its Yii route instead. Keep your normal Swagger source-path configuration.
+This integration needs `yiisoft/router` `^4.0.2` and a compatible router implementation. Invokable and PSR-15
+request-handler class strings also need `yiisoft/middleware-dispatcher` `^5.2`.
+
+Add this entry to your application's `config/di-web.php`:
+
+```php
+use OpenApi\Generator;
+use Yiisoft\Yii\Swagger\Factory\RoutePathGeneratorFactory;
+
+return [
+    Generator::class => RoutePathGeneratorFactory::create(...),
+];
+```
+
+For example, register `Route::get('/posts')->action([PostController::class, 'index'])` and omit `path` from the
+`OA\Get` attribute on `PostController::index()`. The generated GET path is `/posts`. Changing that route changes
+the generated path. Continue describing responses and parameters in your attributes; explicit paths stay unchanged.
+
+Use canonical class and method names and simple literal or `{parameter}` paths. Unsupported or ambiguous routes
+need an explicit OpenAPI path. See [supported routes and custom generators](docs/route-paths.md) for the complete
+matching rules and an example with path parameters.
+
+After changing routes or attributes, generate from a fresh source scan and clear the Swagger document cache.
+Discard a previously processed or failed `Analysis` before retrying with changed inputs; inferred paths and partial
+mutations are not recomputed or rolled back.
+
+Without this opt-in definition, normal generation works as before and does not require Router.
+
 ## Documentation
 
 - [Internals](docs/internals.md)
