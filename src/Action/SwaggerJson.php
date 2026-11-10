@@ -30,7 +30,10 @@ final class SwaggerJson implements RequestHandlerInterface
         if (!$this->enableCache) {
             $openApi = $this->swaggerService->fetch($this->paths);
         } else {
-            /** @var OpenApi $openApi */
+            /**
+             * @var OpenApi $openApi
+             * @psalm-suppress DeprecatedClass The cache contains the classic document returned by SwaggerService.
+             */
             $openApi = $this->cache->getOrSet(
                 [self::class, $this->paths],
                 fn() => $this->swaggerService->fetch($this->paths),

@@ -19,6 +19,11 @@ use function dirname;
 use function sprintf;
 use function is_array;
 
+/**
+ * Uses the classic API to preserve generator injection, options and return types on swagger-php 5, 6 and 7.
+ *
+ * @psalm-suppress DeprecatedClass
+ */
 final class SwaggerService
 {
     private string $viewPath;
