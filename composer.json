@@ -55,7 +55,7 @@
         "vimeo/psalm": "^5.26.1 || ^6.16.1",
         "yiisoft/csrf": "^2.2.3",
         "yiisoft/di": "^1.4.1",
-        "yiisoft/middleware-dispatcher": "^5.0",
+        "yiisoft/middleware-dispatcher": "^5.2",
         "yiisoft/psr-dummy-provider": "^1.0.2",
         "yiisoft/router": "^4.0.2",
         "yiisoft/router-fastroute": "^4.0.3",

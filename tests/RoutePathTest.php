@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yiisoft\Yii\Swagger\Tests;
 
 use InvalidArgumentException;
+use HttpSoft\Message\ServerRequest;
 use OpenApi\Analysis;
 use OpenApi\Annotations as OA;
 use OpenApi\Context;
@@ -16,6 +17,7 @@ use ReflectionProperty;
 use Yiisoft\Middleware\Dispatcher\MiddlewareFactory;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Router\FastRoute\UrlGenerator;
+use Yiisoft\Router\FastRoute\UrlMatcher;
 use Yiisoft\Router\Group;
 use Yiisoft\Router\Route;
 use Yiisoft\Router\RouteCollection;
@@ -35,6 +37,7 @@ use Yiisoft\Yii\Swagger\Tests\Fixture\RoutePath\TerminalMiddleware;
 use function array_keys;
 use function array_filter;
 use function json_decode;
+use function strtolower;
 
 use const JSON_THROW_ON_ERROR;
 
@@ -134,13 +137,48 @@ final class RoutePathTest extends TestCase
         $this->assertSame('Item response', $operation->responses[0]->description);
     }
 
-    public function testLiteralAndEncodedSegmentsArePreserved(): void
+    public function testLiteralSegmentsArePreserved(): void
     {
         $document = $this->generate(InvokableAction::class, $this->createRoutes(
-            Route::get('/v1.0/~items/a%20b')->action('\\' . InvokableAction::class),
+            Route::get('/v1.0/~items/item-1')->action('\\' . InvokableAction::class),
         ));
 
-        $this->assertSame(['/v1.0/~items/a%20b'], array_keys($document['paths']));
+        $this->assertSame(['/v1.0/~items/item-1'], array_keys($document['paths']));
+    }
+
+    public function testControllerReferenceIsCaseInsensitive(): void
+    {
+        $document = $this->generate(Controller::class, $this->createRoutes(
+            Route::get('/read/{id}')->action([strtolower(Controller::class), 'ITEM']),
+            Route::post('/write/{id}')->action([strtolower(Controller::class), 'ITEM']),
+        ));
+
+        $this->assertSame('read-item', $document['paths']['/read/{id}']['get']['operationId']);
+        $this->assertSame('write-item', $document['paths']['/write/{id}']['post']['operationId']);
+    }
+
+    /**
+     * @dataProvider unsafeLiteralPatterns
+     */
+    public function testUnsafeLiteralPatternRequiresExplicitMatchingPath(string $pattern, string $requestPath): void
+    {
+        $routes = $this->createRoutes(Route::get($pattern)->action(InvokableAction::class));
+        $matcher = new UrlMatcher($routes);
+        $this->assertFalse($matcher->match(new ServerRequest(method: 'GET', uri: $pattern))->isSuccess());
+        $this->assertTrue($matcher->match(new ServerRequest(method: 'GET', uri: $requestPath))->isSuccess());
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('unsupported pattern');
+
+        $this->generate(InvokableAction::class, $routes);
+    }
+
+    public static function unsafeLiteralPatterns(): array
+    {
+        return [
+            'plus' => ['/items+more', '/items%2Bmore'],
+            'encoded space' => ['/items/a%20b', '/items/a%2520b'],
+            'encoded slash' => ['/items/a%2Fb', '/items/a%252Fb'],
+        ];
     }
 
     public function testExplicitPathIsUnchangedWithoutMatchingRoutes(): void
