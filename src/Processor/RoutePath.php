@@ -104,15 +104,15 @@ final class RoutePath
         }
     }
 
-    private function getActionMethod(Context $context): ?ReflectionMethod
+    private function getActionMethod(?Context $context): ?ReflectionMethod
     {
-        $reflector = $context->reflector;
+        $reflector = $context?->reflector;
         if ($reflector instanceof ReflectionMethod) {
             return $reflector;
         }
 
         // Early swagger-php 5 analysers provide method context without a reflector.
-        if ($reflector !== null || $context->class === null || $context->method === null) {
+        if ($context === null || $reflector !== null || $context->class === null || $context->method === null) {
             return null;
         }
 

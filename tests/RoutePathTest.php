@@ -6,12 +6,13 @@ namespace Yiisoft\Yii\Swagger\Tests;
 
 use InvalidArgumentException;
 use OpenApi\Analysis;
-use OpenApi\Attributes as OA;
+use OpenApi\Annotations as OA;
 use OpenApi\Context;
 use OpenApi\Generator;
 use OpenApi\Processors\BuildPaths;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use ReflectionProperty;
 use Yiisoft\Middleware\Dispatcher\MiddlewareFactory;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Router\FastRoute\UrlGenerator;
@@ -111,13 +112,17 @@ final class RoutePathTest extends TestCase
             'namespace' => $class->getNamespaceName(),
             'class' => $class->getShortName(),
         ]);
-        $operation = new OA\Get(
-            operationId: 'read-item',
-            responses: [new OA\Response(response: '200', description: 'Item response')],
-        );
-        $operation->_context = new Context(['method' => 'item'], $classContext);
+        $operation = new OA\Get([
+            '_context' => new Context(['method' => 'item'], $classContext),
+            'operationId' => 'read-item',
+            'responses' => [new OA\Response([
+                '_context' => new Context(),
+                'response' => '200',
+                'description' => 'Item response',
+            ])],
+        ]);
         $analysis = new Analysis([$operation], new Context());
-        $analysis->openapi = new OA\OpenApi();
+        $analysis->openapi = new OA\OpenApi(['_context' => new Context()]);
         $routes = $this->createRoutes(Group::create('/content')->routes(
             Route::get('/{id}')->action([Controller::class, 'item']),
         ));
@@ -314,6 +319,49 @@ final class RoutePathTest extends TestCase
         $this->generate(ClassOperation::class, $this->createRoutes(
             Route::get('/class')->action(ClassOperation::class),
         ));
+    }
+
+    public function testMissingMethodContextRequiresExplicitPath(): void
+    {
+        $operation = new OA\Get(['_context' => new Context()]);
+        $analysis = new Analysis([$operation], new Context());
+        $analysis->openapi = new OA\OpenApi(['_context' => new Context()]);
+        $contextType = (new ReflectionProperty($operation, '_context'))->getType();
+        $operation->_context = $contextType === null || $contextType->allowsNull() ? null : new Context();
+        $processor = new RoutePath($this->createRoutes());
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Annotate the method or set an explicit path');
+
+        $processor($analysis);
+    }
+
+    /**
+     * @dataProvider unresolvableMethodContexts
+     */
+    public function testUnresolvableMethodContextRequiresExplicitPath(string $class, string $method): void
+    {
+        $operation = new OA\Get([
+            '_context' => new Context([
+                'namespace' => (new ReflectionClass(Controller::class))->getNamespaceName(),
+                'class' => $class,
+                'method' => $method,
+            ]),
+        ]);
+        $analysis = new Analysis([$operation], new Context());
+        $analysis->openapi = new OA\OpenApi(['_context' => new Context()]);
+        $processor = new RoutePath($this->createRoutes());
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Annotate the method or set an explicit path');
+
+        $processor($analysis);
+    }
+
+    public static function unresolvableMethodContexts(): array
+    {
+        return [
+            'unknown class' => ['UnknownAction', 'item'],
+            'unknown method' => ['Controller', 'missingMethod'],
+        ];
     }
 
     private function createRoutes(Route|Group ...$routes): RouteCollection
