@@ -28,7 +28,6 @@ use function method_exists;
 use function preg_match;
 use function sort;
 use function sprintf;
-use function strtolower;
 use function strtoupper;
 
 /**
@@ -63,7 +62,7 @@ final class RoutePath
             $action = $reflector->getDeclaringClass()->getName() . '::' . $reflector->getName();
             $method = strtoupper($operation->method);
             $routes ??= $this->indexRoutes();
-            $matches = $routes[strtolower($action)][$method] ?? [];
+            $matches = $routes[$action][$method] ?? [];
 
             if ($matches === []) {
                 throw new InvalidArgumentException(sprintf(
@@ -155,7 +154,7 @@ final class RoutePath
             }
 
             foreach ($route->getData('methods') as $httpMethod) {
-                $result[strtolower($action)][$httpMethod][] = $route;
+                $result[$action][$httpMethod][] = $route;
             }
         }
 

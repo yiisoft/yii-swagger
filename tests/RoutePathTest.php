@@ -37,7 +37,6 @@ use Yiisoft\Yii\Swagger\Tests\Fixture\RoutePath\TerminalMiddleware;
 use function array_keys;
 use function array_filter;
 use function json_decode;
-use function strtolower;
 
 use const JSON_THROW_ON_ERROR;
 
@@ -146,15 +145,15 @@ final class RoutePathTest extends TestCase
         $this->assertSame(['/v1.0/~items/item-1'], array_keys($document['paths']));
     }
 
-    public function testControllerReferenceIsCaseInsensitive(): void
+    public function testControllerMethodCasingMustMatchDeclaration(): void
     {
-        $document = $this->generate(Controller::class, $this->createRoutes(
-            Route::get('/read/{id}')->action([strtolower(Controller::class), 'ITEM']),
-            Route::post('/write/{id}')->action([strtolower(Controller::class), 'ITEM']),
-        ));
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('no matching terminal route handler');
 
-        $this->assertSame('read-item', $document['paths']['/read/{id}']['get']['operationId']);
-        $this->assertSame('write-item', $document['paths']['/write/{id}']['post']['operationId']);
+        $this->generate(Controller::class, $this->createRoutes(
+            Route::get('/read/{id}')->action([Controller::class, 'ITEM']),
+            Route::post('/write/{id}')->action([Controller::class, 'ITEM']),
+        ));
     }
 
     /**

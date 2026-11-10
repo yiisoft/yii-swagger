@@ -241,8 +241,8 @@ Matching has these boundaries:
 
 - Only the **last enabled handler definition** of each resolved route is considered. Use a class string for an
   invokable action (`__invoke()`) or a PSR-15 request handler (`handle()`), or `[ClassName::class, 'method']` for
-  a controller action. Matching requires the same declaring class, method and HTTP method. Class and method names
-  are compared case-insensitively, as in PHP. Earlier middleware,
+  a controller action. Matching requires the exact declaring class, method and HTTP method. Use the method's
+  declared casing, as required by the dispatcher for controller arrays. Earlier middleware,
   closures, object instances, array configuration definitions, container aliases and inheritance-based action
   resolution are not inferred. A class string implementing PSR-15 `MiddlewareInterface` is unsupported, even if
   it also has `__invoke()` or `handle()`: the dispatcher executes its `process()` method instead.
