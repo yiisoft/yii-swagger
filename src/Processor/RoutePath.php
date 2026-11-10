@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use OpenApi\Analysis;
 use OpenApi\Annotations\Operation;
 use OpenApi\Generator;
+use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use ReflectionMethod;
 use Yiisoft\Router\Route;
@@ -115,6 +116,9 @@ final class RoutePath
 
             if (is_string($handler)) {
                 $class = ltrim($handler, '\\');
+                if (is_a($class, MiddlewareInterface::class, true)) {
+                    continue;
+                }
                 $method = is_a($class, RequestHandlerInterface::class, true) ? 'handle' : '__invoke';
                 $action = $class . '::' . $method;
             } elseif (is_array($handler)) {

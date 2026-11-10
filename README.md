@@ -239,7 +239,13 @@ Matching has these boundaries:
 - Only the **last enabled handler definition** of each resolved route is considered. Use a class string for an
   invokable action (`__invoke()`) or a PSR-15 request handler (`handle()`), or `[ClassName::class, 'method']` for
   a controller action. Matching requires the exact declaring class, method and HTTP method. Earlier middleware,
-  closures, object instances, container aliases and inheritance-based action resolution are not inferred.
+  closures, object instances, array configuration definitions, container aliases and inheritance-based action
+  resolution are not inferred. A class string implementing PSR-15 `MiddlewareInterface` is unsupported, even if
+  it also has `__invoke()` or `handle()`: the dispatcher executes its `process()` method instead.
+- Matching concerns the final **enabled** definition, not whether it was registered with `action()`.
+  Disabled definitions are excluded by the route collection. If disabling the final definition makes a previous
+  definition terminal, only that remaining final definition is eligible. An unsupported final definition never
+  causes a search through earlier middleware; supply an explicit OpenAPI path for such a pipeline.
 - Paths include resolved group prefixes. Supported patterns start with `/` and contain URI literal characters,
   percent-encoded bytes or `{parameter}` placeholders. Parameter names must start with a letter or underscore,
   followed by letters, digits or underscores. Regex placeholders, optional route segments, query strings and

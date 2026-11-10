@@ -9,6 +9,7 @@ use OpenApi\Generator;
 use OpenApi\Processors\BuildPaths;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
+use Yiisoft\Middleware\Dispatcher\MiddlewareFactory;
 use Yiisoft\Aliases\Aliases;
 use Yiisoft\Router\FastRoute\UrlGenerator;
 use Yiisoft\Router\Group;
@@ -16,6 +17,7 @@ use Yiisoft\Router\Route;
 use Yiisoft\Router\RouteCollection;
 use Yiisoft\Router\RouteCollector;
 use Yiisoft\Test\Support\Log\SimpleLogger;
+use Yiisoft\Test\Support\Container\SimpleContainer;
 use Yiisoft\Yii\Swagger\Processor\RoutePath;
 use Yiisoft\Yii\Swagger\Service\SwaggerService;
 use Yiisoft\Yii\Swagger\Tests\Fixture\RoutePath\ClassOperation;
@@ -24,6 +26,7 @@ use Yiisoft\Yii\Swagger\Tests\Fixture\RoutePath\ExplicitAction;
 use Yiisoft\Yii\Swagger\Tests\Fixture\RoutePath\InvokableAction;
 use Yiisoft\Yii\Swagger\Tests\Fixture\RoutePath\NestedPath;
 use Yiisoft\Yii\Swagger\Tests\Fixture\RoutePath\RequestHandlerAction;
+use Yiisoft\Yii\Swagger\Tests\Fixture\RoutePath\TerminalMiddleware;
 
 use function array_keys;
 use function array_filter;
@@ -189,6 +192,64 @@ final class RoutePathTest extends TestCase
         $this->generate(InvokableAction::class, $this->createRoutes(
             Route::get('/disabled')->action(InvokableAction::class)->disableMiddleware(InvokableAction::class),
         ));
+    }
+
+    public function testTrailingMiddlewareDoesNotExposeEarlierHandler(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('no matching terminal route handler');
+
+        $this->generate(InvokableAction::class, $this->createRoutes(
+            Route::get('/pipeline')->middleware(InvokableAction::class)->action(TerminalMiddleware::class),
+        ));
+    }
+
+    public function testMiddlewareClassStringDoesNotExposeUnusedInvokableMethod(): void
+    {
+        $middleware = new TerminalMiddleware();
+        $factory = new MiddlewareFactory(new SimpleContainer([TerminalMiddleware::class => $middleware]));
+        $this->assertSame($middleware, $factory->create(TerminalMiddleware::class));
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('no matching terminal route handler');
+
+        $this->generate(TerminalMiddleware::class, $this->createRoutes(
+            Route::get('/middleware')->action(TerminalMiddleware::class),
+        ));
+    }
+
+    public function testArrayDefinitionDoesNotExposeEarlierHandler(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('no matching terminal route handler');
+
+        $this->generate(InvokableAction::class, $this->createRoutes(
+            Route::get('/pipeline')->middleware(InvokableAction::class)->action(['class' => TerminalMiddleware::class]),
+        ));
+    }
+
+    public function testObjectCallableDoesNotMatchItsAnnotatedClass(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('no matching terminal route handler');
+
+        $this->generate(TerminalMiddleware::class, $this->createRoutes(
+            Route::get('/object')->action([new TerminalMiddleware(), '__invoke']),
+        ));
+    }
+
+    public function testFinalEnabledHandlerNeedNotBeTheActionDefinition(): void
+    {
+        $document = $this->generate(RequestHandlerAction::class, $this->createRoutes(
+            Route::get('/terminal')
+                ->middleware(InvokableAction::class, RequestHandlerAction::class)
+                ->action(TerminalMiddleware::class)
+                ->disableMiddleware(TerminalMiddleware::class),
+        ));
+
+        $this->assertSame(
+            'Handler response',
+            $document['paths']['/terminal']['get']['responses']['200']['description'],
+        );
     }
 
     /**
