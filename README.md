@@ -19,6 +19,7 @@ OpenAPI Swagger for Yii Framework.
 ## Requirements
 
 - PHP 8.1 - 8.5.
+- swagger-php 5, 6 or 7. Version 7 requires PHP 8.2 or later.
 
 ## Installation
 
@@ -145,6 +146,11 @@ For example, you can enable persisting authorization by setting the `persistAuth
 You can find a complete list of parameters by [following the link](https://swagger.io/docs/open-source-tools/swagger-ui/usage/configuration/).
 
 ### 6. (Optional) Configure `SwaggerService`
+
+Use `OpenApi\Attributes` to describe your API. `SwaggerService` uses the classic `OpenApi\Generator` pipeline on
+all supported swagger-php versions, including version 7. This keeps the default OpenAPI 3.0.0 output, unreferenced
+components, generator options and injected generators working as before. The `OpenApi\Spec` attributes and
+`OpenApi\Builder` pipeline are not supported by this service.
 
 You can specify options for generation an `OpenApi\Annotations\OpenApi`
 instance in `config/params.php` to configure `SwaggerService`:
