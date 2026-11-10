@@ -16,8 +16,7 @@
 - Chg #130: Replace deprecated `DataResponseFactoryInterface` with new interface (@vjik)
 - Bug #131: Fix implicitly nullable parameter in `SwaggerJson::withCache()` (@vjik)
 - Enh #138: Remove unused `"psr/http-server-middleware` dependency (@vjik)
-- Chg #142: Update `zircote/swagger-php` to allow version `^6.0` (@samdark)
-- Enh #143: Add support for `zircote/swagger-php` version `^7.0` (@samdark)
+- Chg #142, #143: Add support for `zircote/swagger-php` versions `^6.0` and `^7.0` (@samdark)
 
 ## 2.2.0 January 27, 2025
 
