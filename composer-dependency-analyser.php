@@ -28,6 +28,11 @@ return (new Configuration())
         __DIR__ . '/src/Processor/RoutePath.php',
         [ErrorType::DEV_DEPENDENCY_IN_PROD],
     )
+    ->ignoreErrorsOnPackageAndPath(
+        'yiisoft/router',
+        __DIR__ . '/src/Factory/RoutePathGeneratorFactory.php',
+        [ErrorType::DEV_DEPENDENCY_IN_PROD],
+    )
     // The optional router supplies this contract; it distinguishes middleware from terminal handlers.
     ->ignoreErrorsOnPackageAndPath(
         'psr/http-server-middleware',

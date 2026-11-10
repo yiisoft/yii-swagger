@@ -186,83 +186,36 @@ return [
 For more information about generation an `OpenApi\Annotations\OpenApi` instance, see the
 documentation of the [zircote/swagger-php](https://github.com/zircote/swagger-php) package.
 
-### 7. (Optional) Derive operation paths from Yii routes
+### 7. (Optional) Use route paths in OpenAPI
 
-Install `yiisoft/router` version `^4.0.2` and a compatible router implementation in your application.
-The router is optional: normal attribute-based generation works without it.
-Invokable and PSR-15 request-handler class strings require `yiisoft/middleware-dispatcher` version `^5.2`.
+You can omit an operation's `path` and use its Yii route instead. Keep your normal Swagger source-path configuration.
+This integration needs `yiisoft/router` `^4.0.2` and a compatible router implementation. Invokable and PSR-15
+request-handler class strings also need `yiisoft/middleware-dispatcher` `^5.2`.
 
-To use your registered routes as the source of operation paths, insert `RoutePath` before the classic
-swagger-php `BuildPaths` processor. Pass your application's resolved route collection and inject the generator
-into `SwaggerService`. For example, add this definition to `config/di-web.php`:
+Add this entry to your application's `config/di-web.php`:
 
 ```php
 use OpenApi\Generator;
-use OpenApi\Processors\BuildPaths;
-use Yiisoft\Router\RouteCollectionInterface;
-use Yiisoft\Yii\Swagger\Processor\RoutePath;
+use Yiisoft\Yii\Swagger\Factory\RoutePathGeneratorFactory;
 
 return [
-    Generator::class => static function (RouteCollectionInterface $routes): Generator {
-        $generator = new Generator();
-        $generator->getProcessorPipeline()->insert(new RoutePath($routes), BuildPaths::class);
-        return $generator;
-    },
+    Generator::class => RoutePathGeneratorFactory::create(...),
 ];
 ```
 
-Keep operation attributes on the action method and omit `path` for operations that should follow routing.
-For example, a route registered as:
+For example, register `Route::get('/posts')->action([PostController::class, 'index'])` and omit `path` from the
+`OA\Get` attribute on `PostController::index()`. The generated GET path is `/posts`. Changing that route changes
+the generated path. Continue describing responses and parameters in your attributes; explicit paths stay unchanged.
 
-```php
-Group::create('/api')->routes(
-    Route::get('/posts/{id}')->action([PostController::class, 'view']),
-)
-```
+Use canonical class and method names and simple literal or `{parameter}` paths. Unsupported or ambiguous routes
+need an explicit OpenAPI path. See [supported routes and custom generators](docs/route-paths.md) for the complete
+matching rules and an example with path parameters.
 
-can use this attribute on `PostController::view()`:
+After changing routes or attributes, generate from a fresh source scan and clear the Swagger document cache.
+Discard a previously processed or failed `Analysis` before retrying with changed inputs; inferred paths and partial
+mutations are not recomputed or rolled back.
 
-```php
-#[OA\Get(
-    parameters: [
-        new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
-    ],
-    responses: [new OA\Response(response: '200', description: 'Post details')],
-)]
-```
-
-The generated GET path is `/api/posts/{id}`. Changing the route changes the generated path without editing
-the attribute. Continue describing parameters, responses and other API details in the attributes; the processor
-does not infer their schemas. After changing routes or attributes, regenerate from the source files and clear the
-Swagger document cache. A previously processed `Analysis` already contains generated paths; use a fresh source scan
-instead of reusing it when routes change.
-
-Matching has these boundaries:
-
-- Only the **last enabled handler definition** of each resolved route is considered. Use a class string for an
-  invokable action (`__invoke()`) or a PSR-15 request handler (`handle()`), or `[ClassName::class, 'method']` for
-  a controller action. Matching requires the exact declaring class, method and HTTP method. Use the method's
-  declared casing, as required by the dispatcher for controller arrays. Earlier middleware,
-  closures, object instances, array configuration definitions, container aliases and inheritance-based action
-  resolution are not inferred. A class string implementing PSR-15 `MiddlewareInterface` is unsupported, even if
-  it also has `__invoke()` or `handle()`: the dispatcher executes its `process()` method instead.
-- Matching concerns the final **enabled** definition, not whether it was registered with `action()`.
-  Disabled definitions are excluded by the route collection. If disabling the final definition makes a previous
-  definition terminal, only that remaining final definition is eligible. An unsupported final definition never
-  causes a search through earlier middleware; supply an explicit OpenAPI path for such a pipeline.
-- Paths include resolved group prefixes. Supported patterns start with `/` and contain URI literal characters
-  or `{parameter}` placeholders. Literal `+` and percent bytes are unsupported because router implementations
-  can decode request paths differently; supply an explicit OpenAPI path matching the actual request URL.
-  Parameter names must start with a letter or underscore,
-  followed by letters, digits or underscores. Regex placeholders, optional route segments, query strings and
-  fragments are not converted. Route hosts and locale middleware do not add OpenAPI server declarations.
-- An explicit operation path, or an operation nested in an explicit `OA\PathItem`, keeps its normal behavior.
-  For an operation without a path, a missing or ambiguous match, unsupported pattern, or absent method context
-  throws `InvalidArgumentException` with instructions to correct the route or supply an explicit OpenAPI path.
-  Several matching routes are ambiguous even when they share a path.
-
-The processor reads the resolved collection; it does not load route configuration files, instantiate controllers,
-execute actions or alter normal generation unless you install it in the generator's pipeline.
+Without this opt-in definition, normal generation works as before and does not require Router.
 
 ## Documentation
 
