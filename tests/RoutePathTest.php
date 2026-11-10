@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace Yiisoft\Yii\Swagger\Tests;
 
 use InvalidArgumentException;
+use OpenApi\Analysis;
+use OpenApi\Attributes as OA;
+use OpenApi\Context;
 use OpenApi\Generator;
 use OpenApi\Processors\BuildPaths;
 use PHPUnit\Framework\TestCase;
@@ -99,6 +102,31 @@ final class RoutePathTest extends TestCase
         ));
 
         $this->assertSame('Handler response', $document['paths']['/handler']['get']['responses']['200']['description']);
+    }
+
+    public function testMethodContextWithoutReflectorUsesNamespacedController(): void
+    {
+        $class = new ReflectionClass(Controller::class);
+        $classContext = new Context([
+            'namespace' => $class->getNamespaceName(),
+            'class' => $class->getShortName(),
+        ]);
+        $operation = new OA\Get(
+            operationId: 'read-item',
+            responses: [new OA\Response(response: '200', description: 'Item response')],
+        );
+        $operation->_context = new Context(['method' => 'item'], $classContext);
+        $analysis = new Analysis([$operation], new Context());
+        $analysis->openapi = new OA\OpenApi();
+        $routes = $this->createRoutes(Group::create('/content')->routes(
+            Route::get('/{id}')->action([Controller::class, 'item']),
+        ));
+
+        (new RoutePath($routes))($analysis);
+
+        $this->assertSame('/content/{id}', $operation->path);
+        $this->assertSame('read-item', $operation->operationId);
+        $this->assertSame('Item response', $operation->responses[0]->description);
     }
 
     public function testLiteralAndEncodedSegmentsArePreserved(): void

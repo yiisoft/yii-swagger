@@ -7,6 +7,7 @@ namespace Yiisoft\Yii\Swagger\Processor;
 use InvalidArgumentException;
 use OpenApi\Analysis;
 use OpenApi\Annotations\Operation;
+use OpenApi\Context;
 use OpenApi\Generator;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -16,12 +17,14 @@ use Yiisoft\Router\RouteCollectionInterface;
 
 use function array_is_list;
 use function array_key_last;
+use function class_exists;
 use function count;
 use function implode;
 use function is_a;
 use function is_array;
 use function is_string;
 use function ltrim;
+use function method_exists;
 use function preg_match;
 use function sort;
 use function sprintf;
@@ -48,8 +51,8 @@ final class RoutePath
                 continue;
             }
 
-            $reflector = $operation->_context->reflector;
-            if (!$reflector instanceof ReflectionMethod) {
+            $reflector = $this->getActionMethod($operation->_context);
+            if ($reflector === null) {
                 throw new InvalidArgumentException(
                     'Cannot infer an OpenAPI path without an action method. '
                     . 'Annotate the method or set an explicit path.',
@@ -99,6 +102,26 @@ final class RoutePath
 
             $operation->path = $path;
         }
+    }
+
+    private function getActionMethod(Context $context): ?ReflectionMethod
+    {
+        $reflector = $context->reflector;
+        if ($reflector instanceof ReflectionMethod) {
+            return $reflector;
+        }
+
+        // Early swagger-php 5 analysers provide method context without a reflector.
+        if ($reflector !== null || $context->class === null || $context->method === null) {
+            return null;
+        }
+
+        $class = ltrim(($context->namespace ?? '') . '\\' . $context->class, '\\');
+        if (!class_exists($class, false) || !method_exists($class, $context->method)) {
+            return null;
+        }
+
+        return new ReflectionMethod($class, $context->method);
     }
 
     /**
