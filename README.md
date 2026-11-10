@@ -186,6 +186,72 @@ return [
 For more information about generation an `OpenApi\Annotations\OpenApi` instance, see the
 documentation of the [zircote/swagger-php](https://github.com/zircote/swagger-php) package.
 
+### 7. (Optional) Derive operation paths from Yii routes
+
+Install `yiisoft/router` version `^4.0.2` and a compatible router implementation in your application.
+The router is optional: normal attribute-based generation works without it.
+
+To use your registered routes as the source of operation paths, insert `RoutePath` before the classic
+swagger-php `BuildPaths` processor. Pass your application's resolved route collection and inject the generator
+into `SwaggerService`. For example, add this definition to `config/di-web.php`:
+
+```php
+use OpenApi\Generator;
+use OpenApi\Processors\BuildPaths;
+use Yiisoft\Router\RouteCollectionInterface;
+use Yiisoft\Yii\Swagger\Processor\RoutePath;
+
+return [
+    Generator::class => static function (RouteCollectionInterface $routes): Generator {
+        $generator = new Generator();
+        $generator->getProcessorPipeline()->insert(new RoutePath($routes), BuildPaths::class);
+        return $generator;
+    },
+];
+```
+
+Keep operation attributes on the action method and omit `path` for operations that should follow routing.
+For example, a route registered as:
+
+```php
+Group::create('/api')->routes(
+    Route::get('/posts/{id}')->action([PostController::class, 'view']),
+)
+```
+
+can use this attribute on `PostController::view()`:
+
+```php
+#[OA\Get(
+    parameters: [
+        new OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer')),
+    ],
+    responses: [new OA\Response(response: '200', description: 'Post details')],
+)]
+```
+
+The generated GET path is `/api/posts/{id}`. Changing the route changes the generated path without editing
+the attribute. Continue describing parameters, responses and other API details in the attributes; the processor
+does not infer their schemas. Clear the Swagger document cache after changing routes, just as after changing attributes.
+
+Matching has these boundaries:
+
+- Only the **last enabled handler definition** of each resolved route is considered. Use a class string for an
+  invokable action (`__invoke()`) or a PSR-15 request handler (`handle()`), or `[ClassName::class, 'method']` for
+  a controller action. Matching requires the exact declaring class, method and HTTP method. Earlier middleware,
+  closures, object instances, container aliases and inheritance-based action resolution are not inferred.
+- Paths include resolved group prefixes. Supported patterns start with `/` and contain URI literal characters,
+  percent-encoded bytes or `{parameter}` placeholders. Parameter names must start with a letter or underscore,
+  followed by letters, digits or underscores. Regex placeholders, optional route segments, query strings and
+  fragments are not converted. Route hosts and locale middleware do not add OpenAPI server declarations.
+- An explicit operation path, or an operation nested in an explicit `OA\PathItem`, keeps its normal behavior.
+  For an operation without a path, a missing or ambiguous match, unsupported pattern, or absent method context
+  throws `InvalidArgumentException` with instructions to correct the route or supply an explicit OpenAPI path.
+  Several matching routes are ambiguous even when they share a path.
+
+The processor reads the resolved collection; it does not load route configuration files, instantiate controllers,
+execute actions or alter normal generation unless you install it in the generator's pipeline.
+
 ## Documentation
 
 - [Internals](docs/internals.md)

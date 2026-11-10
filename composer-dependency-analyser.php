@@ -21,4 +21,10 @@ return (new Configuration())
         'psr/log',
         __DIR__ . '/src/Service/SwaggerService.php',
         [ErrorType::SHADOW_DEPENDENCY],
+    )
+    // Router is optional at runtime and is required for testing the opt-in integration only.
+    ->ignoreErrorsOnPackageAndPath(
+        'yiisoft/router',
+        __DIR__ . '/src/Processor/RoutePath.php',
+        [ErrorType::DEV_DEPENDENCY_IN_PROD],
     );

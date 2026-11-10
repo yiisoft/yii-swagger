@@ -55,6 +55,8 @@
         "yiisoft/csrf": "^2.2.3",
         "yiisoft/di": "^1.4.1",
         "yiisoft/psr-dummy-provider": "^1.0.2",
+        "yiisoft/router": "^4.0.2",
+        "yiisoft/router-fastroute": "^4.0.3",
         "yiisoft/test-support": "^3.2",
         "yiisoft/view": "^12.2"
     },
@@ -62,6 +64,9 @@
         "psr-4": {
             "Yiisoft\\Yii\\Swagger\\": "src/"
         }
+    },
+    "suggest": {
+        "yiisoft/router": "Needed for the opt-in RoutePath processor (^4.0.2)."
     },
     "autoload-dev": {
         "psr-4": {

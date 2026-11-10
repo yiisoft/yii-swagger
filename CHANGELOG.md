@@ -2,6 +2,7 @@
 
 ## 2.2.1 under development
 
+- Enh #126: Add an opt-in processor for deriving OpenAPI operation paths from Yii routes (@samdark)
 - Enh #112: Bump `yiisoft/assets` to version `5.1.1`, refactor `SwaggerUiAsset` (@vjik)
 - Chg #113, #121: Change PHP version constraint to `8.1 - 8.5` (@rustamwin)
 - Chg #115: Bump `zircote/swagger-php` to version `^5.0`. Drop version `^4.1` of `swagger-api/swagger-ui` (@rustamwin)
